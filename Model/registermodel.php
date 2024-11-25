@@ -1,5 +1,5 @@
 <?php
-require_once('..Views/Public/config.php');
+require_once('../Views/Public/config.php');
 
 class Register {
     

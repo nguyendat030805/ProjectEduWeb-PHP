@@ -32,7 +32,7 @@ class LoginController {
                 if ($result === true) {
                     // Nếu đăng nhập thành công, lưu thông tin người dùng vào session
                     $_SESSION['user_email'] = $email;
-                    header("Location: ../Views/Pages/home.php");  // Điều hướng tới trang Home
+                    header("Location: ../Views/Pages/user/homelogin.php");  // Điều hướng tới trang Home
                     exit();
                 } else {
                     // Nếu đăng nhập thất bại, hiển thị thông báo lỗi
@@ -42,7 +42,7 @@ class LoginController {
         }
 
         // Nếu có lỗi, hiển thị lại form với thông báo lỗi
-        include('../Views/Pages/login.php');
+        include('../Views/Pages/user/login.php');
     }
 }
 

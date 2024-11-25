@@ -1,6 +1,6 @@
 <?php
 require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
-require_once('../Models/user.php');    // Kết nối tới model người dùng
+require_once('../Model/usermodel.php');    // Kết nối tới model người dùng
 
 class UserController {
     private $userModel;

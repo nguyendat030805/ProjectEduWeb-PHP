@@ -191,7 +191,7 @@ h5{
             </div>
         </div>
         <div class="footer">
-            <?php include 'C:\xampp\htdocs\ProjectWeb-PHP\Views\Layouts\footer.html'; ?>
+            <?php include '..\Layouts\footer.html'; ?>
         </div>
     </div>
 

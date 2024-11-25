@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Gọi tệp  model đúng đường dẫn
-require_once('../Model/register.php');  // Đường dẫn từ Controller vào Model
+require_once('../Model/registermodel.php');  // Đường dẫn từ Controller vào Model
 
 class RegisterController {
 
@@ -14,7 +14,7 @@ class RegisterController {
         $error = '';
 
         // Kiểm tra nếu là POST request
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Lấy dữ liệu từ form đăng ký
             $username = trim($_POST['username']);
             $email = trim($_POST['email']);
@@ -48,7 +48,7 @@ class RegisterController {
 
                 if ($result === true) {
                     // Nếu đăng ký thành công, chuyển hướng người dùng đến trang login với thông báo
-                    header("Location: ../Views/Pages/login.php?rs=success");
+                    header("Location: ../../../Views/Pages/user/login.php?rs=success");
                     exit();
                 } else {
                     // Nếu có lỗi trong quá trình đăng ký, hiển thị thông báo lỗi
@@ -58,7 +58,7 @@ class RegisterController {
         }
 
         // Nếu có lỗi, hiển thị lại form với thông báo lỗi
-        include('../Views/Pages/register.php');
+        include('../Views/Pages/user/register.php');
     }
 }
 

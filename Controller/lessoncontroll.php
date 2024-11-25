@@ -1,5 +1,5 @@
 <?php
-require_once('../Model/lesson.php'); // Kết nối với model
+require_once('../Model/lessonsmodel.php'); // Kết nối với model
 require_once('../Public/config.php'); // Kết nối cơ sở dữ liệu
 
 class LessonController {
@@ -12,9 +12,9 @@ class LessonController {
     // 1. Hiển thị tất cả bài học
     public function showAllLessons() {
         $lessons = $this->lessonModel->getAllLessons();
-        include '../Views/Public/lessonList.php'; // View để hiển thị danh sách bài học
+        include '../Views/Pages/user/'; // View để hiển thị danh sách bài học
     }
-
+                                        //Hà Sang
     // 2. Hiển thị bài học theo ID
     public function showLesson($lesson_id) {
         $lesson = $this->lessonModel->getLessonById($lesson_id);

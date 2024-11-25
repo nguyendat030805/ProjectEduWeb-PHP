@@ -1,5 +1,5 @@
 <?php
-require_once('../../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
 class LessonModel {
     private $conn;
 

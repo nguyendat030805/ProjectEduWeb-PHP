@@ -1,3 +1,6 @@
+<?php
+    require_once('../../Public/config.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -220,7 +223,7 @@ body {
 
 </style>
 <body>
-    <?php include '../Layouts/headerlogin.html' ?>
+    <?php include '../../Layouts/header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
@@ -426,8 +429,9 @@ body {
         </div>     
     </div>     
   </div>
-  <?php include '..\Layouts\footer.html'; ?> 
+  <?php include '../../Layouts/footer.html'; ?> 
 </body>
 </html>
 
 <?php
+

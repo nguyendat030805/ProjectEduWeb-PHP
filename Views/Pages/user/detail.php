@@ -11,7 +11,7 @@ body {
     padding: 0;
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
-   
+
 }
 
 .course-detail {
@@ -250,6 +250,7 @@ body {
 </style>
 </head>
 <body>
+<?php include '../../Layouts/headerLogin.html'?>
     <div class="course-detail">
         <div class="content">
             <h1 class="course-title">Python Cơ bản</h1>

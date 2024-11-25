@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Responsive Header</title>
 </head>
@@ -71,6 +72,7 @@
 }
 .main-content{
     color: white;
+    padding-top: 100px;
     height: auto;
     background-color: black;
 }
@@ -124,21 +126,208 @@ h5{
     padding-top: 150px;
     background-color: white
 }
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(3, 94, 24, 0.8); /* Màu nền trong suốt */
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: absolute; /* Header nổi trên slider */
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 70px;
+            height: 70px;
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            color: #0afa66;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav a i {
+            font-size: 18px;
+        }
+
+        .nav a:hover {
+            color: #0afa66;
+            transform: scale(1.1);
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-btn {
+            padding: 5px 10px;
+            background-color: #0afa66;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #028a4f;
+        }
+
+        .search-input {
+            width: 0;
+            opacity: 0;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            transition: width 0.3s ease, opacity 0.3s ease;
+            display: inline-block;
+        }
+
+        .search-container:hover .search-input {
+            width: 200px;
+            opacity: 1;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slider {
+            padding-top: 100px;
+        }
+        .user-menu {
+            display: none; /* Menu ẩn mặc định */
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: white;
+            color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .user-menu a {
+            display: block;
+            padding: 10px 0;
+            color: #035e18;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .user-menu a:hover {
+            background-color: #f0f0f0;
+        }
+        .user-icon {
+            position: relative;
+        }
+
+        .user-menu {
+            display: none;
+            position: absolute; 
+            top: 100%; 
+            right: 0; 
+            background-color: white;
+            color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .user-menu a {
+            display: block;
+            padding: 10px 0;
+            color: #035e18;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
 </style>
 <body>
-    <header class="header">
+<header>
         <div class="logo">
-        <img src="http://localhost:8080/ProjectWeb-PHP/public/Assets/Image/t%e1%ba%a3i%20xu%e1%bb%91ng.png" alt="Logo">
+            <a href="../Pages/home.php">
+                <img src="../Public/image/logo.png" alt="Logo">
+            </a>
+            <h1>Học cùng L5</h1>
         </div>
-        <form class="d-flex search-form">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div class="user-actions">
-            <a href="#" class="btn btn-primary">Login</a>
-            <a href="#" class="btn btn-secondary">Signup</a>
+        <nav class="nav">
+            <a href="../Pages/home.php">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="../Pages/couser.php">
+                <i class="fas fa-book"></i> Course
+            </a>
+            <a href="../Pages/about.php">
+                <i class="fas fa-info-circle"></i> About
+            </a>
+        </nav>
+        <div class="right-section">
+            <div class="search-container">
+                <button class="search-btn">Search</button>
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+            <div class="user-icon" id="user-icon">
+                <i class="fas fa-user"></i>
+                <div class="user-menu" id="user-menu">
+                    <a href="#">Logout</a>
+                </div>
+            </div>
         </div>
-    </header>
+</header>
     <div class="main-content">
         <div class="container">
             <h3>Giới thiệu về L5</h3>
@@ -191,10 +380,26 @@ h5{
             </div>
         </div>
         <div class="footer">
-            <?php include '..\Layouts\footer.html'; ?>
+        <?php include '..\Layouts\footer.html' ?>
         </div>
     </div>
-
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userIcon = document.getElementById('user-icon');
+            const userMenu = document.getElementById('user-menu');
+    
+            // Toggle hiển thị menu khi nhấn vào icon
+            userIcon.addEventListener('click', function (event) {
+                event.stopPropagation(); // Ngăn chặn sự kiện click lan ra ngoài
+                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+            });
+    
+            // Ẩn menu khi nhấn ra ngoài
+            document.addEventListener('click', function () {
+                userMenu.style.display = 'none';
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

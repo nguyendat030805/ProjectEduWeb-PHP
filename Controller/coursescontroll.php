@@ -1,5 +1,5 @@
 <?php
-require_once('../Model/enrollmentmodel.php'); // Kết nối với model
+require_once('../Model/coursemodel.php'); // Kết nối với model
 require_once('../Views/Public/config.php'); // Kết nối cơ sở dữ liệu
 
 class EnrollController {
@@ -12,7 +12,7 @@ class EnrollController {
     // 1. Lấy tất cả đăng ký của một người dùng
     public function getUserEnrollments($user_id) {
         $enrollments = $this->enrollmentModel->getEnrollmentsByUser($user_id);
-        include '../Views/Public/userEnrollments.php'; // View để hiển thị đăng ký của người dùng
+        include '../Views/Pages/user'; // View để hiển thị profile của người dùng
     }
 
     // 2. Đăng ký một khóa học

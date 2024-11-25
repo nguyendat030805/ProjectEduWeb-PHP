@@ -1,4 +1,6 @@
-
+<?php
+    require_once('../../Public/config.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -221,6 +223,7 @@ body {
 
 </style>
 <body>
+    <?php include '../../Layouts/header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
@@ -311,7 +314,7 @@ body {
                 <p>Whether you work in machine learning or finance, or are pursuing a career in web development or data science, Python is one of the most important skills you can learn.</p>
                 <div class="achieve">
                     <div class="img-cup">
-                        <img src="http://localhost:8080/bang_PHP/WebProject_PHP/ProjectEduWeb-PHP/public/Assets/Image/img_cup.svg" alt="Jane-Achievements" class="img-fluid">
+                        <img src="../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
                     </div>
                     <div class="time">
                         <div>
@@ -326,7 +329,7 @@ body {
                 </div>
             </div>
             <div class="col-md-4 text-center ">
-                <img src="http://localhost:8080/bang_PHP/WebProject_PHP/ProjectEduWeb-PHP/public/Assets/Image/img_jena.jpg" alt="Jane Herbert" class="img-jane">
+                <img src="../Public/Assets/Image/img_jena.jpg" alt="Image">
             </div>
         </div>
 
@@ -426,7 +429,7 @@ body {
         </div>     
     </div>     
   </div>
-  <?php include 'C:\xampp\htdocs\Bang_PHP\WebProject_PHP\ProjectEduWeb-PHP\Views\Layouts\footer.html'; ?> 
+  <?php include '../../Layouts/footer.html'; ?> 
 </body>
 </html>
 

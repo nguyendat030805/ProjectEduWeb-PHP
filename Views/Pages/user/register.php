@@ -1,3 +1,4 @@
+<?php require_once('../../Public/config.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,23 +111,33 @@ a:hover{
 
 </style>
 <body>
-    <div class="container">    
-            <form action="#">
-                <h1>Register</h1>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="phone" placeholder="Phone Number">
-                <input type="password" placeholder="Password">
-               
-                <button type="submit" class="btn-register">Register</button>
-                <span>or use your account</span>
-                <div class="social-icon">
-                    <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
-                    <a href="#" class="social"><i class="lni lni-google"></i></a>
-                    <a href="#" class="social"><i class="lni lni-linkedin-original"></i></a>
-                </div>
-            </form>
-        
+<div class="container">    
+        <form action="../../../Controller/registercontroll.php" method="POST">
+
+
+            <h1>Register</h1>
+
+            <?php
+            // Hiển thị thông báo lỗi nếu có
+            if (!empty($error)) {
+                echo "<p style='color: red;'>$error</p>";
+            }
+            ?>
+
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
+            <button type="submit" class="btn-register">Register</button>
+            <span>or use your account</span>
+            <div class="social-icon">
+                <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
+                <a href="#" class="social"><i class="lni lni-google"></i></a>
+                <a href="#" class="social"><i class="lni lni-linkedin-original"></i></a>
+            </div>
+        </form>
     </div>
 </body>
 </html>

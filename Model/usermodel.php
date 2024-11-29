@@ -44,7 +44,13 @@ class UserModel {
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
-
+    public function getUserByUsernameAndEmail($username, $email) {
+        $sql = "SELECT * FROM Users WHERE username = ? AND email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ss", $username, $email);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
     // 4. Cập nhật thông tin người dùng (có thể dùng để thay đổi email, số điện thoại, v.v.)
     public function updateUser($user_id, $username, $email, $phone) {
         $sql = "UPDATE Users SET username = ?, email = ?, phone = ? WHERE user_id = ?";

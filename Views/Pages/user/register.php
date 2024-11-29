@@ -1,4 +1,6 @@
-<?php require_once('../../Public/config.php'); ?>
+<?php
+    require_once('../../../Public/config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,12 +119,9 @@ a:hover{
 
             <h1>Register</h1>
 
-            <?php
-            // Hiển thị thông báo lỗi nếu có
-            if (!empty($error)) {
-                echo "<p style='color: red;'>$error</p>";
-            }
-            ?>
+            <?php if (!empty($error)): ?>
+                <p style="color: red;"><?php echo $error; ?></p>
+            <?php endif; ?>
 
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>

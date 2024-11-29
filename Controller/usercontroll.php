@@ -34,7 +34,24 @@ class UserController {
     public function getUser($user_id) {
         return $this->userModel->getUserById($user_id);
     }
+    //Profile
+    public function profile() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: ../Views/Pages/user/login.php?rs=success");// Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+            exit;
+        }
 
+        $user_id = $_SESSION['user_id'];
+        $user = $this->userModel->getUserById($user_id);
+
+        if (!$user) {
+            echo "Không tìm thấy người dùng.";
+            exit;
+        }
+
+        include '../views/profile.php';
+    }
     // 4. Cập nhật thông tin người dùng
     public function updateUser($user_id, $username, $email, $phone) {
         if ($this->userModel->updateUser($user_id, $username, $email, $phone)) {

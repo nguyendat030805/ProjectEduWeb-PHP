@@ -1,5 +1,5 @@
 <?php
-    require_once('../../Public/config.php');
+    require_once('../../../Public/config.php');
 ?>
 
 <!DOCTYPE html>
@@ -314,7 +314,7 @@ body {
                 <p>Whether you work in machine learning or finance, or are pursuing a career in web development or data science, Python is one of the most important skills you can learn.</p>
                 <div class="achieve">
                     <div class="img-cup">
-                        <img src="../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
+                        <img src="../../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
                     </div>
                     <div class="time">
                         <div>
@@ -329,7 +329,7 @@ body {
                 </div>
             </div>
             <div class="col-md-4 text-center ">
-                <img src="../Public/Assets/Image/img_jena.jpg" alt="Image">
+                <img src="../../Public/Assets/Image/img_jena.jpg" alt="Image">
             </div>
         </div>
 

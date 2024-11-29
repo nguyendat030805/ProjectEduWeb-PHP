@@ -1,4 +1,11 @@
-
+<?php require_once('../../../Public/config.php'); 
+    session_start();
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['user_email'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -220,7 +227,7 @@ body {
 
 </style>
 <body>
-    <?php include '../Layouts/headerlogin.html'?>
+    <?php include '../../Layouts/headerLogin.html'?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">

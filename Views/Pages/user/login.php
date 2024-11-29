@@ -14,14 +14,15 @@
     body {
     font-family: Arial, sans-serif;
     display: flex;
-    background-color: #f6f5f7;
+    background-image: url('https://haycafe.vn/wp-content/uploads/2022/05/Background-xanh-la-cay-nhat.jpg');
+    background-size: cover;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     overflow: hidden;
 }
 .container {
-    background-image: url('http://localhost:8080/bang_PHP/WebProject_PHP/ProjectEduWeb-PHP/public/Assets/Image/img_lg.jpg');
+    background-image: url('../../../Public/Assets/Image/img_lg.jpg');
     background-size: cover;
     border-radius: 25px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
@@ -34,6 +35,7 @@
 form {
     display: flex;
     align-items: center;
+    background-color:url('../../../Public/Assets/Image/img_lg.jpg');
     justify-content: center;
     flex-direction: column;
     padding: 0 50px;

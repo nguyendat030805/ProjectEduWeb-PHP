@@ -300,7 +300,7 @@ h5{
 <header>
         <div class="logo">
             <a href="../Pages/home.php">
-                <img src="../Public/image/logo.png" alt="Logo">
+                <img src="../../Public/Assets/Image/download_logo.png" alt="Logo">
             </a>
             <h1>Học cùng L5</h1>
         </div>
@@ -323,7 +323,7 @@ h5{
             <div class="user-icon" id="user-icon">
                 <i class="fas fa-user"></i>
                 <div class="user-menu" id="user-menu">
-                    <a href="#">Logout</a>
+                    <a href="../../Pages/user/login.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -332,7 +332,7 @@ h5{
         <div class="container">
             <h3>Giới thiệu về L5</h3>
             <div class="content">
-                <img src="http://localhost:8080/ProjectWeb-PHP/public/Assets/Image/z6049727759836_5ebab7f67f97a8e54da72343ad4b2b6c.jpg" alt="">
+                <img src="../../Public/Assets/Image/img_logo.jpg" alt="">
                 <div class="text-content">
                     <h5>BẠN CÓ BIẾT?</h5>
                 <p>Ngoài kia, có rất nhiều người mắc kẹt trong những công việc sai lầm, với tư duy thụ động, bị mắc vào những công việc không thú vị hoặc không mang lại cảm giác thỏa mãn. Họ đối mặt với những khủng hoảng cuộc sống liên tiếp.
@@ -380,10 +380,10 @@ h5{
             </div>
         </div>
         <div class="footer">
-        <?php include '..\Layouts\footer.html' ?>
+        <?php include '../../Layouts/footer.html' ?>
         </div>
     </div>
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const userIcon = document.getElementById('user-icon');
             const userMenu = document.getElementById('user-menu');

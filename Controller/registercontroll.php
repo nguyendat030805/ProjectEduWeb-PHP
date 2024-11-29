@@ -33,6 +33,7 @@ class RegisterController {
                     // Kiểm tra mật khẩu và xác nhận mật khẩu
                     if ($password !== $confirmPassword) {
                         $error = "Mật khẩu và xác nhận mật khẩu không khớp.";
+                        include('/../Views/Pages/user/register.php');
                     }
                 }
             }
@@ -48,17 +49,17 @@ class RegisterController {
 
                 if ($result === true) {
                     // Nếu đăng ký thành công, chuyển hướng người dùng đến trang login với thông báo
-                    header("Location: ../../../Views/Pages/user/login.php?rs=success");
+                    header("Location: ../Views/Pages/user/login.php?rs=success"); 
                     exit();
                 } else {
                     // Nếu có lỗi trong quá trình đăng ký, hiển thị thông báo lỗi
-                    $error = $result;
+                    echo "Có lỗi: ".$error = $result;
                 }
             }
         }
 
         // Nếu có lỗi, hiển thị lại form với thông báo lỗi
-        include('../Views/Pages/user/register.php');
+        include "../Views/Pages/user/register.php";
     }
 }
 

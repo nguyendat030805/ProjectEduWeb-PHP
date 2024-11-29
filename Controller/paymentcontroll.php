@@ -1,6 +1,6 @@
 <?php
 require_once('../Model/paymentmodel.php'); // Kết nối với model
-require_once('../Views/Public/config.php'); // Kết nối cơ sở dữ liệu
+require_once('../Views/config.php'); // Kết nối cơ sở dữ liệu
 
 class PaymentController {
     private $paymentModel;

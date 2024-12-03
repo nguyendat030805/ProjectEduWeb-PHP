@@ -1,6 +1,6 @@
 <?php
-require_once('../../Views/Public/config.php');
-// Kết nối cơ sở dữ liệu
+require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');
+
 
 class CourseModel {
     private $conn;
@@ -34,13 +34,32 @@ class CourseModel {
     }
 
     // 3. Thêm một khóa học mới
-    public function createCourse($title, $images, $descriptions, $duration, $prices) {
-        $sql = "INSERT INTO Courses (title, images, descriptions, duration, prices) 
-                VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssid", $title, $images, $descriptions, $duration, $prices);
-        return $stmt->execute();
+public function createCourse($title, $images, $descriptions, $duration, $prices) {
+    // Nếu $images là một mảng, chuyển đổi nó thành chuỗi
+    if (is_array($images)) {
+        $images = implode(',', $images); // Nối các phần tử lại với nhau
     }
+
+    // Chuẩn bị câu lệnh SQL
+    $stmt = $this->conn->prepare("INSERT INTO courses (title, images, descriptions, duration, prices) VALUES (?, ?, ?, ?, ?)");
+    
+    // Kiểm tra xem $stmt có phải là một đối tượng hợp lệ không
+    if ($stmt === false) {
+        echo "Lỗi chuẩn bị: " . $this->conn->error;
+        return false;
+    }
+
+    // Binding parameters
+    $stmt->bind_param("ssssi", $title, $images, $descriptions, $duration, $prices);
+    
+    // Thực hiện câu lệnh
+    if ($stmt->execute()) {
+        return true; // Trả về true nếu thêm thành công
+    } else {
+        echo "Lỗi: " . $stmt->error; // Xem lỗi nếu có
+        return false; // Trả về false nếu có lỗi
+    }
+}
 
     // 4. Cập nhật thông tin khóa học
     public function updateCourse($course_id, $title, $images, $descriptions, $duration, $prices) {

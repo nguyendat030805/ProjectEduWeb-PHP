@@ -1,90 +1,150 @@
 <?php
-require_once('../Model/coursemodel.php'); // Kết nối với model
-require_once('../Views/Public/config.php'); // Kết nối cơ sở dữ liệu
-
-class EnrollController {
-    private $enrollmentModel;
-
+require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');
+require_once(__DIR__ . '/../Model/coursemodel.php'); // Đường dẫn tương đối // Import model
+class CourseController {
+    private $courseModel;
     public function __construct($conn) {
-        $this->enrollmentModel = new EnrollmentModel($conn);
+        $this->courseModel = new CourseModel($conn);
     }
 
-    // 1. Lấy tất cả đăng ký của một người dùng
-    public function getUserEnrollments($user_id) {
-        $enrollments = $this->enrollmentModel->getEnrollmentsByUser($user_id);
-        include '../Views/Pages/user'; // View để hiển thị profile của người dùng
-    }
+    // 1. Lấy tất cả khóa học
 
-    // 2. Đăng ký một khóa học
-    public function enrollInCourse($user_id, $course_id) {
-        if ($this->enrollmentModel->enrollInCourse($user_id, $course_id)) {
-            echo "Đăng ký khóa học thành công.";
-        } else {
-            echo "Bạn đã đăng ký khóa học này rồi.";
+    public function index() {
+        $courses = $this->courseModel->getAllCourses();
+        return $courses;
+    }
+    // 2. Lấy thông tin chi tiết khóa học
+    public function getCourseById($course_id) {
+        $course = $this->courseModel->getCourseById($course_id);
+        if (!$course) {
+            echo "Khóa học không tồn tại.";
+            exit; // Hoặc bạn có thể trả về một giá trị khác như false hoặc null
         }
+        return $course; // Trả về thông tin khóa học nếu tìm thấy
+    }
+    // 3. Thêm một khóa học mới
+    public function store($data) {
+        $title = $data['courseName'];
+        $images = $data['courseImage']; // Giả sử bạn có trường hình ảnh
+        $descriptions = $data['courseDescription'];
+        $duration = $data['courseDuration'];
+        $prices = $data['coursePrice'];
+        return $this->courseModel->createCourse($title, $images, $descriptions, $duration, $prices);
+    }
+    // 4. Cập nhật thông tin khóa học
+    public function update($course_id, $data) {
+        $title = $data['courseName'];
+        $images = $data['courseImage']; // Giả sử bạn có trường hình ảnh
+        $descriptions = $data['courseDescription'];
+
+        $duration = $data['courseDuration'];
+        $prices = $data['coursePrice'];
+        return $this->courseModel->updateCourse($course_id, $title, $images, $descriptions, $duration, $prices);
     }
 
-    // 3. Cập nhật trạng thái đăng ký
-    public function updateEnrollmentStatus($enrollment_id, $status) {
-        if ($this->enrollmentModel->updateEnrollmentStatus($enrollment_id, $status)) {
-            echo "Cập nhật trạng thái đăng ký thành công.";
-        } else {
-            echo "Có lỗi xảy ra khi cập nhật trạng thái.";
-        }
-    }
-
-    // 4. Hủy đăng ký khóa học
-    public function cancelEnrollment($enrollment_id) {
-        if ($this->enrollmentModel->cancelEnrollment($enrollment_id)) {
-            echo "Hủy đăng ký thành công.";
-        } else {
-            echo "Có lỗi xảy ra khi hủy đăng ký.";
-        }
+    // 5. Xóa một khóa học
+    public function destroy($course_id) {
+        return $this->courseModel->deleteCourse($course_id);
     }
 }
 
-// Ví dụ sử dụng
-session_start();
-$conn = mysqli_connect(); // Đảm bảo rằng hàm getConnection() đã được định nghĩa trong config.php
-$enrollController = new EnrollController($conn);
+// Khởi tạo kết nối đến cơ sở dữ liệu
+$conn = mysqli_connect($host, $user, $password, $database);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-// Xử lý các yêu cầu dựa trên phương thức HTTP
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['action'])) {
-        if ($_POST['action'] === 'enroll') {
-            $user_id = $_SESSION['user_id'] ?? null; // Lấy ID người dùng từ session
-            $course_id = $_POST['course_id'] ?? null;
-            if ($user_id && $course_id) {
-                $enrollController->enrollInCourse($user_id, $course_id);
-            } else {
-                echo "Bạn cần đăng nhập để đăng ký khóa học.";
-            }
-        } elseif ($_POST['action'] === 'updateStatus') {
-            $enrollment_id = $_POST['enrollment_id'] ?? null;
-            $status = $_POST['status'] ?? null;
-            if ($enrollment_id && $status) {
-                $enrollController->updateEnrollmentStatus($enrollment_id, $status);
-            } else {
-                echo "Dữ liệu không hợp lệ.";
-            }
-        } elseif ($_POST['action'] === 'cancel') {
-            $enrollment_id = $_POST['enrollment_id'] ?? null;
-            if ($enrollment_id) {
-                $enrollController->cancelEnrollment($enrollment_id);
-            } else {
-                echo "Dữ liệu không hợp lệ.";
-            }
-        }
+// Tạo một instance của CourseController
+$courseController = new CourseController($conn);
+
+// 1. Lấy tất cả khóa học
+$courses = $courseController->index();
+
+// 2. Thêm một khóa học mới
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_course'])) {
+    $data = [
+        'courseName' => $_POST['courseName'],
+        'courseDescription' => $_POST['courseDescription'],
+        'courseDuration' => $_POST['courseDuration'],
+        'coursePrice' => $_POST['coursePrice'],
+    ];
+
+    // Xử lý hình ảnh
+if (isset($_FILES['courseImage']) && $_FILES['courseImage']['error'] == 0) {
+    $targetDir = "uploads/"; // Thư mục lưu trữ hình ảnh (đường dẫn tương đối)
+    
+    // Kiểm tra xem thư mục uploads có tồn tại không
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true); // Tạo thư mục nếu không tồn tại
     }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $user_id = $_SESSION['user_id'] ?? null; // Lấy ID người dùng từ session
-    if ($user_id) {
-        $enrollController->getUserEnrollments($user_id); // Hiển thị đăng ký của người dùng
+
+    $targetFile = $targetDir . basename($_FILES['courseImage']['name']);
+    
+    // Kiểm tra loại file hình ảnh
+    $check = getimagesize($_FILES['courseImage']['tmp_name']);
+    if ($check !== false) {
+        // Di chuyển file tải lên
+        if (move_uploaded_file($_FILES['courseImage']['tmp_name'], $targetFile)) {
+            $data['courseImage'] = $targetFile; // Lưu đường dẫn hình ảnh vào dữ liệu
+        } else {
+            echo "Lỗi khi tải lên hình ảnh.";
+            exit;
+        }
     } else {
-        echo "Bạn cần đăng nhập để xem thông tin đăng ký.";
+        echo "File không phải là hình ảnh.";
+        exit;
     }
+} else {
+    echo "Không có hình ảnh nào được tải lên.";
+    exit;
 }
 
+    // Gọi phương thức store từ CourseController
+    $courseController->store($data);
+    
+    // Chuyển hướng về trang quản lý khóa học
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit(); // Đảm bảo không có mã nào sau đó được thực thi
+}
+
+// 3. Cập nhật thông tin khóa học
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_course'])) {
+    $course_id = $_POST['editCourseId'];
+    
+    // Khởi tạo mảng dữ liệu
+    $data = [
+        'courseName' => $_POST['editCourseName'],
+        'courseDescription' => $_POST['editCourseDescription'],
+        'courseDuration' => $_POST['editCourseDuration'],
+        'coursePrice' => $_POST['editCoursePrice'],
+    ];
+
+    // Xử lý tải lên tệp nếu có hình ảnh mới
+    if (!empty($_FILES['editCourseImage']['name'])) {
+        $target_dir = "uploads/"; // Đặt thư mục tải lên của bạn
+        $target_file = $target_dir . basename($_FILES["editCourseImage"]["name"]);
+        move_uploaded_file($_FILES["editCourseImage"]["tmp_name"], $target_file);
+        $data['courseImage'] = $target_file; // Lưu đường dẫn vào cơ sở dữ liệu
+    }
+
+    // Cập nhật khóa học bằng cách sử dụng hàm trong controller của bạn
+    $courseController->update($course_id, $data);
+    echo "Khóa học đã được cập nhật thành công!";
+    header("Location: " . $_SERVER['PHP_SELF']);
+}
+
+// 4. Xóa một khóa học
+if (isset($_GET['delete_id'])) {
+    $course_id = $_GET['delete_id'];
+    $courseController->destroy($course_id);
+    echo "Khóa học đã được xóa thành công!";
+    header("Location: " . $_SERVER['PHP_SELF']);
+}
+// 5. Lấy thông tin chi tiết khóa học
+if (isset($_GET['course_id'])) {
+    $course_id = $_GET['course_id']; // Lấy ID khóa học từ URL
+    $course = $courseController->getCourseById($course_id); // Gọi phương thức để lấy thông tin khóa học
+}
 // Đóng kết nối
-$conn->close();
+mysqli_close($conn);
 ?>

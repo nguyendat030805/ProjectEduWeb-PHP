@@ -1,5 +1,5 @@
 <?php
-require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');  // Kết nối cơ sở dữ liệu
 
 class UserModel {
     private $conn;
@@ -35,7 +35,18 @@ class UserModel {
         }
         return false;  // Không tìm thấy người dùng
     }
+    public function getAllUsers() {
+        $sql = "SELECT * FROM Users";
+        $result = $this->conn->query($sql);
 
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+        }
+        return $users;
+    }
     // 3. Lấy thông tin người dùng
     public function getUserById($user_id) {
         $sql = "SELECT * FROM Users WHERE user_id = ?";

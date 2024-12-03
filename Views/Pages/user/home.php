@@ -1,7 +1,22 @@
 <?php
-    require_once('../../../Public/config.php');
-?>
+require_once('../../Public/config.php');
+require_once('../../../Controller/coursescontroll.php');
+require_once('../../../Model/coursemodel.php');
 
+// Khởi tạo kết nối đến cơ sở dữ liệu
+$conn = mysqli_connect($host, $user, $password, $database);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Tạo một instance của CourseController
+$courseController = new CourseController($conn);
+
+// Lấy tất cả khóa học
+$Courses = $courseController->index(); // Đảm bảo biến $Courses được khởi tạo
+
+// Lấy 4 khóa học đầu tiên
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +28,30 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="/Views/Css/home.css">
-  
+  <!-- Libraries Stylesheet -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
 </head>
 <style>
 body {
     font-family: Arial, sans-serif;
 }
+/* Trạng thái ban đầu (ẩn) */
+.card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Hiệu ứng smooth hơn */
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .container {
-  padding: 30px;
+ 
   width: 100%;
   background-color: fff;
 }
@@ -74,7 +105,7 @@ body {
 }
 .btn-success {
     background-color: #47CF73;      
-    padding: 15px 40px;              
+    padding: 5px 15px;              
     border: 2px solid #47CF73;      
     border-radius: 5px;             
     color: black;                   
@@ -101,8 +132,9 @@ body {
 .jane-herbert {
     background-color: #47CF73;
     padding: 35px;
-    margin: 10px; 
+    margin: 20px 0px; 
     color: black;
+    
 }
 .jane {
     background-color: white;
@@ -140,6 +172,10 @@ body {
 }
 .img-jane:hover {
     transform: scale(1.1);
+}
+/* Ẩn animation ban đầu */
+.animate__animated {
+    visibility: visible; /* Đảm bảo rằng nó có thể được nhìn thấy */
 }
 
 /* Body 3 */
@@ -220,101 +256,92 @@ body {
 .card-body p {
   margin-bottom: 8px;
 }
+.text-secondary.custom-black {
+    opacity: 0; /* Ẩn ban đầu */
+    transform: translateY(20px); /* Đẩy xuống một chút */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Hiệu ứng mượt mà */
+}
+
+.text-secondary.custom-black.visible {
+    opacity: 1; /* Hiện khi có lớp visible */
+    transform: translateY(0); /* Trở về vị trí ban đầu */
+}
 
 </style>
 <body>
-    <?php include '../../Layouts/header.html' ?>
+    <?php include '../../../Views/Layouts/header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
         <div class="text-center">
-        <h1 class="fw-bold custom-black">Top Courses</h1>
+        <h1 id="top-courses" class="fw-bold custom-black animate__animated">Top Courses</h1>
         <p class="text-secondary custom-black">Find Courses and Specializations from top Lecturers</p>
-        <button type="submit" class="btn-success" style="color: black;">Explore</button>
+        <button type="submit" class="btn-success " style="color: black;">Explore</button>
         </div>
     </div>
     <div class="body-1">
         <!-- Card 1 -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
-            <img src="https://images.pexels.com/photos/5306442/pexels-photo-5306442.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load" class="card-img-top card-img-fixed" alt="Course Image">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                <img src="https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="square-avatar me-3" alt="Avatar">
-                <h6 class="card-title fw-bold mb-0">Duplicated is the entry point to your user experience</h6>
-                </div>
-                <p class="text-muted mb-1">Thorsten Sträter</p>
-                <p class="fw-bold text-success">Free</p>
-                <div class="text-warning">
-                ★★★★★
-                </div>
-            </div>
-            </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
-            <img src="https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img-top card-img-fixed" alt="Course Image">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                <img src="https://images.pexels.com/photos/8171190/pexels-photo-8171190.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load" class="square-avatar me-3" alt="Avatar">
-                <h6 class="card-title fw-bold mb-0">The Magic Number</h6>
-                </div>
-                <p class="text-muted mb-1">Jane Herbert</p>
-                <p class="fw-bold text-success">Free</p>
-                <div class="text-warning">
-                ★★★★★
-                </div>
-            </div>
-            </div>
-        </div>
-        <!-- Card 3 -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
-            <img src="https://images.pexels.com/photos/8761523/pexels-photo-8761523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top card-img-fixed" alt="Course Image">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                <img src="https://images.pexels.com/photos/5971242/pexels-photo-5971242.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="square-avatar me-3" alt="Avatar">
-                <h6 class="card-title fw-bold mb-0">A Start Guide: Product Marketing Using G Suite</h6>
-                </div>
-                <p class="text-muted mb-1">Jane Herbert</p>
-                <p class="fw-bold text-danger"><del>$125.00</del> $99.00</p>
-                <div class="text-warning">
-                ★★★★★
+         <!-- Courses Section -->
+         <?php
+    // Giả sử $Courses đã được lấy từ CourseController, ví dụ:
+    // $Courses = $courseController->index();
+
+    // Lấy 4 khóa học đầu tiên
+    $topCourses = array_slice($Courses, 0, 4);
+    ?>
+
+    <div class="row">
+        <?php foreach ($topCourses as $course): ?>
+            <div class="col-md-3 d-flex">
+                <div class="card flex-grow-1">
+                    <!-- Hình ảnh khóa học -->
+                    <a href="detail.php?id=<?php echo htmlspecialchars($course['course_id']); ?>">                    <img 
+                        src="<?= htmlspecialchars($course['images']) ?>" 
+                        class="card-img-top card-img-fixed" 
+                        alt="<?= htmlspecialchars($course['title']) ?>"
+                    ></a>
+                    <div class="card-body">
+                        <!-- Tiêu đề khóa học -->
+                        <h6 class="card-title fw-bold mb-0">
+                            <?= htmlspecialchars($course['title']) ?>
+                        </h6>
+
+                        <!-- Mô tả ngắn -->
+                        <p class="text-muted mb-1">
+                            <?= htmlspecialchars($course['descriptions']) ?>
+                        </p>
+
+                        <!-- Giá khóa học -->
+                        <p class="fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
+                            <?= $course['types'] === 'Free' 
+                                ? 'Free' 
+                                : "<del>$" . number_format($course['original_price'], 2) . "</del> $" . number_format($course['discounted_price'], 2) 
+                            ?>
+                        </p>
+
+                        <!-- Đánh giá sao (tĩnh hoặc động) -->
+                        <div class="text-warning">
+                            ★★★★★
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
-        <!-- Card 4 -->
-        <div class="col-md-3 d-flex">
-            <div class="card flex-grow-1">
-            <img src="https://images.pexels.com/photos/8761553/pexels-photo-8761553.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load" class="card-img-top card-img-fixed" alt="Course Image">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                <img src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="square-avatar me-3" alt="Avatar">
-                <h6 class="card-title fw-bold mb-0">A good header is the entry point to your user experience</h6>
-                </div>
-                <p class="text-muted mb-1">Thorsten Sträter</p>
-                <p class="fw-bold text-danger"><del>$125.00</del> $99.00</p>
-                <div class="text-warning">
-                ★★★★★
-                </div>
-            </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
+    </div>      
 
     </div>
     <!-- </div> -->
 <!-- Body 2 3 -->
-    <div class="jane-herbert">
+<div class="jane-herbert">
     <!-- Body 2 -->
+    <div class="jane-wrapper">
         <div class="row align-items-center jane">
             <div class="col-md-8">
                 <h2>Jane Herbert</h2>
                 <p>Whether you work in machine learning or finance, or are pursuing a career in web development or data science, Python is one of the most important skills you can learn.</p>
                 <div class="achieve">
                     <div class="img-cup">
-                        <img src="../../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
+                        <img src="../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
                     </div>
                     <div class="time">
                         <div>
@@ -329,107 +356,185 @@ body {
                 </div>
             </div>
             <div class="col-md-4 text-center ">
-                <img src="../../Public/Assets/Image/img_jena.jpg" alt="Image">
+                <img src="../Public/Assets/Image/img_jena.jpg" alt="Image" class="img-jane">
             </div>
         </div>
-
+    </div>
   <!-- Body 3 -->  
         <div class="row gy-4 gx-3">
+        <?php
+        // Giả sử $Courses đã được lấy từ CourseController, ví dụ:
+        // $Courses = $courseController->index();
+
+        $topCourses = array_slice($Courses, 4, 4);
+        ?>
             <!-- Card 1 -->
+            <?php foreach ($topCourses as $course): ?>
             <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                <div class="card flex-grow-1">
-                    <img src="https://i.pinimg.com/736x/a0/d9/c6/a0d9c689594b8a3f5a35335b61a1b582.jpg"   class="card-img-top card-img-fixed" alt="Course Image">
-                    <div class="card-body">
-                    <div class="author-info">
-                    <img src="https://i.pinimg.com/736x/32/62/6d/32626dee8e168e3df4ed1958d099367c.jpg" class="author-avatar" alt="Author Avatar">
-                    <div class="author-content">
-                        <h5 class="card-title mb-0">The Magic Number</h5>
-                        <p class="mb-1"></p>Jane Herbert</p>
-                        <p class="text-muted mb-2">
-                        <i class="bi bi-briefcase"></i> Business, Course
-                        </p>
+                <a href="detail.php?id=<?php echo htmlspecialchars($course['course_id']); ?>" class="text-decoration-none">
+                    <div class="card flex-grow-1">
+                        <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top card-img-fixed" alt="<?= htmlspecialchars($course['title']) ?>">
+                        <div class="card-body">
+                            <div class="author-info d-flex align-items-center">
+                                <img src="../Public/image/avatar.webp" class="author-avatar" alt="Author Avatar">
+                                <div class="author-content ms-2">
+                                    <h5 class="card-title mb-0"><?= htmlspecialchars($course['title']) ?></h5>
+                                    <p class="mb-1"></p>Jane Herbert</p>
+                                    <p class="text-muted mb-2">
+                                        <i class="bi bi-briefcase"></i> Business, Course
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="divider my-2"></div>
+                            <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
+                                <?= $course['types'] === 'Free' 
+                                    ? 'Free' 
+                                    : "<del>$" . number_format($course['original_price'], 2) . "</del> $" . number_format($course['discounted_price'], 2) 
+                                ?>
+                            </p>
+                        </div>
                     </div>
-                    </div>
-                    <div class="divider"></div>
-                    <p class="price">Free</p>
-                    </div>
-                </div>
                 </a>
             </div>
-            <!-- Card 2 -->
-            <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                <div class="card flex-grow-1">
-                    <img src="https://i.pinimg.com/736x/a0/d9/c6/a0d9c689594b8a3f5a35335b61a1b582.jpg"   class="card-img-top card-img-fixed" alt="Course Image">
-                    <div class="card-body">
-                    <div class="author-info">
-                    <img src="https://i.pinimg.com/736x/32/62/6d/32626dee8e168e3df4ed1958d099367c.jpg" class="author-avatar" alt="Author Avatar">
-                    <div class="author-content">
-                        <h5 class="card-title mb-0">The Magic Number</h5>
-                        <p class="mb-1"></p>Jane Herbert</p>
-                        <p class="text-muted mb-2">
-                        <i class="bi bi-briefcase"></i> Business, Course
-                        </p>
-                    </div>
-                    </div>
-                    <div class="divider"></div>
-                    <span class="old-price">$125.00</span>
-                    <span class="price">$99.00</span>
-                    </div>
-                </div>
-                </a>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                <div class="card flex-grow-1">
-                    <img src="https://i.pinimg.com/736x/a0/d9/c6/a0d9c689594b8a3f5a35335b61a1b582.jpg"   class="card-img-top card-img-fixed" alt="Course Image">
-                    <div class="card-body">
-                    <div class="author-info">
-                    <img src="https://i.pinimg.com/736x/32/62/6d/32626dee8e168e3df4ed1958d099367c.jpg" class="author-avatar" alt="Author Avatar">
-                    <div class="author-content">
-                        <h5 class="card-title mb-0">The Magic Number</h5>
-                        <p class="mb-1"></p>Jane Herbert</p>
-                        <p class="text-muted mb-2">
-                        <i class="bi bi-briefcase"></i> Business, Course
-                        </p>
-                    </div>
-                    </div>
-                    <div class="divider"></div>
-                    <p class="price">$120.00</p>
-                    </div>
-                </div>
-                </a>
-            </div>
-            
-            <!-- Card 4 -->
-            <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                <div class="card flex-grow-1">
-                    <img src="https://i.pinimg.com/736x/a0/d9/c6/a0d9c689594b8a3f5a35335b61a1b582.jpg"   class="card-img-top card-img-fixed" alt="Course Image">
-                    <div class="card-body">
-                    <div class="author-info">
-                    <img src="https://i.pinimg.com/736x/32/62/6d/32626dee8e168e3df4ed1958d099367c.jpg" class="author-avatar" alt="Author Avatar">
-                    <div class="author-content">
-                        <h5 class="card-title mb-0">The Magic Number</h5>
-                        <p class="mb-1"></p>Jane Herbert</p>
-                        <p class="text-muted mb-2">
-                        <i class="bi bi-briefcase"></i> Business, Course
-                        </p>
-                    </div>
-                    </div>
-                    <div class="divider"></div>
-                    <p class="price">Free</p>
-                    </div>
-                </div>
-                </a>
-            </div>
+        <?php endforeach; ?>
+           
         </div>     
     </div>     
   </div>
-  <?php include '../../Layouts/footer.html'; ?> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Cấu hình cho Intersection Observer
+    const observerOptions = {
+        root: null, // Sử dụng viewport mặc định
+        threshold: 0.1 // 10% phần tử xuất hiện
+    };
+
+    // Observer cho các thẻ card
+     const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
+    if (cards.length > 0) {
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible'); // Thêm lớp visible khi vào viewport
+                    observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        // Áp dụng observer vào mỗi thẻ card
+        cards.forEach(card => cardObserver.observe(card));
+    }
+    // Observer cho phần tử "top-courses"
+    const topCourses = document.getElementById('top-courses');
+    if (topCourses) {
+        const topCoursesObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    topCourses.classList.add('animate__animated', 'animate__fadeInDown');
+                    topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
+                    observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        // Bắt đầu theo dõi phần tử top-courses
+        topCoursesObserver.observe(topCourses);
+    }
+
+    // Hiệu ứng cho nút Explore
+    const exploreButton = document.querySelector('.btn-success');
+    if (exploreButton) {
+        exploreButton.classList.add('animate__animated', 'animate__pulse');
+    }
+
+    // Observer cho phần "Jane Herbert"
+    const janeSection = document.querySelector('.jane-wrapper'); // Sử dụng đúng selector
+    if (janeSection) {
+        const janeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    console.log('Jane section is in view'); // Debug log
+                    janeSection.classList.add('animate__animated', 'animate__zoomIn');
+                    observer.unobserve(janeSection); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        janeObserver.observe(janeSection);
+    }
+});
+    // Cấu hình cho Intersection Observer
+    const observerOptions = {
+        root: null, // Sử dụng viewport mặc định
+        threshold: 0.1 // 10% phần tử xuất hiện
+    };
+
+    // Observer cho các thẻ card
+    const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
+    if (cards.length > 0) {
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible', 'animate__animated', 'animate__fadeInUp');
+                    observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        // Áp dụng observer vào mỗi thẻ card
+        cards.forEach(card => cardObserver.observe(card));
+    }
+
+    // Observer cho phần tử "top-courses"
+    const topCourses = document.getElementById('top-courses');
+    if (topCourses) {
+        const topCoursesObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    topCourses.classList.add('animate__animated', 'animate__fadeInDown');
+                    topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
+                    observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        // Bắt đầu theo dõi phần tử top-courses
+        topCoursesObserver.observe(topCourses);
+    }
+
+    // Hiệu ứng cho nút Explore
+    const exploreButton = document.querySelector('.btn-success');
+    if (exploreButton) {
+        exploreButton.classList.add('animate__animated', 'animate__zoomIn');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+  // Cấu hình cho Intersection Observer
+  const observerOptions = {
+        root: null, // Sử dụng viewport mặc định
+        threshold: 0.1 // 10% phần tử xuất hiện
+    };
+
+    // Observer cho đoạn văn "Find Courses and Specializations"
+    const subtitle = document.querySelector('.text-secondary.custom-black'); // Lấy đoạn văn
+    if (subtitle) {
+        const subtitleObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    subtitle.classList.add('visible'); // Thêm lớp visible khi vào viewport
+                    observer.unobserve(subtitle); // Ngừng theo dõi sau khi animation đã chạy
+                }
+            });
+        }, observerOptions);
+
+        subtitleObserver.observe(subtitle); // Bắt đầu theo dõi đoạn văn
+    }
+});
+
+</script>
+
+<?php include '../../../Views/Layouts/footer.html'; ?> 
 </body>
 </html>
 

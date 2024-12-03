@@ -1,7 +1,13 @@
 <?php
-include 'Public/config.php';
-include 'Controller/usercontroll.php';
+require_once 'C:/xampp/htdocs/WebEducation-PHP/ProjectEduWeb-PHP/Public/config.php';
+require_once '../ProjectEduWeb-PHP/Model/lessonsmodel.php';
+require_once '../ProjectEduWeb-PHP/Controller/lessoncontroll.php';
 
-$userController = new UserController($conn);
-$userController->profile(); // Gọi phương thức profile để hiển thị thông tin người dùng
+// Kết nối cơ sở dữ liệu
+$conn = new mysqli('localhost', 'root', '', 'l5');
+if ($conn->connect_error) {
+    die("Kết nối cơ sở dữ liệu thất bại: " . $conn->connect_error);
+}
+
+$lessonController = new LessonController($conn);
 ?>

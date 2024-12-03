@@ -1,9 +1,39 @@
+<?php
+require_once('../../Public/config.php');
+require_once('../../../Controller/coursescontroll.php'); // Bao gồm CourseController
+require_once('../../../Controller/lessoncontroll.php'); // Bao gồm LessonController
+require_once('../../../Controller/chaptercontroller.php'); // Bao gồm ChapterController
+
+// Thiết lập kết nối đến cơ sở dữ liệu
+$conn = mysqli_connect($host, $user, $password, $database);
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
+
+// Tạo instance của CourseController, LessonController và ChapterController
+$courseController = new CourseController($conn);
+$lessonController = new LessonController($conn);
+$chapterController = new ChapterController($conn); // Khởi tạo ChapterController
+
+// Kiểm tra xem course_id có được thiết lập trong URL không
+if (isset($_GET['id'])) {
+    $course_id = $_GET['id'];
+    $course = $courseController->getCourseById($course_id); // Lấy thông tin khóa học
+    $chapters = $chapterController->getChaptersByCourseId($course_id); // Lấy các chương cho khóa học
+} else {
+    echo "Course ID is not provided.";
+    exit;
+}
+
+// Bây giờ bạn có thể sử dụng $chapters để hiển thị thông tin chương
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết khoá học</title>
+    <title>Chi tiết khóa học</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
 body {
@@ -56,10 +86,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.3s ease, transform 0.7s ease; /* Hiệu ứng chuyển động */
+    transition: transform 0.5s ease; /* Hiệu ứng chuyển động */
 }
 
 .icon-item:hover .icon-circle {
+    transform: rotate(360deg);
     background-color: #32c787; /* Màu xanh đậm hơn */
     
 }
@@ -247,216 +278,128 @@ body {
   background-color: #1e7e34; /* Màu xanh lá tối khi nhấn */
   transform: scale(0.95); /* Giảm nhẹ kích thước khi nhấn */
 }
+
 </style>
 </head>
 <body>
-<?php include '../../Layouts/headerLogin.html'?>
     <div class="course-detail">
         <div class="content">
-            <h1 class="course-title">Python Cơ bản</h1>
+            <h1 class="course-title"><?php echo htmlspecialchars($course['title']); ?></h1>
             <div class="divider"></div>
             <p class="course-description">
-                Học cách lập trình và phân tích dữ liệu bằng Python. Phát triển các chương trình để thu thập, làm sạch, phân tích và trực quan hóa dữ liệu.
+                <?php echo htmlspecialchars($course['descriptions']); ?>
             </p>
             <div class="icon-container">
                 <div class="icon-item">
                     <div class="icon-circle">
                         <i class="fas fa-flag"></i>
                     </div>
-                    <p>60 bài học</p>
+                    <p>Hơn 60 bài học</p>
                 </div>
                 <div class="icon-item">
                     <div class="icon-circle">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <p>5h 02 phút</p>
+                    <p>Thời lượng 5+ giờ</p>
                 </div>
                 <div class="icon-item">
                     <div class="icon-circle">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <p>Tự học</p>
+                    <p>Phù hợp mọi đối tượng</p>
                 </div>
                 <div class="icon-item">
                     <div class="icon-circle">
                         <i class="fas fa-sitemap"></i>
                     </div>
-                    <p>Kết cấu rõ ràng</p>
+                    <p>Lộ trình học rõ ràng</p>
                 </div>
                 <div class="icon-item">
                     <div class="icon-circle">
                         <i class="fas fa-sync-alt"></i>
                     </div>
-                    <p>Nội dung cập nhật liên tục</p>
+                    <p>Nội dung luôn cập nhật</p>
                 </div>
             </div>
             <div class="learning-outcomes">
                 <h2>Bạn sẽ học được gì?</h2>
                 <ul class="outcomes-list">
-                    <li> Hiểu cách cài đặt và sử dụng Python trên các hệ điều hành phổ biến</li>
-                    <li> Nắm vững các khái niệm cơ bản trong lập trình Python (biến, vòng lặp, hàm, v.v.)</li>
-                    <li> Thành thạo làm việc với các thư viện như NumPy, Pandas, và Matplotlib để phân tích dữ liệu</li>
-                    <li> Xây dựng các dự án nhỏ để áp dụng kiến thức thực tế</li>
-                    <li> Biết cách gỡ lỗi và tối ưu hóa mã Python</li>
-                    <li> Sẵn sàng học nâng cao với các chủ đề như xử lý tệp, API, và trí tuệ nhân tạo</li>
+                    <li>Hiểu các khái niệm và kỹ năng cần thiết trong lĩnh vực của khóa học</li>
+                    <li>Nắm vững các kiến thức cơ bản và ứng dụng thực tế</li>
+                    <li>Thành thạo sử dụng công cụ hoặc kỹ thuật liên quan để giải quyết vấn đề</li>
+                    <li>Xây dựng các dự án thực tế để áp dụng kiến thức đã học</li>
+                    <li>Nâng cao khả năng tư duy và sáng tạo</li>
+                    <li>Sẵn sàng học thêm các chủ đề nâng cao để phát triển kỹ năng</li>
                 </ul>
             </div>
+
             <div class="course-content">
-                <h2>Nội dung khóa học</h2>
-                <div class="dicription">
-                    <p>• 6 chương </p>
-                    <p>• 40 bài học</p>
-                    <p>• Thời lượng 2 giờ 30 phút</p>
-                </div>
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>1. Giới thiệu</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Làm quen với Python và môi trường lập trình </span>
-                                <span class="lesson-duration">10:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Thiết lập Python trên hệ điều hành của bạn</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Add more sections like this -->
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>2. Các khái niệm cơ bản</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Biến và kiểu dữ liệu trong Python</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Vòng lặp và câu lệnh điều kiện</span>
-                                <span class="lesson-duration">20:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Hàm và cách tổ chức mã nguồn</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--  -->
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>3. Làm việc với dữ liệu</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Xử lý tệp văn bản và đọc dữ liệu từ tệp CSV</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Làm quen với thư viện NumPy để xử lý mảng</span>
-                                <span class="lesson-duration">20:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Chuyển đổi và thao tác dữ liệu cơ bản</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--  -->
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>4. Phân tích dữ liệu với Pandas</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Đọc và xử lý dữ liệu từ Excel hoặc CSV bằng Pandas </span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Thao tác nhóm, lọc, và tổng hợp dữ liệu </span>
-                                <span class="lesson-duration">25:00</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--  -->
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>5. Trực quan hóa dữ liệu</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Sử dụng Matplotlib để tạo biểu đồ cơ bản (line, bar, scatter)</span>
-                                <span class="lesson-duration">15:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Sử dụng Seaborn để trực quan hóa dữ liệu nâng cao</span>
-                                <span class="lesson-duration">20:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Tùy chỉnh biểu đồ và xuất báo cáo trực quan</span>
-                                <span class="lesson-duration">10:00</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--  -->
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h2>6. Dự án thực tế</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="section-content">
-                        <ul>
-                            <li>
-                                <span class="lesson-title">Xây dựng ứng dụng phân tích dữ liệu cơ bản với Python</span>
-                                <span class="lesson-duration">30:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Tích hợp các thư viện để xử lý và trực quan hóa dữ liệu</span>
-                                <span class="lesson-duration">20:00</span>
-                            </li>
-                            <li>
-                                <span class="lesson-title">Tối ưu mã nguồn và trình bày kết quả phân tích</span>
-                                <span class="lesson-duration">12:00</span>
-                            </li>
-                        </ul>
-                    </div>
+                <h2>Nội dung bài học</h2>
+                <?php if (count($chapters) > 0): ?>
+                    <?php foreach ($chapters as $chapter): ?>
+                        <div class="section-header" onclick="toggleSection(this)">
+                        <h2><?php echo htmlspecialchars($chapter['chapter_title']); ?></h2>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="section-content">
+                            <ul>
+                                <?php
+                                $lessons = $lessonController->getLessonsByChapter($chapter['chapter_id']); // Lấy bài học theo course_id và chapter_id
+                                if (isset($lessons) && count($lessons) > 0): ?>
+                                    <?php foreach ($lessons as $lesson): ?>
+                                        <li>
+                                            <span class="lesson-title"><?php echo htmlspecialchars($lesson['title']); ?></span>
+                                            <span class="lesson-duration"><?php echo htmlspecialchars($lesson['duration']); ?> phút</span>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li>Không có bài học nào trong phần này.</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Không có nội dung nào cho khóa học này.</p>
+                <?php endif; ?>
             </div>
         </div>
+
         <div class="sidebar">
+            <!-- Thêm phần video preview và giá khóa học nếu cần -->
             <div class="video-preview">
-                <iframe 
-                    src="https://www.youtube.com/embed/8BDIkM6a7nE" 
+            <iframe src="<?php echo $course['video_url']; ?>"
                     title="Giới thiệu khóa học" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
-                </iframe>
-                <p>Xem giới thiệu khóa học</p>
+            </iframe>
+
+                <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
             </div>
             <div class="price">
-                <p>Miễn phí</p>
-                <button class="register-btn">Đăng ký học</button> 
-            </div>    
+                <p><?php echo htmlspecialchars($course['discounted_price']); ?> VND</p>
+                <button class="register-btn">Đăng ký ngay</button>
+            </div>
         </div>
     </div>
+
     <script>
     function toggleSection(element) {
-        const content = element.nextElementSibling; // Nội dung chi tiết
-        const icon = element.querySelector('.toggle-icon'); // Biểu tượng dấu cộng
+        const content = element.nextElementSibling;
+        const icon = element.querySelector('.toggle-icon');
         if (content.style.display === "block") {
             content.style.display = "none";
-            icon.textContent = "+"; // Chuyển lại thành dấu cộng
+            icon.textContent = "+";
         } else {
             content.style.display = "block";
-            icon.textContent = "-"; // Hiển thị dấu trừ
+            icon.textContent = "-";
         }
     }
-    
     </script>
 </body>
 </html>
+
+<?php
+// Đóng kết nối
+$conn->close();
+?>

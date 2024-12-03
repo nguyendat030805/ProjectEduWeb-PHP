@@ -1,3 +1,20 @@
+<?php
+require_once('../../Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('../../../Model/usermodel.php');       // Kết nối tới model người dùng
+require_once('../../../Controller/usercontroll.php');
+include('../admin/admin.php'); // Kết nối tới controller người dùng
+
+$conn = mysqli_connect("localhost", "root", "Hiep@1609", "l5");
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
+
+$userController = new UserController($conn);
+
+// Lấy danh sách người dùng
+$users = $userController->showAllUser(); // Giả định bạn có phương thức này trong UserModel
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,12 +41,6 @@
         .header h1 {
             color: #4CAF50;
             margin: 0;
-        }
-
-        img {
-            width: 100px;
-            height: auto;
-            margin-top: 10px;
         }
 
         .content {
@@ -74,7 +85,6 @@
 
         button {
             background-color: #f44336;
-            /* Màu đỏ cho nút Xóa */
             color: white;
             border: none;
             padding: 8px 12px;
@@ -96,7 +106,11 @@
 
         button i {
             margin-right: 5px;
-            /* Khoảng cách giữa icon và text */
+        }
+
+        .view-button {
+            background-color: #007BFF; /* Màu xanh cho nút Xem Chi Tiết */
+            margin-right: 5px; /* Khoảng cách giữa nút Xem và Xóa */
         }
 
         @media (max-width: 768px) {
@@ -121,41 +135,42 @@
     <div class="content">
         <h1>Quản Lý Người Dùng</h1>
         <p>Danh sách người dùng:</p>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tên Người Dùng</th>
-            <th>Email</th>
-            <th>Mật Khẩu</th>
-            <th>Số Điện Thoại</th>
-            <th>Hành Động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Nguyễn Văn A</td>
-            <td>a@example.com</td>
-            <td>********</td> <!-- Ẩn mật khẩu -->
-            <td>0123456789</td>
-            <td>
-                <button class="delete-button"><i class="fas fa-trash-alt"></i>Xóa</button>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Trần Thị B</td>
-            <td>b@example.com</td>
-            <td>********</td> <!-- Ẩn mật khẩu -->
-            <td>0987654321</td>
-            <td>
-                <button class="delete-button"><i class="fas fa-trash-alt"></i>Xóa</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Người Dùng</th>
+                    <th>Email</th>
+                    <th>Mật Khẩu</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($users)): ?>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($user['user_id']); ?></td>
+                            <td><?php echo htmlspecialchars($user['username']); ?></td>
+                            <td><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td>********</td> <!-- Ẩn mật khẩu -->
+                            <td><?php echo htmlspecialchars($user['phone']); ?></td>
+                            <td>
+                                <button class="view-button" onclick="window.location.href='view_user.php?user_id=<?php echo $user['user_id']; ?>'">
+                                    <i class="fas fa-eye"></i>Xem Chi Tiết
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6">Không có người dùng nào.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
+
 </body>
 
 </html>

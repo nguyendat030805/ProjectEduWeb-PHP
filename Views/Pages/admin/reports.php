@@ -1,3 +1,6 @@
+<?php
+    include('../admin/admin.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 

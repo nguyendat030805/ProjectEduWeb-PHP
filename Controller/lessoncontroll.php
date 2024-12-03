@@ -1,94 +1,99 @@
 <?php
-require_once('../Model/lessonsmodel.php'); // Kết nối với model
-require_once('../Public/config.php'); // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\lessonsmodel.php'); // Include LessonModel
 
 class LessonController {
     private $lessonModel;
 
+    // Constructor: Initialize LessonModel
     public function __construct($conn) {
         $this->lessonModel = new LessonModel($conn);
     }
 
-    // 1. Hiển thị tất cả bài học
-    public function showAllLessons() {
+    // 1. Get all lessons
+    public function getAllLessons() {
         $lessons = $this->lessonModel->getAllLessons();
-        include '../Views/Pages/user/'; // View để hiển thị danh sách bài học
+        echo json_encode($lessons);
     }
-                                        //Hà Sang
-    // 2. Hiển thị bài học theo ID
-    public function showLesson($lesson_id) {
+
+    // 2. Get lesson by ID
+    public function getLessonById($lesson_id) {
         $lesson = $this->lessonModel->getLessonById($lesson_id);
-        include '../Views/Public/lessonDetail.php'; // View để hiển thị chi tiết bài học
-    }
-
-    // 3. Lấy bài học theo ID khóa học
-    public function showLessonsByCourseId($course_id) {
-        $lessons = $this->lessonModel->getLessonsByCourseId($course_id);
-        include '../Views/Public/lessonsByCourse.php'; // View để hiển thị bài học theo khóa học
-    }
-
-    // 4. Thêm bài học mới (chỉ dành cho admin)
-    public function addLesson($title, $content_url, $type, $duration, $course_id) {
-        if ($this->lessonModel->createLesson($title, $content_url, $type, $duration, $course_id)) {
-            echo "Bài học đã được thêm thành công.";
+        if ($lesson) {
+            echo json_encode($lesson);
         } else {
-            echo "Có lỗi xảy ra khi thêm bài học.";
+            echo json_encode(['message' => 'Lesson not found']);
         }
     }
 
-    // 5. Cập nhật bài học (chỉ dành cho admin)
-    public function updateLesson($lesson_id, $title, $content_url, $type, $duration, $course_id) {
-        if ($this->lessonModel->updateLesson($lesson_id, $title, $content_url, $type, $duration, $course_id)) {
-            echo "Bài học đã được cập nhật thành công.";
+    // 3. Get lessons by course ID
+    public function getLessonsByChapter($chapter_id) {
+        $lessons = $this->lessonModel->getLessonsByChapterId($chapter_id);
+        return $lessons;
+    }
+
+    // 4. Create a new lesson
+    public function createLesson($data) {
+        $title = $data['title'];
+        $content_url = $data['content_url'];
+        $type = $data['type'];
+        $duration = $data['duration'];
+        $chapter_id = $data['chapter_id'];
+
+        if ($this->lessonModel->createLesson($title, $content_url, $type, $duration, $chapter_id)) {
+            echo json_encode(['message' => 'Lesson created successfully']);
         } else {
-            echo "Có lỗi xảy ra khi cập nhật bài học.";
+            echo json_encode(['message' => 'Failed to create lesson']);
         }
     }
 
-    // 6. Xóa bài học (chỉ dành cho admin)
+    // 5. Update lesson
+    public function updateLesson($lesson_id, $data) {
+        $title = $data['title'];
+        $content_url = $data['content_url'];
+        $type = $data['type'];
+        $duration = $data['duration'];
+        $chapter_id = $data['chapter_id'];
+
+        if ($this->lessonModel->updateLesson($lesson_id, $title, $content_url, $type, $duration, $chapter_id)) {
+            echo json_encode(['message' => 'Lesson updated successfully']);
+        } else {
+            echo json_encode(['message' => 'Failed to update lesson']);
+        }
+    }
+
+    // 6. Delete lesson
     public function deleteLesson($lesson_id) {
         if ($this->lessonModel->deleteLesson($lesson_id)) {
-            echo "Bài học đã được xóa thành công.";
+            echo json_encode(['message' => 'Lesson deleted successfully']);
         } else {
-            echo "Có lỗi xảy ra khi xóa bài học.";
+            echo json_encode(['message' => 'Failed to delete lesson']);
         }
     }
 }
 
-// Ví dụ sử dụng
-session_start();
-$userRole = $_SESSION['userRole'] ?? 'user'; // Mặc định là 'user' nếu không có thông tin
+// Tạo kết nối tới cơ sở dữ liệu (nếu chưa có)
+$conn = mysqli_connect($host, $user, $password, $database);
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
 
-$conn = mysqli_connect();
+// Tạo instance của LessonController
 $lessonController = new LessonController($conn);
 
-// Xử lý các yêu cầu dựa trên phương thức HTTP
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['action'])) {
-        if ($_GET['action'] === 'view') {
-            $lessonController->showLesson($_GET['id']); // Hiển thị chi tiết bài học
-        } elseif ($_GET['action'] === 'course') {
-            $lessonController->showLessonsByCourseId($_GET['course_id']); // Hiển thị bài học theo khóa học
-        } else {
-            $lessonController->showAllLessons(); // Hiển thị tất cả bài học
-        }
-    } else {
-        $lessonController->showAllLessons(); // Mặc định hiển thị tất cả bài học
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($userRole === 'admin') { // Chỉ admin mới có quyền thêm, sửa, xóa
-        if (isset($_POST['action']) && $_POST['action'] === 'add') {
-            $lessonController->addLesson($_POST['title'], $_POST['content_url'], $_POST['type'], $_POST['duration'], $_POST['course_id']);
-        } elseif (isset($_POST['action']) && $_POST['action'] === 'update') {
-            $lessonController->updateLesson($_POST['lesson_id'], $_POST['title'], $_POST['content_url'], $_POST['type'], $_POST['duration'], $_POST['course_id']);
-        } elseif (isset($_POST['action']) && $_POST['action'] === 'delete') {
-            $lessonController->deleteLesson($_POST['lesson_id']);
-        }
-    } else {
-        echo "Bạn không có quyền thực hiện hành động này."; // Thông báo lỗi cho user
+// Xử lý yêu cầu POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] === 'add') {
+        $data = [
+            'title' => $_POST['title'],
+            'content_url' => $_POST['content_url'],
+            'type' => $_POST['type'],
+            'duration' => $_POST['duration'],
+            'chapter_id' => $_POST['chapter_id']
+        ];
+        $lessonController->createLesson($data);
     }
 }
 
-// Đóng kết nối
-$conn->close();
+// Đóng kết nối đến cơ sở dữ liệu
+mysqli_close($conn);
 ?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('../Model/loginmodel.php'); // Model xử lý logic
-require_once('C:/xampp/htdocs/WebEducation-PHP/ProjectEduWeb-PHP/Public/config.php'); // Kết nối cơ sở dữ liệu
+require_once('../Views/Public/config.php'); // Kết nối cơ sở dữ liệu
 
 class LoginController {
     private $model;

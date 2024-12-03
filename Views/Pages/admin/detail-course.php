@@ -1,320 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once('../../Public/config.php');
+require_once('../../../Controller/coursescontroll.php'); // Include CourseController
+require_once('../../../Controller/lessoncontroll.php'); // Include LessonController
+require_once('../../../Controller/chaptercontroller.php'); // Include ChapterController
 
+// Set up database connection
+$conn = mysqli_connect($host, $user, $password, $database);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Create instances of CourseController, LessonController, and ChapterController
+$courseController = new CourseController($conn);
+$lessonController = new LessonController($conn);
+$chapterController = new ChapterController($conn); // Initialize ChapterController
+
+// Check if course_id is set in the URL
+if (isset($_GET['id'])) {
+    $course_id = $_GET['id'];
+    $course = $courseController->getCourseById($course_id); // Get course information
+    $chapters = $chapterController->getChaptersByCourseId($course_id); // Get chapters for the course
+} else {
+    echo "Course ID is not provided.";
+    exit;
+}
+
+// Handle adding a chapter
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_chapter'])) {
+    $chapter_title = $_POST['chapter_title'];
+    if (!empty($chapter_title)) {
+        $data = ['title' => $chapter_title, 'course_id' => $course_id]; // Prepare data
+        $response = $chapterController->createChapter($data);
+        header("Location: " . $_SERVER['REQUEST_URI']); // Refresh the page
+        exit();
+    }
+}
+
+// Handle adding a lesson
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_lesson'])) {
+    $lesson_title = $_POST['lesson_title'];
+    $lesson_duration = $_POST['lesson_duration'];
+    $chapter_id = $_POST['chapter_id'];
+    
+    if (!empty($lesson_title) && !empty($lesson_duration) && !empty($chapter_id)) {
+        $data = [
+            'title' => $lesson_title,
+            'duration' => $lesson_duration,
+            'chapter_id' => $chapter_id,
+            // Add other necessary fields like content_url and type if required
+        ];
+        $response = $lessonController->createLesson($data); // Create lesson
+        header("Location: " . $_SERVER['REQUEST_URI']); // Refresh the page
+        exit();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Tiết Khóa Học</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Chi tiết khóa học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .button:hover {
-            background-color: #388E3C;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="url"] {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-        }
-
-        /* Video Player Styles */
-        .video-modal-content {
-            position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-        }
-
-        .video-modal-content iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        /* Existing styles */
+        body { margin: 0; padding: 0; background-color: #f9f9f9; font-family: Arial, sans-serif; }
+        .course-detail { display: flex; justify-content: space-between; margin: 20px auto; max-width: 1200px; }
+        .content { width: 65%; }
+        .course-title { font-size: 35px; font-weight: bold; }
+        .divider { border-top: 6px solid #32c787; width: 40px; }
+        .form-container { background-color: #fff; padding: 15px; border-radius: 5px; margin: 10px 0; border: 1px solid #ddd; }
+        .form-container input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .form-container button { background-color: #32c787; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s ease; }
+        .form-container button:hover { background-color: #22cd8b; }
+        .learning-outcomes h2 { font-size: 20px; margin-bottom: 10px; }
+        .course-content h2 { font-size: 20px; }
+        /* Additional styles as needed */
     </style>
 </head>
-
 <body>
-    <h2>Chi Tiết Khóa Học: Khóa Học PHP Cơ Bản</h2>
-    <button class="button" id="addVideoBtn"><i class="fas fa-plus"></i> Thêm Video</button>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tên Video</th>
-                <th>URL Video</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody id="videoList">
-            <tr>
-                <td>1</td>
-                <td>Giới Thiệu Khóa Học</td>
-                <td><a href="#" onclick="openVideoModal('https://www.example.com/video1')">Xem Video</a></td>
-                <td>
-                    <button class="edit-button" onclick="openEditModal(1, 'Giới Thiệu Khóa Học', 'https://www.example.com/video1')"><i class="fas fa-edit"></i> Chỉnh Sửa</button>
-                    <button class="delete-button" onclick="deleteVideo(this)"><i class="fas fa-trash-alt"></i> Xóa</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Biến Và Kiểu Dữ Liệu</td>
-                <td><a href="#" onclick="openVideoModal('https://www.example.com/video2')">Xem Video</a></td>
-                <td>
-                    <button class="edit-button" onclick="openEditModal(2, 'Biến Và Kiểu Dữ Liệu', 'https://www.example.com/video2')"><i class="fas fa-edit"></i> Chỉnh Sửa</button>
-                    <button class="delete-button" onclick="deleteVideo(this)"><i class="fas fa-trash-alt"></i> Xóa</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="course-detail">
+        <div class="content">
+            <h1 class="course-title"><?php echo htmlspecialchars($course['title']); ?></h1>
+            <div class="divider"></div>
+            <p class="course-description"><?php echo htmlspecialchars($course['descriptions']); ?></p>
 
-    <!-- Modal Thêm Video -->
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Thêm Video Mới</h2>
-            <form id="videoForm">
-                <label for="videoName">Tên Video:</label>
-                <input type="text" id="videoName" required>
-                <label for="videoUrl">URL Video:</label>
-                <input type="url" id="videoUrl" required>
-                <button type="submit" class="button">Lưu</button>
-            </form>
+            <!-- Add Chapter Form -->
+            <div class="form-container">
+                <h2>Thêm Chương</h2>
+                <form method="POST">
+                    <input type="text" name="chapter_title" placeholder="Tiêu đề chương" required>
+                    <input type="hidden" name="add_chapter" value="1">
+                    <button type="submit">Thêm Chương</button>
+                </form>
+            </div>
+
+            <!-- Add Lesson Form -->
+            <div class="form-container">
+                <h2>Thêm Bài Học</h2>
+                <form method="POST">
+                    <input type="text" name="lesson_title" placeholder="Tiêu đề bài học" required>
+                    <input type="text" name="lesson_duration" placeholder="Thời gian (phút)" required>
+                    <input type="number" name="chapter_id" placeholder="ID chương" required>
+                    <input type="hidden" name="add_lesson" value="1">
+                    <button type="submit">Thêm Bài Học</button>
+                </form>
+            </div>
+
+            <div class="learning-outcomes">
+                <h2>Bạn sẽ học được gì?</h2>
+                <ul class="outcomes-list">
+                    <li>Hiểu các khái niệm và kỹ năng cần thiết trong lĩnh vực của khóa học</li>
+                    <li>Nắm vững các kiến thức cơ bản và ứng dụng thực tế</li>
+                    <li>Thành thạo sử dụng công cụ hoặc kỹ thuật liên quan để giải quyết vấn đề</li>
+                    <li>Xây dựng các dự án thực tế để áp dụng kiến thức đã học</li>
+                    <li>Nâng cao khả năng tư duy và sáng tạo</li>
+                    <li>Sẵn sàng học thêm các chủ đề nâng cao để phát triển kỹ năng</li>
+                </ul>
+            </div>
+
+            <div class="course-content">
+                <h2>Nội dung bài học</h2>
+                <?php if (count($chapters) > 0): ?>
+                    <?php foreach ($chapters as $chapter): ?>
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2><?php echo htmlspecialchars($chapter['chapter_title']); ?></h2>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="section-content">
+                            <ul>
+                                <?php
+                                $lessons = $lessonController->getLessonsByChapter($chapter['chapter_id']); // Get lessons by chapter_id
+                                if (isset($lessons) && count($lessons) > 0): ?>
+                                    <?php foreach ($lessons as $lesson): ?>
+                                        <li>
+                                            <span class="lesson-title"><?php echo htmlspecialchars($lesson['title']); ?></span>
+                                            <span class="lesson-duration"><?php echo htmlspecialchars($lesson['duration']); ?> phút</span>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li>Không có bài học nào trong phần này.</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Không có nội dung nào cho khóa học này.</p>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
 
-    <!-- Modal Chỉnh Sửa Video -->
-    <div id="editVideoModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeEditModal">&times;</span>
-            <h2>Chỉnh Sửa Video</h2>
-            <form id="editVideoForm">
-                <label for="editVideoName">Tên Video:</label>
-                <input type="text" id="editVideoName" required>
-                <label for="editVideoUrl">URL Video:</label>
-                <input type="url" id="editVideoUrl" required>
-                <button type="submit" class="button">Cập Nhật</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Phát Video -->
-    <div id="videoPlayerModal" class="modal">
-        <div class="modal-content video-modal-content">
-            <span class="close" id="closeVideoModal">&times;</span>
-            <h2>Xem Video</h2>
-            <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+        <div class="sidebar">
+            <div class="video-preview">
+                <iframe src="<?php echo $course['video_url']; ?>"
+                        title="Giới thiệu khóa học" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+                <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
+            </div>
+            <div class="price">
+                <p><?php echo htmlspecialchars($course['discounted_price']); ?> VND</p>
+            </div>
         </div>
     </div>
 
     <script>
-        const modal = document.getElementById("videoModal");
-        const editModal = document.getElementById("editVideoModal");
-        const videoPlayerModal = document.getElementById("videoPlayerModal");
-        const btn = document.getElementById("addVideoBtn");
-        const span = document.getElementById("closeModal");
-        const editSpan = document.getElementById("closeEditModal");
-        const videoSpan = document.getElementById("closeVideoModal");
-        const form = document.getElementById("videoForm");
-        const editForm = document.getElementById("editVideoForm");
-        const videoList = document.getElementById("videoList");
-        const videoPlayer = document.getElementById("videoPlayer");
-        let currentEditRow;
-
-        // Mở modal khi nhấn nút "Thêm Video"
-        btn.onclick = function() {
-            modal.style.display = "block";
+    function toggleSection(element) {
+        const content = element.nextElementSibling;
+        const icon = element.querySelector('.toggle-icon');
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            icon.textContent = "+";
+        } else {
+            content.style.display = "block";
+            icon.textContent = "-";
         }
-
-        // Đóng modal khi nhấn nút x
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // Đóng modal chỉnh sửa khi nhấn nút x
-        editSpan.onclick = function() {
-            editModal.style.display = "none";
-        }
-
-        // Đóng modal phát video khi nhấn nút x
-        videoSpan.onclick = function() {
-            videoPlayerModal.style.display = "none";
-            videoPlayer.src = ""; // Xóa nguồn video để dừng phát
-        }
-
-        // Đóng modal khi nhấp ra ngoài modal
-        window.onclick = function(event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            } else if (event.target === editModal) {
-                editModal.style.display = "none";
-            } else if (event.target === videoPlayerModal) {
-                videoPlayerModal.style.display = "none";
-                videoPlayer.src = ""; // Xóa nguồn video để dừng phát
-            }
-        }
-
-        // Xử lý sự kiện gửi form thêm video
-        form.onsubmit = function(event) {
-            event.preventDefault(); // Ngăn chặn gửi form thực tế
-            const videoName = document.getElementById("videoName").value;
-            const videoUrl = document.getElementById("videoUrl").value;
-
-            // Tạo hàng mới cho video
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>${videoList.children.length + 1}</td>
-                <td>${videoName}</td>
-                <td><a href="#" onclick="openVideoModal('${videoUrl}')">Xem Video</a></td>
-                <td>
-                    <button class="edit-button" onclick="openEditModal(${videoList.children.length + 1}, '${videoName}', '${videoUrl}')"><i class="fas fa-edit"></i> Chỉnh Sửa</button>
-                    <button class="delete-button" onclick="deleteVideo(this)"><i class="fas fa-trash-alt"></i> Xóa</button>
-                </td>
-            `;
-            videoList.appendChild(newRow);
-
-            // Đóng modal
-            modal.style.display = "none";
-
-            // Xóa nội dung của form
-            form.reset();
-        }
-
-        // Hàm mở modal chỉnh sửa video
-        function openEditModal(id, name, url) {
-            currentEditRow = id; // Lưu ID hàng hiện tại
-            document.getElementById("editVideoName").value = name;
-            document.getElementById("editVideoUrl").value = url;
-            editModal.style.display = "block";
-        }
-
-        // Xử lý sự kiện gửi form chỉnh sửa video
-        editForm.onsubmit = function(event) {
-            event.preventDefault(); // Ngăn chặn gửi form thực tế
-
-            const videoName = document.getElementById("editVideoName").value;
-            const videoUrl = document.getElementById("editVideoUrl").value;
-
-            // Cập nhật hàng video
-            const row = videoList.children[currentEditRow - 1]; // Tìm hàng dựa vào ID
-            row.cells[1].textContent = videoName;
-            row.cells[2].innerHTML = `<a href="#" onclick="openVideoModal('${videoUrl}')">Xem Video</a>`;
-
-            // Đóng modal
-            editModal.style.display = "none";
-        }
-
-        // Hàm mở modal phát video
-        function openVideoModal(url) {
-            videoPlayer.src = url; // Đặt nguồn video
-            videoPlayerModal.style.display = "block";
-        }
-
-        // Hàm xóa video
-        function deleteVideo(button) {
-            const row = button.parentElement.parentElement;
-            row.parentElement.removeChild(row);
-        }
+    }
     </script>
 </body>
-
 </html>
+
+<?php
+// Close the connection
+$conn->close();
+?>

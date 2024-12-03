@@ -1,5 +1,5 @@
 <?php
-require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');  // Kết nối cơ sở dữ liệu
 class LessonModel {
     private $conn;
 
@@ -33,10 +33,10 @@ class LessonModel {
     }
 
     // 3. Lấy bài học theo ID khóa học
-    public function getLessonsByCourseId($course_id) {
-        $sql = "SELECT * FROM Lessons WHERE course_id = ?";
+    public function getLessonsByChapterId($chapter_id) {
+        $sql = "SELECT * FROM Lessons WHERE chapter_id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $course_id);
+        $stmt->bind_param("i", $chapter_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -50,21 +50,21 @@ class LessonModel {
     }
 
     // 4. Thêm bài học mới
-    public function createLesson($title, $content_url, $type, $duration, $course_id) {
-        $sql = "INSERT INTO Lessons (title, content_url, type, duration, course_id)
+    public function createLesson($title, $content_url, $type, $duration, $chapter_id) {
+        $sql = "INSERT INTO Lessons (title, content_url, type, duration, chapter_id)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssii", $title, $content_url, $type, $duration, $course_id);
+        $stmt->bind_param("sssii", $title, $content_url, $type, $duration, $chapter_id);
         return $stmt->execute();
     }
 
     // 5. Cập nhật thông tin bài học
-    public function updateLesson($lesson_id, $title, $content_url, $type, $duration, $course_id) {
+    public function updateLesson($lesson_id, $title, $content_url, $type, $duration, $chapter_id) {
         $sql = "UPDATE Lessons 
-                SET title = ?, content_url = ?, type = ?, duration = ?, course_id = ?
+                SET title = ?, content_url = ?, type = ?, duration = ?, chapter_id = ?
                 WHERE lesson_id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssiii", $title, $content_url, $type, $duration, $course_id, $lesson_id);
+        $stmt->bind_param("sssiii", $title, $content_url, $type, $duration, $chapter_id, $lesson_id);
         return $stmt->execute();
     }
 

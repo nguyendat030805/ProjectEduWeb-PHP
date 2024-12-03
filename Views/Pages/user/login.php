@@ -1,5 +1,5 @@
 <?php
-    require_once('C:\xampp\htdocs\WebEducation-PHP\ProjectEduWeb-PHP\Public\config.php');
+    require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

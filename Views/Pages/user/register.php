@@ -1,5 +1,5 @@
 <?php
-    require_once('../../../Public/config.php');
+    require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

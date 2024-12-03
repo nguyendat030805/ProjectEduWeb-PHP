@@ -1,6 +1,6 @@
 <?php
-require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
-require_once('../Model/usermodel.php');    // Kết nối tới model người dùng
+require_once('../../Public/config.php');   // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\usermodel.php');    // Kết nối tới model người dùng
 
 class UserController {
     private $userModel;
@@ -29,7 +29,9 @@ class UserController {
             return "Email hoặc mật khẩu không chính xác!";
         }
     }
-
+    public function showAllUser() {
+        return $this->userModel->getAllUsers();
+    }
     // 3. Lấy thông tin người dùng
     public function getUser($user_id) {
         return $this->userModel->getUserById($user_id);

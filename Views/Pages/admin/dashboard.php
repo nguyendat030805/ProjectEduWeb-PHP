@@ -1,10 +1,17 @@
+<?php
+require_once('../../Public/config.php');
+require_once('../../../Model/coursemodel.php');
+require_once('../../../Controller/coursescontroll.php'); // Nhúng controller
+include('../admin/admin.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Bảng điều khiển</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
@@ -83,52 +90,55 @@
             }
 
             .card {
-                width: 100%;  /* Thay đổi để chiếm toàn bộ chiều rộng */
+                width: 100%;  /* Chiếm toàn bộ chiều rộng trên di động */
             }
         }
 
         @media (max-width: 480px) {
             .card {
-                width: 100%;  /* Thay đổi để chiếm toàn bộ chiều rộng */
+                width: 100%;  /* Chiếm toàn bộ chiều rộng trên di động */
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="main-content">
-        <h1>Dashboard</h1>
-        <div class="card">
-            <h2><i class="fas fa-users"></i> Danh Sách Người Dùng</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên Người Dùng</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>a@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Trần Thị B</td>
-                        <td>b@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Hoàng Văn C</td>
-                        <td>c@example.com</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="header">
+        <h1>Bảng điều khiển</h1>
+    </div>
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h2><i class="fas fa-users"></i> Danh Sách Người Dùng</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Người Dùng</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>a@example.com</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Trần Thị B</td>
+                            <td>b@example.com</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Hoàng Văn C</td>
+                            <td>c@example.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>

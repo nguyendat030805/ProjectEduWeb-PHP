@@ -41,13 +41,18 @@
             background: #388E3C;
         }
 
+        .navbar .active {
+            background: #388E3C; /* Màu nền cho liên kết đang hoạt động */
+            font-weight: bold; /* Làm cho chữ đậm */
+        }
+
         .main {
             flex: 1;
             padding: 20px;
         }
 
         .header {
-            background-image: url('C:\xampp\htdocs\ProjectEduWeb-PHP\Public\image\header-background.jpg'); /* Đặt đường dẫn trong url() */
+            background-image: url('C:/xampp/htdocs/ProjectEduWeb-PHP/Public/image/header-background.jpg'); /* Đặt đường dẫn trong url() */
             padding: 20px;
             text-align: center;
             color: white;
@@ -57,6 +62,10 @@
             max-height: 150px;
         }
 
+        .page-title {
+            font-size: 24px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -64,11 +73,11 @@
     <div class="navbar">
         <h2>Quản Trị</h2>
         <div>
-            <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="#"><i class="fas fa-users"></i> Quản Lý Người Dùng</a>
-            <a href="#"><i class="fas fa-book"></i> Quản Lý Khóa Học</a>
-            <a href="#"><i class="fas fa-chart-line"></i> Báo Cáo</a>
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+            <a href="../admin/dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="../admin/users.php" class="<?php echo ($current_page == 'users.php') ? 'active' : ''; ?>"><i class="fas fa-users"></i> Quản Lý Người Dùng</a>
+            <a href="../admin/courses.php" class="<?php echo ($current_page == 'courses.php') ? 'active' : ''; ?>"><i class="fas fa-book"></i> Quản Lý Khóa Học</a>
+            <a href="../admin/reports.php" class="<?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>"><i class="fas fa-chart-line"></i> Báo Cáo</a>
+            <a href="../../Pages/user/home.php"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </div>
 
@@ -77,10 +86,29 @@
             <div class="logo">
                 <img src="/ProjectEduWeb-PHP/Public/image/logo.png" alt="Logo">
             </div>
+            <div class="page-title">
+                <?php
+                    // Xác định trang hiện tại
+                    $current_page = basename($_SERVER['PHP_SELF']);
+                    switch ($current_page) {
+                        case 'dashboard.php':
+                            echo "Dashboard";
+                            break;
+                        case 'users.php':
+                            echo "Quản Lý Người Dùng";
+                            break;
+                        case 'courses.php':
+                            echo "Quản Lý Khóa Học";
+                            break;
+                        case 'reports.php':
+                            echo "Báo Cáo";
+                            break;
+                        default:
+                            echo "Trang Quản Trị";
+                    }
+                ?>
+            </div>
         </div>
-        <?php
-            include 'reports.php'
-        ?>
     </div>
 </body>
 </html>

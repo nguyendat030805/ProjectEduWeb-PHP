@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once('../../../Model/loginmodel.php');
-require_once('../../../Public/config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 
 $model = new Login($conn);
 $user_id = $_SESSION['user_id'];

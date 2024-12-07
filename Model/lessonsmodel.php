@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
 class LessonModel {
     private $conn;
 
@@ -34,7 +34,7 @@ class LessonModel {
 
     // 3. Lấy bài học theo ID khóa học
     public function getLessonsByChapterId($chapter_id) {
-        $sql = "SELECT * FROM Lessons WHERE chapter_id = ?";
+        $sql = "SELECT * FROM lessons WHERE chapter_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $chapter_id);
         $stmt->execute();
@@ -47,6 +47,24 @@ class LessonModel {
             }
         }
         return $lessons;
+    }
+    public function getLessonsByCourseId($course_id) {
+        try {
+            $sql = "SELECT * FROM Lessons WHERE course_id = ?";
+            $stmt = $this->conn->prepare($sql); // Chuẩn bị truy vấn
+            $stmt->bind_param("i", $course_id); // Gắn tham số
+            $stmt->execute(); // Thực thi truy vấn
+
+            $result = $stmt->get_result();
+            $lessons = [];
+            while ($row = $result->fetch_assoc()) {
+                $lessons[] = $row; // Lưu từng bài học vào mảng
+            }
+            return $lessons; // Trả về danh sách bài học
+        } catch (Exception $e) {
+            // Log lỗi nếu cần
+            return [];
+        }
     }
 
     // 4. Thêm bài học mới

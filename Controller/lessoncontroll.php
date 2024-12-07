@@ -1,6 +1,6 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\lessonsmodel.php'); // Include LessonModel
-
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php'); // Include LessonModel
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\lessonsmodel.php');
 class LessonController {
     private $lessonModel;
 

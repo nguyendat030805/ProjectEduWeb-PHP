@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 
 
 class CourseModel {
@@ -25,7 +25,7 @@ class CourseModel {
 
     // 2. Lấy thông tin chi tiết khóa học
     public function getCourseById($course_id) {
-        $sql = "SELECT * FROM Courses WHERE course_id = ?";
+        $sql = "SELECT * FROM courses WHERE course_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $course_id);
         $stmt->execute();

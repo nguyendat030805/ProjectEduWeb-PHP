@@ -1,8 +1,8 @@
 <?php
-require_once('../../Public/config.php');
-require_once('../../../Controller/coursescontroll.php'); // Bao gồm CourseController
-require_once('../../../Controller/lessoncontroll.php'); // Bao gồm LessonController
-require_once('../../../Controller/chaptercontroller.php'); // Bao gồm ChapterController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php'); // Bao gồm ChapterController
 
 // Thiết lập kết nối đến cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);
@@ -230,7 +230,7 @@ body {
     width: 30%;
     text-align: center;
     position: fixed;
-    left: 850px;
+    right:0;
     top: 125px;
 }
 
@@ -366,20 +366,15 @@ body {
 
         <div class="sidebar">
             <!-- Thêm phần video preview và giá khóa học nếu cần -->
-            <div class="video-preview">
-            <iframe src="<?php echo $course['video_url']; ?>"
-                    title="Giới thiệu khóa học" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-            </iframe>
-
-                <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
-            </div>
-            <div class="price">
-                <p><?php echo htmlspecialchars($course['discounted_price']); ?> VND</p>
-                <button class="register-btn">Đăng ký ngay</button>
-            </div>
+                <div class="video-preview">
+                    <iframe src="<?php echo htmlspecialchars($course['video_url']); ?>" title="Giới thiệu khoá học" width="560" height="315" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>       
+                    <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
+                </div>
+                <div class="price">
+                    <p><?php echo htmlspecialchars($course['original_price']); ?> VND</p>
+                    <button class="register-btn">Đăng ký ngay</button>
+                </div>
         </div>
     </div>
 

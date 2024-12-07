@@ -1,5 +1,5 @@
 <?php
-require_once 'C:/xampp/htdocs/WebEducation-PHP/ProjectEduWeb-PHP/Public/config.php';
+require_once 'C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php';
 require_once '../ProjectEduWeb-PHP/Model/lessonsmodel.php';
 require_once '../ProjectEduWeb-PHP/Controller/lessoncontroll.php';
 
@@ -9,5 +9,5 @@ if ($conn->connect_error) {
     die("Kết nối cơ sở dữ liệu thất bại: " . $conn->connect_error);
 }
 
-$lessonController = new LessonController($conn);
+
 ?>

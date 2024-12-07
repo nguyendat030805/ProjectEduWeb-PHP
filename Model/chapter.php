@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 class ChapterModel {
     private $conn;
 
@@ -38,7 +38,7 @@ class ChapterModel {
     }
      // Lấy danh sách bài học theo course_id và chapter_id
      public function getLessonsByCourseAndChapterId($course_id, $chapter_id) {
-        $sql = "SELECT * FROM lessons WHERE course_id = ? AND chapter_id = ?";
+        $sql = "SELECT * FROM Lessons WHERE course_id = ? AND chapter_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ii", $course_id, $chapter_id);
         $stmt->execute();

@@ -13,7 +13,7 @@ if (!$conn) {
 $courseController = new CourseController($conn);
 
 // Lấy tất cả khóa học
-$Courses = $courseController->index(); // Đảm bảo biến $Courses được khởi tạo
+$courses = $courseController-> index();// Đảm bảo biến $Courses được khởi tạo
 
 // Lấy 4 khóa học đầu tiên
 ?>
@@ -269,7 +269,7 @@ body {
 
 </style>
 <body>
-    <?php include '../../../Views/Layouts/header.html' ?>
+    <?php include 'C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Layouts\header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
@@ -287,7 +287,7 @@ body {
     // $Courses = $courseController->index();
 
     // Lấy 4 khóa học đầu tiên
-    $topCourses = array_slice($Courses, 0, 4);
+    $topCourses = array_slice($courses, 0, 4);
     ?>
 
     <div class="row">
@@ -315,7 +315,7 @@ body {
                         <p class="fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
                             <?= $course['types'] === 'Free' 
                                 ? 'Free' 
-                                : "<del>$" . number_format($course['original_price'], 2) . "</del> $" . number_format($course['discounted_price'], 2) 
+                                : "$" . number_format($course['original_price'], 2) 
                             ?>
                         </p>
 
@@ -341,7 +341,7 @@ body {
                 <p>Whether you work in machine learning or finance, or are pursuing a career in web development or data science, Python is one of the most important skills you can learn.</p>
                 <div class="achieve">
                     <div class="img-cup">
-                        <img src="../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
+                        <img src="../../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
                     </div>
                     <div class="time">
                         <div>
@@ -356,7 +356,7 @@ body {
                 </div>
             </div>
             <div class="col-md-4 text-center ">
-                <img src="../Public/Assets/Image/img_jena.jpg" alt="Image" class="img-jane">
+                <img src="../../Public/Assets/Image/img_jena.jpg" alt="Image" class="img-jane">
             </div>
         </div>
     </div>
@@ -366,7 +366,7 @@ body {
         // Giả sử $Courses đã được lấy từ CourseController, ví dụ:
         // $Courses = $courseController->index();
 
-        $topCourses = array_slice($Courses, 4, 4);
+        $topCourses = array_slice($courses, 4, 4);
         ?>
             <!-- Card 1 -->
             <?php foreach ($topCourses as $course): ?>
@@ -389,7 +389,7 @@ body {
                             <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
                                 <?= $course['types'] === 'Free' 
                                     ? 'Free' 
-                                    : "<del>$" . number_format($course['original_price'], 2) . "</del> $" . number_format($course['discounted_price'], 2) 
+                                    : "$" . number_format($course['original_price'], 2) 
                                 ?>
                             </p>
                         </div>

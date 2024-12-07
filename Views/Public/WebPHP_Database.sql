@@ -1,43 +1,45 @@
 
-CREATE DATABASE l5;
-USE l5;
+CREATE DATABASE l4;
+USE l4;
+
 -- ----------Courses----------------------
 CREATE TABLE Courses (
     course_id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(250),              
     images VARCHAR(255),             
     descriptions TEXT,               
-    duration VARCHAR(20),            
+    duration VARCHAR(20),     
+    video_url VARCHAR(255),
     original_price DECIMAL(10, 2),   
-    discounted_price DECIMAL(10, 2), 
     num_students INT,               
     types ENUM('Pro', 'Free')         
 );
 
 -- Chèn dữ liệu bảng courses
--- Khóa học Pro
-INSERT INTO Courses (title, images, descriptions, duration, original_price, discounted_price, num_students, types)
-VALUES 
-('HTML CSS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/15/62f13d2424a47.png', 'Khóa học HTML và CSS nâng cao', '10h18p', 2500000, 1299000, 31273, 'Pro'),
-('Sass', 'https://files.fullstack.edu.vn/f8-prod/courses/27/64e184ee5d7a2.png', 'Khóa học Sass nâng cao', '10h18p', 400000, 299000, 31273, 'Pro'),
-('JavaScript Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/19/66aa28194b52b.png', 'Khóa học JavaScript nâng cao', '10h18p', 3299000, 1399000, 31273, 'Pro'),
-('ReactJS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/13/13.png', 'Khóa học ReactJS nâng cao', '10h18p', 3000000, 1500000, 31273, 'Pro'),
-('NodeJS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/6.png', 'Khóa học NodeJS nâng cao', '10h18p', 2800000, 1200000, 31273, 'Pro'),
-('Python Pro', 'path_to_image', 'Khóa học Python nâng cao', '10h18p', 4000000, 2000000, 31273, 'Pro'),
-('Java Pro', 'path_to_image', 'Khóa học Java nâng cao', '10h18p', 3500000, 1800000, 31273, 'Pro'),
-('PHP Pro', 'https://fullstack.edu.vn/courses/lap-trinh-c-co-ban-toi-nang-cao', 'Khóa học PHP nâng cao', '10h18p', 2200000, 1100000, 31273, 'Pro');
 
--- Khóa học miễn phí
-INSERT INTO Courses (title, images, descriptions, duration, original_price, discounted_price, num_students, types)
+-- Khóa Học Pro
+INSERT INTO Courses (title, images, descriptions, duration, video_url, original_price, types)
 VALUES 
-('Kiến Thức Nhập Môn IT', 'https://files.fullstack.edu.vn/f8-prod/courses/7.png', 'Khóa học giới thiệu về IT', '10h18p', 0, 0, 31273, 'Free'),
-('Lập Trình C++ Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/21/63e1bcbaed1dd.png', 'Khóa học lập trình C++ cơ bản', '10h18p', 0, 0, 31273, 'Free'),
-('HTML, CSS Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/2.png', 'Khóa học HTML, CSS từ cơ bản đến nâng cao', '10h18p', 0, 0, 31273, 'Free'),
-('Responsive Với Grid System', 'https://files.fullstack.edu.vn/f8-prod/courses/3.png', 'Khóa học về responsive với Grid System', '10h18p', 0, 0, 31273, 'Free'),
-('Lập Trình JavaScript Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/1.png', 'Khóa học JavaScript cơ bản', '10h18p', 0, 0, 31273, 'Free'),
-('Lập Trình Python Cơ Bản', 'path_to_image', 'Khóa học Python cơ bản', '10h18p', 0, 0, 31273, 'Free'),
-('Lập Trình Java Cơ Bản', 'img', 'Khóa học Java cơ bản', '10h18p', 0, 0, 31273, 'Free'),
-('Git & GitHub Cơ Bản', 'path_to_image', 'Khóa học Git và GitHub cơ bản', '10h18p', 0, 0, 31273, 'Free');
+('HTML CSS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/15/62f13d2424a47.png', 'Khóa học HTML và CSS nâng cao', '10h18p', 'https://www.youtube.com/embed/SHhUikA6OiQ?si=0a29iQUk2qPg5XbD', 2500000, 'Pro'),
+('Sass', 'https://files.fullstack.edu.vn/f8-prod/courses/27/64e184ee5d7a2.png', 'Khóa học Sass nâng cao', '10h18p', 'https://www.youtube.com/embed/u9IeAoj3UEo?si=7A7TLmSPgawnpTFS', 400000, 'Pro'),
+('JavaScript Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/19/66aa28194b52b.png', 'Khóa học JavaScript nâng cao', '10h18p', 'https://www.youtube.com/embed/0SJE9dYdpps?si=cy8FHP0qPCuQSck_', 3299000, 'Pro'),
+('ReactJS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/13/13.png', 'Khóa học ReactJS nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id4', 3000000, 'Pro'),
+('NodeJS Pro', 'https://files.fullstack.edu.vn/f8-prod/courses/6.png', 'Khóa học NodeJS nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id5', 2800000, 'Pro'),
+('Python Pro', 'path_to_image', 'Khóa học Python nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id6', 4000000, 'Pro'),
+('Java Pro', 'path_to_image', 'Khóa học Java nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id7', 3500000, 'Pro'),
+('PHP Pro', 'https://fullstack.edu.vn/courses/lap-trinh-c-co-ban-toi-nang-cao', 'Khóa học PHP nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id8', 2200000, 'Pro');
+
+-- Khóa Học Miễn Phí
+INSERT INTO Courses (title, images, descriptions, duration, video_url, original_price, types)
+VALUES 
+('Kiến Thức Nhập Môn IT', 'https://files.fullstack.edu.vn/f8-prod/courses/7.png', 'Khóa học giới thiệu về IT', '10h18p', 'https://www.youtube.com/embed/your_video_id9', 0, 'Free'),
+('Lập Trình C++ Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/21/63e1bcbaed1dd.png', 'Khóa học lập trình C++ cơ bản', '10h18p', 'https://www.youtube.com/embed/your_video_id10', 0, 'Free'),
+('HTML, CSS Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/2.png', 'Khóa học HTML, CSS từ cơ bản đến nâng cao', '10h18p', 'https://www.youtube.com/embed/your_video_id11', 0, 'Free'),
+('Responsive Với Grid System', 'https://files.fullstack.edu.vn/f8-prod/courses/3.png', 'Khóa học về responsive với Grid System', '10h18p', 'https://www.youtube.com/embed/your_video_id12', 0, 'Free'),
+('Lập Trình JavaScript Cơ Bản', 'https://files.fullstack.edu.vn/f8-prod/courses/1.png', 'Khóa học JavaScript cơ bản', '10h18p', 'https://www.youtube.com/embed/your_video_id13', 0, 'Free'),
+('Lập Trình Python Cơ Bản', 'path_to_image', 'Khóa học Python cơ bản', '10h18p', 'https://www.youtube.com/embed/your_video_id14', 0, 'Free'),
+('Lập Trình Java Cơ Bản', 'img', 'Khóa học Java cơ bản', '10h18p', 'https://www.youtube.com/embed/your_video_id15', 0, 'Free'),
+('Git & GitHub Cơ Bản', 'path_to_image', 'Khóa học Git và GitHub cơ bản', '10h18p', 'https://www.youtube.com/embed/your_video_id16', 0, 'Free');
 
 -- ----------Users----------------------
 CREATE TABLE Users (
@@ -45,8 +47,11 @@ CREATE TABLE Users (
     username VARCHAR(255),
     email VARCHAR(255) unique,
     phone CHAR(10),
-    password CHAR(255)
+    password CHAR(255),
+    role ENUM('User', 'Admin')  
 );
+select * from Users;
+
 CREATE TABLE Enrollments (
     enrollment_id INT PRIMARY KEY AUTO_INCREMENT,
     date DATETIME,
@@ -98,16 +103,17 @@ INSERT INTO Chapters (chapter_title, course_id) VALUES
 
 -- Chèn bài học vào bảng Course_Detail (thuộc khóa học HTML CSS Pro)
 INSERT INTO Lessons (title, content_url, content_type, duration, description, course_id, chapter_id) VALUES
-('Giới thiệu về khóa học', 'https://example.com/intro_video.mp4', 'video', 10, 'Giới thiệu tổng quan về khóa học HTML CSS Pro', 1, 1),
-('HTML là gì?', 'https://example.com/html_basics.pdf', 'document', 15, 'Tìm hiểu về HTML và cách sử dụng', 1, 2),
-('Cấu trúc cơ bản của trang HTML', 'https://example.com/html_structure.mp4', 'video', 20, 'Học về cấu trúc cơ bản của một trang HTML', 1, 2),
-('CSS là gì?', 'https://example.com/css_basics.pdf', 'document', 15, 'Giới thiệu về CSS và cách sử dụng', 1, 3),
+('Giới thiệu về khóa học', 'https://www.youtube.com/embed/R6plN3FvzFY?si=52XH97u2XBZhmz83', 'video', 10, 'Giới thiệu tổng quan về khóa học HTML CSS Pro', 1, 1),
+('HTML là gì?', 'https://www.youtube.com/embed/8AN4u5P08AA?si=Z0eKEjxFr5OWK_Pu', 'video', 15, 'Tìm hiểu về HTML và cách sử dụng', 1, 2),
+('Cấu trúc cơ bản của trang HTML', 'https://www.youtube.com/embed/LYnrFSGLCl8?si=6M67sNKAUAvQ7ZKr', 'video', 20, 'Học về cấu trúc cơ bản của một trang HTML', 1, 2),
+('CSS là gì?', 'https://www.youtube.com/embed/NsSsJTg29oE?si=oh6sTyX0dDREZppp', 'video', 15, 'Giới thiệu về CSS và cách sử dụng', 1, 3),
 ('Cách liên kết CSS với HTML', 'https://example.com/css_linking.mp4', 'video', 20, 'Hướng dẫn cách liên kết CSS với HTML', 1, 3),
-('Thẻ HTML nâng cao', 'https://example.com/advanced_html.pdf', 'document', 25, 'Học về các thẻ HTML nâng cao', 1, 4),
-('Sử dụng biểu mẫu và đa phương tiện', 'https://example.com/html_forms_multimedia.mp4', 'video', 30, 'Cách sử dụng biểu mẫu và đa phương tiện trong HTML', 1, 4),
-('CSS Layout và Flexbox', 'https://example.com/css_layout_flexbox.pdf', 'document', 25, 'Giới thiệu về CSS Layout và Flexbox', 1, 5),
-('CSS Grid', 'https://example.com/css_grid.mp4', 'video', 30, 'Học cách sử dụng CSS Grid để tạo bố cục trang web', 1, 5),
-('Xây dựng trang web cá nhân', 'https://example.com/project_website.mp4', 'video', 40, 'Dự án thực tế: Xây dựng trang web cá nhân từ A-Z', 1, 6);
+('Thẻ HTML nâng cao', 'https://www.youtube.com/embed/AzmdwZ6e_aM?si=gLHTnQGC-VTXSDUi', 'video', 25, 'Học về các thẻ HTML nâng cao', 1, 4),
+('Dựng khung cho Form đăng ký', 'https://www.youtube.com/embed/8AN4u5P08AA?si=Pv9TL8qKVEyYU0xW', 'video', 30, 'Cách tạo form đăng ký', 1, 4),
+('CSS Layout và Flexbox', 'https://www.youtube.com/embed/bVUN6nS82k8?si=LASA28QQ9V25qKX6', 'video', 25, 'Giới thiệu về CSS Layout và Flexbox', 1, 5),
+('Giới thiệu dự án The Band ', 'https://www.youtube.com/embed/RPHBgBsw6Xg?si=wNOBc3-Qm6jodgBJ', 'video', 30, 'Thực hành cắt HTML CSS cơ bản | Phân tích giao diện web', 1, 5),
+('Dựng form mua vé ', 'https://www.youtube.com/embed/7yKMQGE0x5M?si=pqzgXGg2Y5V6d5Mm', 'video', 40, 'Dự án thực tế: Xây dựng trang web cá nhân từ A-Z', 1, 6);
+
 
 -- Chèn các chương cho khóa học Pro "Sass" 
 INSERT INTO Chapters (chapter_title, course_id) VALUES
@@ -119,13 +125,13 @@ INSERT INTO Chapters (chapter_title, course_id) VALUES
 
 -- Chèn bài học vào bảng Course_Detail (thuộc khóa học Sass)
 INSERT INTO Lessons (title, content_url, content_type, duration, description, course_id, chapter_id) VALUES
-('Giới thiệu về Sass', 'https://example.com/sass_intro_video.mp4', 'video', 10, 'Giới thiệu về Sass và các tính năng nổi bật', 2, 7),
-('Cài đặt Sass', 'https://example.com/sass_install.pdf', 'document', 15, 'Hướng dẫn cài đặt và thiết lập môi trường Sass', 2, 8),
-('Biến trong Sass', 'https://example.com/sass_variables_video.mp4', 'video', 20, 'Học cách sử dụng biến trong Sass', 2, 9),
-('Toán tử trong Sass', 'https://example.com/sass_operators.pdf', 'document', 10, 'Giới thiệu về các toán tử trong Sass', 2, 9),
-('Mixins trong Sass', 'https://example.com/sass_mixins_video.mp4', 'video', 25, 'Cách sử dụng mixins để tái sử dụng mã CSS', 2, 10),
-('Functions trong Sass', 'https://example.com/sass_functions.pdf', 'document', 15, 'Hướng dẫn tạo và sử dụng functions trong Sass', 2, 10),
-('Dự án Sass', 'https://example.com/sass_project_video.mp4', 'video', 30, 'Thực hành và dự án thực tế với Sass', 2, 11);
+('Giới thiệu về Sass', 'https://www.youtube.com/embed/pXbA0Nab9UE?si=BVVfY03ztq5w8-SS', 'video', 10, 'Giới thiệu về Sass và các tính năng nổi bật', 2, 7),
+('Cài đặt Sass', 'https://www.youtube.com/embed/_mN4ELylI-Q?si=lvBWA2Ubqnx4sL-S', 'document', 15, 'Hướng dẫn cài đặt và thiết lập môi trường Sass', 2, 8),
+('Extensions trong Sass', 'https://www.youtube.com/embed/wxnI6j2U9SE?si=qBvuDFHecDo9kDcz', 'video', 20, 'Học cách sử dụng extensions trong Sass', 2, 9),
+('Function tử trong Sass', 'https://www.youtube.com/embed/CinjLzKFpvY?si=zDac748F9um9PmtC', 'document', 10, 'Giới thiệu về functions trong Sass', 2, 9),
+('Mixins trong Sass', 'https://www.youtube.com/embed/RHm2LKjGZGI?si=Ds_dpMxvTNmENi-K', 'video', 25, 'Cách sử dụng mixins để tái sử dụng mã CSS', 2, 10),
+('Button trong Sass', 'https://www.youtube.com/embed/fzt73yr_f_w?si=-bKAFuSUOt1G7VMj', 'document', 15, 'Hướng dẫn tạo và sử dụng Button trong Sass', 2, 10),
+('Dự án Sass', 'https://www.youtube.com/embed/C00FEX0kLrc?si=Z_8AT-gPWnnEJhOL', 'video', 30, 'Thực hành và dự án thực tế với Sass', 2, 11);
 
 -- Chèn các chương cho khóa học "JavaScript Pro"
 INSERT INTO Chapters (chapter_title, course_id) VALUES
@@ -139,18 +145,18 @@ INSERT INTO Chapters (chapter_title, course_id) VALUES
 
 -- Chèn bài học vào bảng Course_Detail (thuộc khóa học "JavaScript Pro")
 INSERT INTO Lessons (title, content_url, content_type, duration, description, course_id, chapter_id) VALUES
-('Giới thiệu về JavaScript và môi trường lập trình', 'https://www.example.com/js_intro.mp4', 'video', 12, 'Giới thiệu về JavaScript và môi trường phát triển', 3, 12),
-('Cài đặt môi trường và các công cụ hỗ trợ', 'https://www.example.com/js_setup.pdf', 'document', 15, 'Hướng dẫn cài đặt môi trường phát triển và các công cụ hỗ trợ', 3, 12),
-('Biến, kiểu dữ liệu và toán tử', 'https://www.example.com/js_variables.mp4', 'video', 18, 'Học về biến, kiểu dữ liệu và các toán tử trong JavaScript', 3, 13),
-('Câu lệnh điều kiện và vòng lặp', 'https://www.example.com/js_conditions_loops.pdf', 'document', 20, 'Giới thiệu về câu lệnh điều kiện và vòng lặp trong JavaScript', 3, 13),
-('Làm việc với DOM: Phần 1', 'https://www.example.com/js_dom_part1.mp4', 'video', 22, 'Học cách làm việc với Document Object Model (DOM)', 3, 14),
-('Làm việc với DOM: Phần 2', 'https://www.example.com/js_dom_part2.mp4', 'video', 25, 'Tiếp tục học cách làm việc với DOM', 3, 14),
-('Xử lý sự kiện trong JavaScript', 'https://www.example.com/js_events.mp4', 'video', 20, 'Học cách xử lý các sự kiện trong JavaScript', 3, 15),
-('Lập trình hướng đối tượng: Phần 1', 'https://www.example.com/js_oop_part1.pdf', 'document', 25, 'Giới thiệu về lập trình hướng đối tượng trong JavaScript', 3, 16),
-('Lập trình hướng đối tượng: Phần 2', 'https://www.example.com/js_oop_part2.mp4', 'video', 30, 'Tiếp tục học về lập trình hướng đối tượng trong JavaScript', 3, 16),
-('AJAX và Fetch API: Phần 1', 'https://www.example.com/js_ajax_part1.mp4', 'video', 25, 'Học cách làm việc với AJAX và Fetch API', 3, 17),
-('AJAX và Fetch API: Phần 2', 'https://www.example.com/js_ajax_part2.mp4', 'video', 28, 'Tiếp tục học cách làm việc với AJAX và Fetch API', 3, 17),
-('Dự án thực tế: Xây dựng ứng dụng với JavaScript', 'https://www.example.com/js_project.mp4', 'video', 35, 'Dự án thực tế: Xây dựng ứng dụng với JavaScript', 3, 18);
+('Giới thiệu về JavaScript và môi trường lập trình', 'https://www.youtube.com/embed/-jV06pqjUUc?si=i0_PyQhBhPZyNLQo', 'video', 12, 'Giới thiệu về JavaScript và môi trường phát triển', 3, 12),
+('Cài đặt môi trường và các công cụ hỗ trợ', 'https://www.youtube.com/embed/efI98nT8Ffo?si=GlAQ4M2OJ7iCgYov', 'video', 15, 'Hướng dẫn cài đặt môi trường phát triển và các công cụ hỗ trợ', 3, 12),
+('Biến, kiểu dữ liệu và toán tử', 'https://www.youtube.com/embed/SZb-N7TfPlw?si=vAntZw6G6Ji4YFmZ', 'video', 18, 'Học về biến, kiểu dữ liệu và các toán tử trong JavaScript', 3, 13),
+('Câu lệnh điều kiện và vòng lặp', 'https://www.youtube.com/embed/9MpHrdWBdxg?si=Kn3T6DW3tK7u4cY7', 'video', 20, 'Giới thiệu về câu lệnh điều kiện và vòng lặp trong JavaScript', 3, 13),
+('Làm việc với DOM: Phần 1', 'https://www.youtube.com/embed/gETNXKi3l_U?si=b_lWcc8tGPoCv9Ag', 'video', 22, 'Học cách làm việc với Document Object Model (DOM)', 3, 14),
+('Làm việc với DOM: Phần 2', 'https://www.youtube.com/embed/OQkUwdVvul8?si=-_GSbUczChJgkCRB', 'video', 25, 'Tiếp tục học cách làm việc với DOM', 3, 14),
+('JSON là gì?', 'https://www.youtube.com/embed/Uph14HYkgEQ?si=1rKD7f9iS2cxpiW0', 'video', 20, 'JSON được sử dụng như thế nào trong JavaScript?', 3, 15),
+('Lập trình hướng đối tượng: Phần 1', 'https://www.youtube.com/embed/orIXdOPFWeM?si=t0LoYSP0uXlGiPZq', 'video', 25, 'Giới thiệu về lập trình hướng đối tượng trong JavaScript', 3, 16),
+('Lập trình hướng đối tượng: Phần 2', 'https://www.youtube.com/embed/FO1OMbT_k2w?si=UpqT4gbrVvSzq8r_', 'video', 30, 'Tiếp tục học về lập trình hướng đối tượng trong JavaScript', 3, 16),
+('AJAX và Fetch API: Phần 1', 'https://www.youtube.com/embed/TRjVXmk8q8I?si=Z5gmXOeo42vTS1FT', 'video', 25, 'Học cách làm việc với AJAX và Fetch API', 3, 17),
+('AJAX và Fetch API: Phần 2', 'https://www.youtube.com/embed/CvX_5uyUXSs?si=YmAwz2r6whzWKBfS', 'video', 28, 'Tiếp tục học cách làm việc với AJAX và Fetch API', 3, 17),
+('Dự án thực tế: Xây dựng ứng dụng với JavaScript', 'https://www.youtube.com/embed/On24_XdhXq8?si=viQJavfpkNQSql4H', 'video', 35, 'Dự án thực tế: Xây dựng ứng dụng với JavaScript', 3, 18);
 
 -- Chèn các chương cho khóa học "ReactJS Pro"
 INSERT INTO Chapters (chapter_title, course_id) VALUES
@@ -260,12 +266,11 @@ INSERT INTO Chapters (chapter_title, course_id) VALUES
 
 -- Chèn bài học vào bảng Courses_Detail (thuộc khóa học Python cơ bản)
 INSERT INTO Lessons (title, content_url, content_type, duration, description, course_id, chapter_id) VALUES
-('Làm quen với Python và môi trường lập trình', 'https://www.youtube.com/watch?v=NZj6LI5a9vc&list=PL33lvabfss1xczCv2BA0SaNJHu_VXsFtg&index=1&pp=iAQB', 'video', 10, 'Giới thiệu về Python và môi trường phát triển', 14, 52),
-('Thiết lập Python trên hệ điều hành của bạn', 'https://example.com/setup.pdf', 'document', 15, 'Cách cài đặt Python trên Windows và macOS', 14, 52),
-('Biến và kiểu dữ liệu trong Python', 'https://example.com/data_types.pdf', 'document', 15, 'Học về biến và các kiểu dữ liệu trong Python', 14, 53),
-('Vòng lặp và câu lệnh điều kiện trong Python', 'https://example.com/loops_video.mp4', 'video', 20, 'Giới thiệu về vòng lặp và câu lệnh điều kiện trong Python', 14, 53),
-('Xử lý tệp văn bản và đọc dữ liệu từ tệp CSV', 'https://example.com/file_handling_video.mp4', 'video', 15, 'Hướng dẫn xử lý tệp và làm việc với dữ liệu từ CSV', 14, 54),
-('Làm quen với thư viện NumPy để xử lý mảng', 'https://example.com/numpy_intro.pdf', 'document', 20, 'Giới thiệu về thư viện NumPy và cách sử dụng để xử lý mảng', 14, 54),
+('Làm quen với Python và môi trường lập trình', 'https://www.youtube.com/embed/NZj6LI5a9vc?si=t2KDD8DWZxgktWwn', 'video', 10, 'Giới thiệu về Python và môi trường phát triển', 14, 52),
+('Thiết lập Python trên hệ điều hành của bạn', 'https://www.youtube.com/embed/jf-q_dG8WzI?si=KydMxb8vMAr5qeVE', 'video', 15, 'Cách cài đặt Python trên Windows và macOS', 14, 52),
+('Biến và kiểu dữ liệu trong Python', 'https://www.youtube.com/embed/nclE18Yl-kA?si=QBj-G364T_djU5Ir', 'video', 15, 'Học về biến và các kiểu dữ liệu trong Python', 14, 53),
+('Vòng lặp và câu lệnh điều kiện trong Python', 'https://www.youtube.com/embed/Vb6XWSLPQfg?si=1Y9YCNB0SsrvCV1t', 'video', 20, 'Giới thiệu về vòng lặp và câu lệnh điều kiện trong Python', 14, 53),
+('Xử lý tệp văn bản và đọc dữ liệu từ tệp CSV', 'https://www.youtube.com/embed/gw9zbl2Q7r4?si=cgz9OQLN9s3ru647nt', 20, 'Giới thiệu về thư viện NumPy và cách sử dụng để xử lý mảng', 14, 54),
 ('Đọc và xử lý dữ liệu với Pandas', 'https://example.com/pandas_video.mp4', 'video', 25, 'Học cách xử lý dữ liệu với thư viện Pandas', 14, 55),
 ('Sử dụng Matplotlib để tạo biểu đồ cơ bản', 'https://example.com/matplotlib_video.mp4', 'video', 15, 'Hướng dẫn tạo biểu đồ cơ bản với Matplotlib', 14, 56),
 ('Xây dựng ứng dụng phân tích dữ liệu cơ bản với Python', 'https://example.com/project_video.mp4', 'video', 30, 'Dự án thực tế: Xây dựng ứng dụng phân tích dữ liệu với Python', 14, 57);
@@ -306,21 +311,17 @@ FROM Courses c
 JOIN Lessons l ON c.course_id = l.course_id
 ORDER BY c.course_id, l.lesson_id;
 
--- Hiển thị tất cả các bài học trong khóa học miễn phí của Lập trình Python Cơ bản
-SELECT c.title AS course_title, l.title AS lesson_title, l.duration, l.description
-FROM Courses 
-JOIN Lessons l ON c.course_id = l.course_id
-WHERE c.types = 'Free' AND (c.title LIKE '%Cơ Bản%' OR c.title LIKE '%Basic%')
-ORDER BY c.course_id, l.lesson_id;
-
--- drop database l5;
-select*from Courses_detail;
- -- SET foreign_key_checks = 0;
+ -- drop database l5; 
+-- SET foreign_key_checks = 0;
 -- SET foreign_key_checks = 1;
 -- TRUNCATE TABLE users;
-select*from  Chapters_Course_Detail;
+select*from Enrollments;
 select*from courses;
-select*from lessons;	
+select*from lessons;
+select*from chapters;
+
+SELECT * FROM Users WHERE user_id = 2;
+	
 select*from chapters;
 SELECT * FROM lessons WHERE course_id = 2 ;
 SELECT * FROM Lessons WHERE course_id = 2 AND chapter_id = 8;

@@ -299,19 +299,19 @@ h5{
 <body>
 <header>
         <div class="logo">
-            <a href="../Pages/home.php">
+            <a href="../user/homelogin.php">
                 <img src="../../Public/Assets/Image/download_logo.png" alt="Logo">
             </a>
             <h1>Học cùng L5</h1>
         </div>
         <nav class="nav">
-            <a href="../Pages/home.php">
+            <a href="../user/homelogin.php">
                 <i class="fas fa-home"></i> Home
             </a>
-            <a href="../Pages/couser.php">
+            <a href="../user/courses.php">
                 <i class="fas fa-book"></i> Course
             </a>
-            <a href="../Pages/about.php">
+            <a href="../user/about.php">
                 <i class="fas fa-info-circle"></i> About
             </a>
         </nav>

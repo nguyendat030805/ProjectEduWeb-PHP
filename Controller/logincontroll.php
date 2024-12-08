@@ -44,8 +44,9 @@ class LoginController {
                 }
             }
         }
-
-        // Nếu có lỗi, hiển thị lại form đăng nhập với thông báo lỗ
+        // Nếu có lỗi, hiển thị lại form đăng nhập với thông báo lỗi
+        include('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Pages\user\login.php');
+        
     }
 }
 

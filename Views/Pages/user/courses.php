@@ -105,22 +105,25 @@ while ($course_free = $result_free->fetch_assoc()) {
             text-decoration: none; /* Loại bỏ gạch chân */
             color: inherit; /* Giữ màu sắc gốc */
         }
-
+        .mt-5{
+            color: black;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <?php include '../../Layouts/headerLogin.html' ?>
     <div class="container my-5">
         <!-- Khóa học Pro -->
-        <h2 id="coures">Khóa học Pro <i class="fas fa-crown"></i></h2>
+        <h1 class="mt-5" id="coures">Khóa học Pro <i class="fas fa-crown"></i></h1>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <?php foreach ($pro_courses as $course): ?>
             <div class="col">
             <a href="detail.php?course_id=<?= htmlspecialchars($course['course_id']) ?>" class="card-link">
                 <div class="card h-100 text-center">
-                    <div class="card-header bg-primary text-white"><?= htmlspecialchars($course['title']) ?></div>
+                    <div class="card-header bg-primary text-white"><?= htmlspecialchars($course['title']) ?> <i class="fas fa-crown"></i></div>
                     <div class="card-body">
-                        <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($course['title']) ?>">
+                        <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top card-img-fixed" alt="<?= htmlspecialchars($course['title']) ?>">
                         </a>
                         <div class="price-row">
                             <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
@@ -143,7 +146,7 @@ while ($course_free = $result_free->fetch_assoc()) {
         </div>
 
         <!-- Khóa học miễn phí -->
-        <h2 class="mt-5" id="coures">Khóa học miễn phí</h2>
+        <h1 class="mt-5" id="coures">Khóa học miễn phí</h1>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <?php foreach ($free_courses as $course): ?>
             <div class="col">
@@ -153,7 +156,12 @@ while ($course_free = $result_free->fetch_assoc()) {
                     <div class="card-body">
                         <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($course['title']) ?>">
                         </a>
-                        <p class="card-price green free-course-price">Miễn phí</p>
+                        <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
+                            <?= $course['types'] === 'Free' 
+                                ? 'Free' 
+                                : "$" . number_format($course['original_price'] , 2)
+                            ?>
+                        </p>
                         <div class="info-row d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-people"></i> <?= $course['num_students'] ?> học viên</span>
                             <span><i class="bi bi-clock"></i> <?= $course['duration'] ?></span>

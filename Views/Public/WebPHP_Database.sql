@@ -1,6 +1,7 @@
 
-CREATE DATABASE l4;
-USE l4;
+
+CREATE DATABASE l5;
+USE l5;
 
 -- ----------Courses----------------------
 CREATE TABLE Courses (
@@ -270,7 +271,7 @@ INSERT INTO Lessons (title, content_url, content_type, duration, description, co
 ('Thiết lập Python trên hệ điều hành của bạn', 'https://www.youtube.com/embed/jf-q_dG8WzI?si=KydMxb8vMAr5qeVE', 'video', 15, 'Cách cài đặt Python trên Windows và macOS', 14, 52),
 ('Biến và kiểu dữ liệu trong Python', 'https://www.youtube.com/embed/nclE18Yl-kA?si=QBj-G364T_djU5Ir', 'video', 15, 'Học về biến và các kiểu dữ liệu trong Python', 14, 53),
 ('Vòng lặp và câu lệnh điều kiện trong Python', 'https://www.youtube.com/embed/Vb6XWSLPQfg?si=1Y9YCNB0SsrvCV1t', 'video', 20, 'Giới thiệu về vòng lặp và câu lệnh điều kiện trong Python', 14, 53),
-('Xử lý tệp văn bản và đọc dữ liệu từ tệp CSV', 'https://www.youtube.com/embed/gw9zbl2Q7r4?si=cgz9OQLN9s3ru647nt', 20, 'Giới thiệu về thư viện NumPy và cách sử dụng để xử lý mảng', 14, 54),
+('Xử lý tệp văn bản và đọc dữ liệu từ tệp CSV', 'https://www.youtube.com/embed/gw9zbl2Q7r4?si=cgz9OQLN9s3ru647nt','video', 20, 'Giới thiệu về thư viện NumPy và cách sử dụng để xử lý mảng', 14, 54),
 ('Đọc và xử lý dữ liệu với Pandas', 'https://example.com/pandas_video.mp4', 'video', 25, 'Học cách xử lý dữ liệu với thư viện Pandas', 14, 55),
 ('Sử dụng Matplotlib để tạo biểu đồ cơ bản', 'https://example.com/matplotlib_video.mp4', 'video', 15, 'Hướng dẫn tạo biểu đồ cơ bản với Matplotlib', 14, 56),
 ('Xây dựng ứng dụng phân tích dữ liệu cơ bản với Python', 'https://example.com/project_video.mp4', 'video', 30, 'Dự án thực tế: Xây dựng ứng dụng phân tích dữ liệu với Python', 14, 57);

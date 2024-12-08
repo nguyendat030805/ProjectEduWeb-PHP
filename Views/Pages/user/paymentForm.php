@@ -1,3 +1,8 @@
+
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -222,8 +227,7 @@
         $success = true; // Giả định thanh toán thành công
     }
     ?>
-    <div class="outer-container">
-        <!-- Form thanh toán -->
+  <div class="outer-container">
         <div class="form-container <?php echo $success ? 'blur' : ''; ?>">
             <div class="logo-title">
                 <img src="/Public/image/logo.png" alt="Logo">
@@ -239,14 +243,14 @@
                                 <label for="name" class="form-label">Tên khách hàng</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên khách hàng" required>
+                                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($_SESSION['username'] ?? '') ?>" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="phone" class="form-label">Số điện thoại</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($_SESSION['user_phone'] ?? '') ?>" readonly>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +261,7 @@
                                 <label for="email" class="form-label">Nhập email</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($_SESSION['email'] ?? '') ?>" readonly>
                                 </div>
                             </div>
                             <div class="group">

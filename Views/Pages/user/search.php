@@ -123,6 +123,7 @@ $lessons = mysqli_fetch_all($lessonsResult, MYSQLI_ASSOC);
                 <h3 class="confirm">Không có khóa học nào phù hợp với tìm kiếm của bạn.</h3>
             <?php endif; ?>
         </div>
+
     </div>
 
     <!-- Bootstrap JS -->

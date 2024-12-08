@@ -2,6 +2,7 @@
 <?php
 session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -217,8 +218,6 @@ session_start();
 </style>
 </head>
 <body>
-
-
     <?php
     // Biến $success xác định trạng thái thanh toán
     $success = false;
@@ -285,17 +284,23 @@ session_start();
             </form>
         </div>
         <!-- Box thanh toán thành công -->
-        <?php if ($success): ?>
-            <div class="success-box active">
-                <button class="success-close" onclick="window.location.href = '';">×</button>
-                <div class="success-icon">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                <div class="success-title">
-                    Thanh toán khóa học thành công
-                </div>
-            </div>
-        <?php endif; ?>
+          <?php 
+                $course_id = $_GET['course_id'];
+                $user_id = $_GET['user_id'];
+             ?>
+       <?php if ($success): ?>
+    <div class="success-box active">
+        <button class="success-close" 
+                onclick="window.location.href = 'http://localhost:8080/ProjectWeb-TD/ProjectEduWeb-PHP/Views/Pages/user/subject.php?course_id=<?php echo $course_id; ?>&user_id=<?php echo $user_id; ?>';">×</button>
+        
+        <div class="success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="success-title">
+            Thanh toán khóa học thành công
+        </div>
+    </div>
+<?php endif; ?>
     </div>
 </body>
 </html>

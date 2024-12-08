@@ -1,6 +1,6 @@
 <?php
-require_once('../../Public/config.php');   // Kết nối cơ sở dữ liệu
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\usermodel.php');    // Kết nối tới model người dùng
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');   // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\usermodel.php');    // Kết nối tới model người dùng
 
 class UserController {
     private $userModel;
@@ -65,13 +65,6 @@ class UserController {
 }
 
 // Ví dụ sử dụng UserController
-session_start();  // Bắt đầu phiên làm việc
-
-$conn = mysqli_connect("localhost", "root", "Hiep@1609", "l5");
-if (!$conn) {
-    die("Kết nối thất bại: " . mysqli_connect_error());
-}
-
 $userController = new UserController($conn);
 
 // Kiểm tra hành động từ form

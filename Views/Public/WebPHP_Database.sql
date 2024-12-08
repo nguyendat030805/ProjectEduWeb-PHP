@@ -1,4 +1,5 @@
 
+
 CREATE DATABASE l5;
 USE l5;
 
@@ -317,7 +318,6 @@ ORDER BY c.course_id, l.lesson_id;
 -- TRUNCATE TABLE users;
 select*from Enrollments;
 select*from courses;
-select*from users;
 select*from lessons;
 select*from chapters;
 

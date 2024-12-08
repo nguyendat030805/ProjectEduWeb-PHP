@@ -119,7 +119,7 @@ while ($course_free = $result_free->fetch_assoc()) {
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <?php foreach ($pro_courses as $course): ?>
             <div class="col">
-            <a href="detail.php?id=<?= htmlspecialchars($course['course_id']) ?>" class="card-link">
+            <a href="detail.php?course_id=<?= htmlspecialchars($course['course_id']) ?>" class="card-link">
                 <div class="card h-100 text-center">
                     <div class="card-header bg-primary text-white"><?= htmlspecialchars($course['title']) ?> <i class="fas fa-crown"></i></div>
                     <div class="card-body">

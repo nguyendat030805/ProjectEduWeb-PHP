@@ -146,6 +146,7 @@ if (isset($_GET['id'])) {
         }
         #dislike-btn:hover,#like-btn:hover{
             background-color: white;
+
         }
     </style>
 </head>
@@ -255,7 +256,6 @@ if (isset($_GET['id'])) {
                 iframe.src = videoURL;
             });
         });
-
     // Hàm xử lý tăng số lượng
     function incrementCount(buttonId, countElementId, countVariable) {
         const button = document.getElementById(buttonId);
@@ -276,7 +276,6 @@ if (isset($_GET['id'])) {
     // Gọi hàm cho "like" và "dislike"
     likeCount = incrementCount('like-btn', 'like-count', likeCount);
     dislikeCount = incrementCount('dislike-btn', 'dislike-count', dislikeCount);
-
     </script>
     
     

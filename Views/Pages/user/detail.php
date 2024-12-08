@@ -1,9 +1,11 @@
 <?php
-require_once('../../Public/config.php');
-require_once('../../../Controller/coursescontroll.php'); // Bao gồm CourseController
-require_once('../../../Controller/lessoncontroll.php'); // Bao gồm LessonController
-require_once('../../../Controller/chaptercontroller.php'); // Bao gồm ChapterController
-
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\usercontroll.php'); // Bao gồm ChapterController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\registercontroll.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\logincontroll.php');
 // Thiết lập kết nối đến cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);
 if (!$conn) {
@@ -16,14 +18,13 @@ $lessonController = new LessonController($conn);
 $chapterController = new ChapterController($conn); // Khởi tạo ChapterController
 
 // Kiểm tra xem course_id có được thiết lập trong URL không
-if (isset($_GET['id'])) {
-    $course_id = $_GET['id'];
-    $course = $courseController->getCourseById($course_id); // Lấy thông tin khóa học
-    $chapters = $chapterController->getChaptersByCourseId($course_id); // Lấy các chương cho khóa học
-} else {
-    echo "Course ID is not provided.";
-    exit;
+if (isset($_GET['course_id'])) {
+    $course_id = $_GET['course_id'];
+    $course = $courseController->getCourseById($course_id); 
+    $chapters = $chapterController->getChaptersByCourseId($course_id);
 }
+
+
 
 // Bây giờ bạn có thể sử dụng $chapters để hiển thị thông tin chương
 ?>
@@ -230,7 +231,7 @@ body {
     width: 30%;
     text-align: center;
     position: fixed;
-    left: 850px;
+    right:0;
     top: 125px;
 }
 
@@ -366,20 +367,19 @@ body {
 
         <div class="sidebar">
             <!-- Thêm phần video preview và giá khóa học nếu cần -->
-            <div class="video-preview">
-            <iframe src="<?php echo $course['video_url']; ?>"
-                    title="Giới thiệu khóa học" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-            </iframe>
-
-                <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
-            </div>
-            <div class="price">
-                <p><?php echo htmlspecialchars($course['discounted_price']); ?> VND</p>
-                <button class="register-btn">Đăng ký ngay</button>
-            </div>
+                <div class="video-preview">
+                    <iframe src="<?php echo htmlspecialchars($course['video_url']); ?>" title="Giới thiệu khoá học" width="560" height="315" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>       
+                    <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
+                </div>
+                <div class="price">
+                    <p><?php echo htmlspecialchars($course['original_price']); ?> VND</p>      
+                    <form action="http://localhost:8080/ProjectWeb-TD/ProjectEduWeb-PHP/Controller/enrollmentcontroll.php" method="POST">
+                        <input type="hidden" name="action" value="enroll">
+                        <input type="hidden" name="course_id" value="<?php echo htmlspecialchars($course['course_id']); ?>">
+                        <button type="submit" class="register-btn">Đăng ký ngay</button>
+                    </form>
+                </div>
         </div>
     </div>
 

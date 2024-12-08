@@ -1,5 +1,5 @@
 <?php
-    require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+    require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,7 +133,7 @@ a:hover{
             <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
 
             <button type="submit" class="btn-register">Register</button>
-            <span>or use your account</span>
+            <span><a href="../user/login.php">or use your account</a></span>
             <div class="social-icon">
                 <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
                 <a href="#" class="social"><i class="lni lni-google"></i></a>

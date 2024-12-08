@@ -109,21 +109,26 @@ while ($course_free = $result_free->fetch_assoc()) {
     </style>
 </head>
 <body>
+    <?php include '../../Layouts/headerLogin.html' ?>
     <div class="container my-5">
         <!-- Khóa học Pro -->
         <h2 id="coures">Khóa học Pro <i class="fas fa-crown"></i></h2>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <?php foreach ($pro_courses as $course): ?>
             <div class="col">
-            <a href="detail.php?id=<?= htmlspecialchars($course['course_id']) ?>" class="card-link">
+            <a href="detail.php?course_id=<?= htmlspecialchars($course['course_id']) ?>" class="card-link">
                 <div class="card h-100 text-center">
                     <div class="card-header bg-primary text-white"><?= htmlspecialchars($course['title']) ?></div>
                     <div class="card-body">
                         <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top" alt="<?= htmlspecialchars($course['title']) ?>">
                         </a>
                         <div class="price-row">
-                            <p class="old-price"><?= number_format($course['original_price'], 0, ',', '.') ?>đ</p>
-                            <p class="card-price red"><?= number_format($course['discounted_price'], 0, ',', '.') ?>đ</p>
+                            <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
+                                <?= $course['types'] === 'Free' 
+                                    ? 'Free' 
+                                    : "$" . number_format($course['original_price'], 2) 
+                                ?>
+                            </p>
                         </div>
                         <div class="info-row d-flex justify-content-between align-items-center">
                             <span><i class="bi bi-people"></i> <?= $course['num_students'] ?> học viên</span>
@@ -160,6 +165,7 @@ while ($course_free = $result_free->fetch_assoc()) {
             <?php endforeach; ?>
         </div>
     </div>
+    <?php include '../../Layouts/footer.html' ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

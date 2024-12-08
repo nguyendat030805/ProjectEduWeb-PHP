@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/php-project/ProjectEduWeb-PHP/Views/Public/config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 require_once(__DIR__ . '/../Model/coursemodel.php'); // Đường dẫn tương đối // Import model
 class CourseController {
     private $courseModel;

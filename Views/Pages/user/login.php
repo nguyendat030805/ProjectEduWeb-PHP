@@ -1,5 +1,5 @@
 <?php
-    require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+    require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +134,7 @@ a:hover{
                     </div>
                 </div>
                 <button type="submit" class="btn-login">Login</button>
-                <span>or use your account</span>
+                <span><a href="../user/register.php">or register your account</a></span>
                 <div class="social-icon">
                     <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
                     <a href="#" class="social"><i class="lni lni-google"></i></a>

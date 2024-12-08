@@ -1,7 +1,6 @@
 <?php
-session_start();
-require_once('../Model/loginmodel.php'); // Model xử lý logic
-require_once('../Views/Public/config.php'); // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\loginmodel.php'); // Model xử lý logic
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php'); // Kết nối cơ sở dữ liệu
 
 class LoginController {
     private $model;
@@ -46,8 +45,7 @@ class LoginController {
             }
         }
 
-        // Nếu có lỗi, hiển thị lại form đăng nhập với thông báo lỗi
-        include('../Views/Pages/user/login.php');
+        // Nếu có lỗi, hiển thị lại form đăng nhập với thông báo lỗ
     }
 }
 

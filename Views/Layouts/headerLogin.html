@@ -79,42 +79,46 @@
         }
 
         .search-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    position: relative;
+}
 
-        .search-btn {
-            padding: 5px 10px;
-            background-color: #0afa66;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.search-input {
+    width: 0;
+    opacity: 0;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    transition: width 0.4s ease, opacity 0.4s ease;
+    margin-right: 10px; /* Khoảng cách giữa input và button */
+}
 
-        .search-btn:hover {
-            background-color: #028a4f;
-        }
+.search-container:hover .search-input {
+    width: 200px;
+    opacity: 1;
+}
 
-        .search-input {
-            width: 0;
-            opacity: 0;
-            padding: 5px 10px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-            transition: width 0.3s ease, opacity 0.3s ease;
-            display: inline-block;
-        }
+.form-control {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #0afa66;
+    border: 1px solid #0afa66;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
 
-        .search-container:hover .search-input {
-            width: 200px;
-            opacity: 1;
-        }
+.form-control:hover {
+    background-color: #028a4f;
+}
+
 
         .right-section {
             display: flex;
@@ -196,25 +200,28 @@
             <h1>Học cùng L5</h1>
         </div>
         <nav class="nav">
-            <a href="../../Pages/user/homelogin.php">
+            <a href="../user/homelogin.php">
                 <i class="fas fa-home"></i> Home
             </a>
-            <a href="../../Pages/user/courses.html">
+            <a href="../user/courses.php">
                 <i class="fas fa-book"></i> Course
             </a>
-            <a href="../../Pages/user/about.php">
+            <a href="../user/about.php">
                 <i class="fas fa-info-circle"></i> About
             </a>
         </nav>
         <div class="right-section">
             <div class="search-container">
-                <button class="search-btn">Search</button>
-                <input type="text" class="search-input" placeholder="Search...">
+                <form action="../user/search.php" method="GET">
+                    <button class="form-control" type="submit">Search</button>
+                    <input type="text" name="search" class="search-input" placeholder="Search...">
+                </form>
+                
             </div>
             <div class="user-icon" id="user-icon">
                 <i class="fas fa-user"></i>
                 <div class="user-menu" id="user-menu">
-                    <a href="../Pages/user/login.php">Logout</a>
+                    <a href="../user/logout.php">Logout</a>
                     <a href="../user/userProfile.php">Profile</a>
                 </div>
             </div>
@@ -223,30 +230,14 @@
     <div class="container">
         <div class="slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
                 <div class="carousel-inner carousel-fade">
-                    <div class="carousel-item active  " data-bs-interval="1000">
-                        <img src="../Public/Assets/Image/imageCouser/z6054046885157_fb78948670084b5024e08fb4e27771c9.jpg" class="d-block w-100" alt="Slide 1">
-                    </div>
-                    <div class="carousel-item" data-bs-interval="1000">
-                        <img src="../Public/Assets/Image/imageCouser/z6054051604709_345d7edb99a22fc77b353fcdc464e015.jpg" class="d-block w-100" alt="Slide 2">
-                    </div>
-                    <div class="carousel-item" data-bs-interval="1000">
-                        <img src="../Public/Assets/Image/imageCouser/z6054052205270_ff3f13d53322b7bc78e9a16aeabd102e.jpg" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-item active">
+                        <video class="d-block w-100" autoplay muted loop>
+                            <source src="../../Public/Welcome to the LinkedIn Learning channel!.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
     </div>

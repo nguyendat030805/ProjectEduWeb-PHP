@@ -1,7 +1,8 @@
 <?php
+	// session_start();
 	$host = "localhost";
 	$user = "root";
-	$password = "Hiep@1609";
+	$password = "Bang^0805";
 	$database = "l5";
 
 	// Create connection

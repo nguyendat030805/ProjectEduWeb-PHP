@@ -1,8 +1,12 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\chaptercontroller.php'); // Bao gồm ChapterController
+
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\usercontroll.php'); // Bao gồm ChapterController
+
+
 
 // Thiết lập kết nối đến cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);
@@ -16,14 +20,13 @@ $lessonController = new LessonController($conn);
 $chapterController = new ChapterController($conn); // Khởi tạo ChapterController
 
 // Kiểm tra xem course_id có được thiết lập trong URL không
-if (isset($_GET['id'])) {
-    $course_id = $_GET['id'];
-    $course = $courseController->getCourseById($course_id); // Lấy thông tin khóa học
-    $chapters = $chapterController->getChaptersByCourseId($course_id); // Lấy các chương cho khóa học
-} else {
-    echo "Course ID is not provided.";
-    exit;
+if (isset($_GET['course_id']) || isset($_GET['id'])) {
+    $course_id = $_GET['course_id'] ?? $_GET['id']; // Ưu tiên lấy `course_id`, nếu không có thì lấy `id`
+    $course = $courseController->getCourseById($course_id); 
+    $chapters = $chapterController->getChaptersByCourseId($course_id);
 }
+
+
 
 // Bây giờ bạn có thể sử dụng $chapters để hiển thị thông tin chương
 ?>
@@ -35,6 +38,8 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết khóa học</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
 body {
     margin: 0;
@@ -117,7 +122,6 @@ body {
     margin: 5px 0;
     display: flex;
     align-items: center;
- 
 }
 
 .outcomes-list li::before {
@@ -230,8 +234,9 @@ body {
     width: 30%;
     text-align: center;
     position: fixed;
-    right:0;
-    top: 125px;
+    right:10px;
+    top: 230px;
+
 }
 
 .video-preview {
@@ -278,10 +283,16 @@ body {
   background-color: #1e7e34; /* Màu xanh lá tối khi nhấn */
   transform: scale(0.95); /* Giảm nhẹ kích thước khi nhấn */
 }
+.homepage a{
+    text-decoration: none;
+    color: black;
+}
 
 </style>
 </head>
 <body>
+    <!-- <?php include '../../Layouts/headerLogin.html' ?> -->
+    <div><button class="homepage"><a href="../../Pages/user/homelogin.php"><i class="bi bi-house-door-fill"></i>Quay về trang chủ</a></button></div>
     <div class="course-detail">
         <div class="content">
             <h1 class="course-title"><?php echo htmlspecialchars($course['title']); ?></h1>
@@ -365,19 +376,39 @@ body {
         </div>
 
         <div class="sidebar">
-            <!-- Thêm phần video preview và giá khóa học nếu cần -->
                 <div class="video-preview">
-                    <iframe src="<?php echo htmlspecialchars($course['video_url']); ?>" title="Giới thiệu khoá học" width="560" height="315" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                    </iframe>       
+                <?php if (filter_var($course['video_url'], FILTER_VALIDATE_URL)): ?>
+                    <iframe 
+                        src="<?php echo htmlspecialchars($course['video_url']); ?>" 
+                        title="Giới thiệu khoá học" 
+                        width="100%" 
+                        height="200px" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen 
+                        loading="lazy">
+                    </iframe>
+                <?php else: ?>
+                    <p>Video không hợp lệ hoặc không có sẵn.</p>
+                <?php endif; ?>     
                     <p>Khám phá nội dung khóa học của chúng tôi qua video này!</p>
                 </div>
                 <div class="price">
-                    <p><?php echo htmlspecialchars($course['original_price']); ?> VND</p>
-                    <button class="register-btn">Đăng ký ngay</button>
+                <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
+                                <?= $course['types'] === 'Free' 
+                                    ? 'Free' 
+                                    : "$" . number_format($course['original_price'] , 2)
+                                ?>
+                            </p>
+                <form action="http://localhost:8080/ProjectWeb-TD/ProjectEduWeb-PHP/Controller/enrollmentcontroll.php" method="POST">
+                    <input type="hidden" name="action" value="enroll">
+                    <input type="hidden" name="course_id" value="<?php echo htmlspecialchars($course['course_id']); ?>">
+                    <button type="submit" class="register-btn">Đăng ký ngay</button>
+                </form>
+
                 </div>
         </div>
-    </div>
-
+    </div>               
     <script>
     function toggleSection(element) {
         const content = element.nextElementSibling;
@@ -392,6 +423,7 @@ body {
     }
     </script>
 </body>
+
 </html>
 
 <?php

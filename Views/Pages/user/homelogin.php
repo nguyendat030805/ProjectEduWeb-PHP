@@ -262,11 +262,18 @@ body {
     transition: opacity 0.5s ease, transform 0.5s ease; /* Hiệu ứng mượt mà */
 }
 
+
 .text-secondary.custom-black.visible {
     opacity: 1; /* Hiện khi có lớp visible */
     transform: translateY(0); /* Trở về vị trí ban đầu */
 }
-
+.img-jane{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 10px solid black;
+    border-radius: 20px;
+}
 </style>
 <body>
     <?php include '../../Layouts/headerLogin.html' ?>
@@ -337,26 +344,26 @@ body {
     <div class="jane-wrapper">
         <div class="row align-items-center jane">
             <div class="col-md-8">
-                <h2>Jane Herbert</h2>
-                <p>Whether you work in machine learning or finance, or are pursuing a career in web development or data science, Python is one of the most important skills you can learn.</p>
+                <h2>Mr.Hiệp Hồ</h2>
+                <p>Cho dù bạn làm việc trong lĩnh vực học máy hay tài chính, hoặc đang theo đuổi sự nghiệp phát triển web hay khoa học dữ liệu, Python là một trong những kỹ năng quan trọng nhất mà bạn có thể học.</p>
                 <div class="achieve">
                     <div class="img-cup">
                         <img src="../../Public/Assets/Image/img_cup.png" alt="Jane-Achievements" class="img-fluid">
                     </div>
                     <div class="time">
                         <div>
-                            <h2>19 Years</h2>
-                            <span class="text-black">Experience</span>
+                            <h2>19 năm</h2>
+                            <span class="text-black">Kinh nghiệm</span>
                         </div>
                         <button type="button" class="d-flex justify-content-between align-items-center btn">
-                            All Reviews for Jane 
+                            Khoá học của Hiệp 
                             <i class="bi bi-chevron-right icon"></i>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-center ">
-                <img src="../../Public/Assets/Image/img_jena.jpg" alt="Image" class="img-jane">
+                <img src="../../Public/Assets/Image/z6072512062445_10257e3160ce576ab5aaad21f5582d40.jpg" alt="Image" class="img-jane">
             </div>
         </div>
     </div>
@@ -376,10 +383,10 @@ body {
                         <img src="<?= htmlspecialchars($course['images']) ?>" class="card-img-top card-img-fixed" alt="<?= htmlspecialchars($course['title']) ?>">
                         <div class="card-body">
                             <div class="author-info d-flex align-items-center">
-                                <img src="../../Public/Assets/Image/img_jena.jpg" class="author-avatar" alt="Author Avatar">
+                                <img src="../../Public/Assets/Image/z6072512062445_10257e3160ce576ab5aaad21f5582d40.jpg" class="author-avatar" alt="Author Avatar">
                                 <div class="author-content ms-2">
                                     <h5 class="card-title mb-0"><?= htmlspecialchars($course['title']) ?></h5>
-                                    <p class="mb-1"></p>Jane Herbert</p>
+                                    <p class="mb-1"></p>Mr.Hiệp Hồ</p>
                                     <p class="text-muted mb-2">
                                         <i class="bi bi-briefcase"></i> Business, Course
                                     </p>
@@ -392,6 +399,9 @@ body {
                                     : "$" . number_format($course['original_price'], 2) 
                                 ?>
                             </p>
+                            <div class="text-warning">
+                            ★★★★★
+                        </div>
                         </div>
                     </div>
                 </a>

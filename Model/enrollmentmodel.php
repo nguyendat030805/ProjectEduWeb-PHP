@@ -1,5 +1,6 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
+
 
 class EnrollmentModel {
     private $conn;
@@ -8,40 +9,12 @@ class EnrollmentModel {
     public function __construct($conn) {
         $this->conn = $conn;
     }
-
-    // 1. Lấy tất cả đăng ký của một người dùng
-    public function getEnrollmentsByUser($user_id) {
-        $sql = "SELECT * FROM Enrollments WHERE user_id = ?";
+    // 2. Lấy thông tin khóa học theo ID (bao gồm loại khóa học)
+    public function getCourseById($course_id) {
+        $sql = "SELECT * FROM Courses WHERE course_id = ?";
         $stmt = $this->conn->prepare($sql);
 
         if ($stmt === false) {
-            // Xử lý lỗi nếu không thể chuẩn bị câu truy vấn
-            die("Error preparing query: " . $this->conn->error);
-        }
-
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result === false) {
-            // Xử lý lỗi khi thực thi câu truy vấn
-            die("Error executing query: " . $this->conn->error);
-        }
-
-        $enrollments = [];
-        while ($row = $result->fetch_assoc()) {
-            $enrollments[] = $row;
-        }
-        return $enrollments;
-    }
-
-    // 2. Lấy tất cả người dùng đã đăng ký khóa học
-    public function getUsersByCourse($course_id) {
-        $sql = "SELECT * FROM Enrollments WHERE course_id = ?";
-        $stmt = $this->conn->prepare($sql);
-
-        if ($stmt === false) {
-            // Xử lý lỗi nếu không thể chuẩn bị câu truy vấn
             die("Error preparing query: " . $this->conn->error);
         }
 
@@ -50,18 +23,13 @@ class EnrollmentModel {
         $result = $stmt->get_result();
 
         if ($result === false) {
-            // Xử lý lỗi khi thực thi câu truy vấn
             die("Error executing query: " . $this->conn->error);
         }
 
-        $users = [];
-        while ($row = $result->fetch_assoc()) {
-            $users[] = $row;
-        }
-        return $users;
+        return $result->fetch_assoc();  // Trả về thông tin chi tiết về khóa học
     }
 
-    // 3. Đăng ký một khóa học
+    // 3. Kiểm tra đăng ký khóa học và thực hiện đăng ký
     public function enrollInCourse($user_id, $course_id) {
         // Kiểm tra nếu người dùng đã đăng ký khóa học này
         $sql = "SELECT * FROM Enrollments WHERE user_id = ? AND course_id = ?";
@@ -75,9 +43,9 @@ class EnrollmentModel {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Nếu đã có bản ghi, không cho phép đăng ký lại
         if ($result->num_rows > 0) {
-            return false;  // Người dùng đã đăng ký khóa học này rồi
+            echo "<script>alert('You have already enrolled in this course.');</script>";
+            return false;  // Kết thúc xử lý
         }
 
         // Nếu chưa có bản ghi, thực hiện đăng ký
@@ -89,8 +57,12 @@ class EnrollmentModel {
         }
 
         $stmt->bind_param("ii", $user_id, $course_id);
-        return $stmt->execute();
+        $stmt->execute();
+
+        // Sau khi đăng ký thành công, trả về khóa học để kiểm tra loại
+        return $this->getCourseById($course_id);  // Trả về thông tin khóa học đã đăng ký
     }
+    
 
     // 4. Cập nhật trạng thái đăng ký (đang học hoặc đã học)
     public function updateEnrollmentStatus($enrollment_id, $status) {

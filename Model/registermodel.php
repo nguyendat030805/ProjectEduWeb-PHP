@@ -1,5 +1,5 @@
 <?php
-require_once('../Views/Public/config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 
 class Register {
     

@@ -40,7 +40,7 @@ $lessons = mysqli_fetch_all($lessonsResult, MYSQLI_ASSOC);
         }
 
         .card:hover {
-            transform: translateY(-5px); /* Tạo hiệu ứng di chuyển lên khi hover */
+            transform: translateY(-5px); 
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
@@ -124,23 +124,6 @@ $lessons = mysqli_fetch_all($lessonsResult, MYSQLI_ASSOC);
             <?php endif; ?>
         </div>
 
-        <!-- Hiển thị kết quả bài học -->
-        <h4 class="mb-3">Bài học:</h4>
-        <div class="row">
-            <?php if (mysqli_num_rows($lessonsResult) > 0): ?>
-                <?php foreach ($lessons as $lesson): ?>
-                    <div class="col-md-3 col-sm-6 col-12 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title"><?= htmlspecialchars($lesson['title']); ?></h5>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <h3 class="confirm">Không có bài học nào phù hợp với tìm kiếm của bạn.</h3>
-            <?php endif; ?>
-        </div>
     </div>
 
     <!-- Bootstrap JS -->

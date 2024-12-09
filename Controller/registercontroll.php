@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Gọi tệp  model đúng đường dẫn
-require_once('../Model/registermodel.php');  // Đường dẫn từ Controller vào Model
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\registermodel.php');  // Đường dẫn từ Controller vào Model
 
 class RegisterController {
 
@@ -57,9 +57,6 @@ class RegisterController {
                 }
             }
         }
-
-        // Nếu có lỗi, hiển thị lại form với thông báo lỗi
-        include "../Views/Pages/user/register.php";
     }
 }
 

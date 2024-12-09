@@ -1,7 +1,20 @@
 
 <?php
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\usercontroll.php'); // Bao gồm ChapterController
+
+
 session_start();
+if (isset($_GET['cousre_id'])) {
+    $course_id = $_GET['course_id'];
+    $course = $courseController->getCourseById($course_id); 
+    $chapters = $chapterController->getChaptersByCourseId($course_id);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,7 +102,6 @@ session_start();
     }
 
     .highlight {
-        text-decoration: line-through;
         color: black;
     }
 
@@ -116,7 +128,6 @@ session_start();
     }
 
     .price-info .highlight {
-        text-decoration: line-through;
         color: black;
     }
 
@@ -217,8 +228,6 @@ session_start();
 </style>
 </head>
 <body>
-
-
     <?php
     // Biến $success xác định trạng thái thanh toán
     $success = false;
@@ -244,7 +253,7 @@ session_start();
                                 <label for="name" class="form-label">Tên khách hàng</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($_SESSION['username'] ?? '') ?>" readonly>
+                                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($_SESSION['user_name'] ?? '') ?>" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -262,17 +271,16 @@ session_start();
                                 <label for="email" class="form-label">Nhập email</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($_SESSION['email'] ?? '') ?>" readonly>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($_SESSION['user_email'] ?? '') ?>" readonly>
                                 </div>
                             </div>
                             <div class="group">
                                 <div class="form-group">
                                     <label class="form-label">Khóa học:</label>
-                                    <span class="selected-course">HTML CSS Pro</span>
+                                    <span class="selected-course"><?php echo htmlspecialchars($course['title']); ?></span>
                                 </div>
                                 <div class="price-info">
-                                    <p class="mb-0">Giá gốc: <span class="highlight">2.900.000đ</span></p>
-                                    <p class="mb-0">Ưu đãi hôm nay: <span class="discount">1.900.000đ</span></p>
+                                    <p class="mb-0">Giá gốc: <span class="highlight"><?php echo htmlspecialchars($course['original_price']); ?></span></p>
                                 </div>
                             </div>
                         </div>
@@ -285,17 +293,22 @@ session_start();
             </form>
         </div>
         <!-- Box thanh toán thành công -->
-        <?php if ($success): ?>
-            <div class="success-box active">
-                <button class="success-close" onclick="window.location.href = '';">×</button>
-                <div class="success-icon">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                <div class="success-title">
-                    Thanh toán khóa học thành công
-                </div>
-            </div>
-        <?php endif; ?>
+          <?php 
+                $course_id = $_GET['course_id'];
+             ?>
+       <?php if ($success): ?>
+    <div class="success-box active">
+        <button class="success-close" 
+                onclick="window.location.href = 'http://localhost:8080/ProjectWeb-TD/projectEduWeb-php/Views/Pages/user/subject.php?course_id=<?php echo $course_id; ?>';">×</button>
+        
+        <div class="success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="success-title">
+            Thanh toán khóa học thành công
+        </div>
+    </div>
+<?php endif; ?>
     </div>
 </body>
 </html>

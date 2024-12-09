@@ -4,8 +4,8 @@ require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\courses
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\usercontroll.php'); // Bao gồm ChapterController
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\registercontroll.php');
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\logincontroll.php');
+
+
 // Thiết lập kết nối đến cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);
 if (!$conn) {
@@ -18,8 +18,8 @@ $lessonController = new LessonController($conn);
 $chapterController = new ChapterController($conn); // Khởi tạo ChapterController
 
 // Kiểm tra xem course_id có được thiết lập trong URL không
-if (isset($_GET['course_id'])) {
-    $course_id = $_GET['course_id'];
+if (isset($_GET['course_id']) || isset($_GET['id'])) {
+    $course_id = $_GET['course_id'] ?? $_GET['id']; // Ưu tiên lấy `course_id`, nếu không có thì lấy `id`
     $course = $courseController->getCourseById($course_id); 
     $chapters = $chapterController->getChaptersByCourseId($course_id);
 }
@@ -398,11 +398,11 @@ body {
                                     : "$" . number_format($course['original_price'] , 2)
                                 ?>
                             </p>
-                  <form action="http://localhost:8080/ProjectWeb-TD/ProjectEduWeb-PHP/Controller/enrollmentcontroll.php" method="POST">
-                        <input type="hidden" name="action" value="enroll">
-                        <input type="hidden" name="course_id" value="<?php echo htmlspecialchars($course['course_id']); ?>">
-                        <button type="submit" class="register-btn">Đăng ký ngay</button>
-                    </form>
+                <form action="http://localhost:8080/ProjectWeb-TD/ProjectEduWeb-PHP/Controller/enrollmentcontroll.php" method="POST">
+                    <input type="hidden" name="action" value="enroll">
+                    <input type="hidden" name="course_id" value="<?php echo htmlspecialchars($course['course_id']); ?>">
+                    <button type="submit" class="register-btn">Đăng ký ngay</button>
+                </form>
 
                 </div>
         </div>

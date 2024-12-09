@@ -16,8 +16,8 @@ $lessonController = new LessonController($conn);
 $chapterController = new ChapterController($conn);
 
 // Kiểm tra course_id
-if (isset($_GET['id'])) {
-    $course_id = $_GET['id'];
+if (isset($_GET['course_id'])) {
+    $course_id = $_GET['course_id'];
     $course = $courseController->getCourseById($course_id); 
     $chapters = $chapterController->getChaptersByCourseId($course_id);
 } else {

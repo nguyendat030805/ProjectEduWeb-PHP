@@ -42,9 +42,9 @@ class EnrollmentModel {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Nếu đã có bản ghi, không cho phép đăng ký lại
         if ($result->num_rows > 0) {
-            return false;  // Người dùng đã đăng ký khóa học này rồi
+            echo "<script>alert('You have already enrolled in this course.');</script>";
+            return false;  // Kết thúc xử lý
         }
 
         // Nếu chưa có bản ghi, thực hiện đăng ký
@@ -61,6 +61,7 @@ class EnrollmentModel {
         // Sau khi đăng ký thành công, trả về khóa học để kiểm tra loại
         return $this->getCourseById($course_id);  // Trả về thông tin khóa học đã đăng ký
     }
+    
 
     // 4. Cập nhật trạng thái đăng ký (đang học hoặc đã học)
     public function updateEnrollmentStatus($enrollment_id, $status) {

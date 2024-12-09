@@ -1,6 +1,6 @@
 <?php
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php'); // Include LessonModel
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\lessonsmodel.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php'); // Include LessonModel
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\lessonsmodel.php');
 class LessonController {
     private $lessonModel;
 
@@ -32,17 +32,22 @@ class LessonController {
     }
 
     // 4. Create a new lesson
+// Trong lessoncontroll.php
     public function createLesson($data) {
-        $title = $data['title'];
-        $content_url = $data['content_url'];
-        $type = $data['type'];
-        $duration = $data['duration'];
-        $chapter_id = $data['chapter_id'];
-
-        if ($this->lessonModel->createLesson($title, $content_url, $type, $duration, $chapter_id)) {
-            echo json_encode(['message' => 'Lesson created successfully']);
+        // Kiểm tra các khóa trong mảng $data
+        $title = isset($data['title']) ? $data['title'] : null;
+        $contentUrl = isset($data['content_url']) ? $data['content_url'] : null;
+        $type = isset($data['type']) ? $data['type'] : null;
+        $chapterId = isset($data['chapter_id']) ? $data['chapter_id'] : null;
+        $duration = isset($data['duration']) ? $data['duration'] : null;
+        $course_id = isset($data['course_id']) ? $data['course_id'] : null;
+        // Kiểm tra xem các tham số cần thiết có được cung cấp không
+        if ($title && $chapterId) {
+            // Thực hiện chèn vào cơ sở dữ liệu
+            $stmt = $this->lessonModel->createLesson($title, $contentUrl, $type,$duration, $chapterId);
         } else {
-            echo json_encode(['message' => 'Failed to create lesson']);
+            // Xử lý lỗi
+            echo "Thiếu thông tin cần thiết để tạo bài học.";
         }
     }
 
@@ -85,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'add') {
         $data = [
             'title' => $_POST['title'],
-            'content_url' => $_POST['content_url'],
+            'content_url' => $_FILES['content_url'],
             'type' => $_POST['type'],
             'duration' => $_POST['duration'],
             'chapter_id' => $_POST['chapter_id']

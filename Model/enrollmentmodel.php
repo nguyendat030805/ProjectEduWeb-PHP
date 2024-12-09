@@ -1,5 +1,5 @@
 <?php
-require_once('../Views/Public/config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
 
 class EnrollmentModel {
     private $conn;

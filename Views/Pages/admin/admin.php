@@ -52,7 +52,7 @@
         }
 
         .header {
-            background-image: url('C:/xampp/htdocs/ProjectEduWeb-PHP/Public/image/header-background.jpg'); /* Đặt đường dẫn trong url() */
+            background-color: #4CAF50;
             padding: 20px;
             text-align: center;
             color: white;

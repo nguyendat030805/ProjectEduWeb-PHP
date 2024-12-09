@@ -1,8 +1,8 @@
 <?php
 // Bao gồm các file cần thiết (config, models)
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\chapter.php');  // Bao gồm ChapterModel
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\lessonsmodel.php');   // Bao gồm LessonModel
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\chapter.php');  // Bao gồm ChapterModel
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\lessonsmodel.php');   // Bao gồm LessonModel
 
 class ChapterController {
     private $chapterModel;
@@ -52,5 +52,8 @@ class ChapterController {
     public function getLessonsByCourseAndChapterId($chapter_id) {
         return $this->lessonModel->getLessonsByChapterId($chapter_id);
     }
+    public function getChapterById($chapter_id) {
+    return $this->chapterModel->getChapterById($chapter_id);
+}
 }
 ?>

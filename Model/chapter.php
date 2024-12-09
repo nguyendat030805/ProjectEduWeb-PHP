@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 class ChapterModel {
     private $conn;
 
@@ -44,6 +44,19 @@ class ChapterModel {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    public function getChapterById($chapter_id) {
+        $stmt = $this->conn->prepare("SELECT * FROM chapters WHERE chapter_id = ?");
+        $stmt->bind_param("i", $chapter_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc(); // Trả về thông tin chương dưới dạng mảng
+        } else {
+            return null; // Không tìm thấy chương
+        }
     }
+    }
+    
 
 ?>

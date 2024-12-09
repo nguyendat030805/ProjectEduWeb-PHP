@@ -1,8 +1,8 @@
 <?php
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php'); // Bao gồm ChapterController
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\chaptercontroller.php'); // Bao gồm ChapterController
 
 // Thiết lập kết nối đến cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);

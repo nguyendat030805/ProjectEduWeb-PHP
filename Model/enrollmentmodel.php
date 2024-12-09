@@ -1,6 +1,7 @@
 <?php
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
 
+
 class EnrollmentModel {
     private $conn;
 

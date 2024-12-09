@@ -8,13 +8,21 @@ require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\registermode
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\loginmodel.php');
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\coursemodel.php');
 
+
 class EnrollController {
     private $enrollmentModel;
 
     public function __construct($conn) {
         $this->enrollmentModel = new EnrollmentModel($conn);
     }
-    
+
+    // 1. Lấy tất cả đăng ký của một người dùng
+    public function getUserEnrollments($user_id) {
+        $enrollments = $this->enrollmentModel->getEnrollmentsByUser($user_id);
+        return $enrollments;
+    }
+
+
     // 2. Đăng ký một khóa học
     public function enrollInCourse($user_id, $course_id) {
         // Kiểm tra khóa học
@@ -121,3 +129,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Đóng kết nối
 $conn->close();
 ?>
+

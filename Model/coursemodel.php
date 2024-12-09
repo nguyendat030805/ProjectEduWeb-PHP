@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 
 
 class CourseModel {
@@ -41,7 +41,7 @@ public function createCourse($title, $images, $descriptions, $duration, $prices)
     }
 
     // Chuẩn bị câu lệnh SQL
-    $stmt = $this->conn->prepare("INSERT INTO courses (title, images, descriptions, duration, prices) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $this->conn->prepare("INSERT INTO courses (title, images, descriptions, duration, original_price) VALUES (?, ?, ?, ?, ?)");
     
     // Kiểm tra xem $stmt có phải là một đối tượng hợp lệ không
     if ($stmt === false) {
@@ -64,7 +64,7 @@ public function createCourse($title, $images, $descriptions, $duration, $prices)
     // 4. Cập nhật thông tin khóa học
     public function updateCourse($course_id, $title, $images, $descriptions, $duration, $prices) {
         $sql = "UPDATE Courses 
-                SET title = ?, images = ?, descriptions = ?, duration = ?, prices = ? 
+                SET title = ?, images = ?, descriptions = ?, duration = ?, original_price = ? 
                 WHERE course_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sssidi", $title, $images, $descriptions, $duration, $prices, $course_id);

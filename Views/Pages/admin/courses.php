@@ -3,6 +3,7 @@ require_once('../../Public/config.php');
 require_once('../../../Model/coursemodel.php');
 require_once('../../../Controller/coursescontroll.php'); // Import controller
 include('../admin/admin.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +143,6 @@ include('../admin/admin.php');
                     <th>ID</th>
                     <th>Tên Khóa Học</th>
                     <th>Giá</th>
-                    <th>Giá đã giảm</th>
                     <th>Mô Tả</th>
                     <th>Thời Gian</th>
                     <th>Hình Ảnh</th>
@@ -156,7 +156,6 @@ include('../admin/admin.php');
                         <td><?php echo htmlspecialchars($course['course_id']); ?></td>
                         <td><?php echo htmlspecialchars($course['title']); ?></td>
                         <td><?php echo htmlspecialchars($course['original_price']); ?> VND</td>
-                        <td><?php echo htmlspecialchars($course['discounted_price']); ?> VND</td>
                         <td><?php echo htmlspecialchars($course['descriptions']); ?></td>
                         <td><?php echo htmlspecialchars($course['duration']); ?></td>
                         <td><img src="<?php echo htmlspecialchars($course['images']); ?>" alt="Hình Ảnh Khóa Học" width="100"></td>
@@ -190,7 +189,7 @@ include('../admin/admin.php');
                     <label for="courseDescription">Mô Tả:</label>
                     <textarea id="courseDescription" name="courseDescription" required></textarea>
                     
-                    <label for="courseDuration">Thời Gian:</label>
+                    <label for="courseDuration">Bài học:</label>
                     <input type="text" id="courseDuration" name="courseDuration" required>
                     
                     <label for="courseImage">Hình Ảnh:</label>
@@ -209,16 +208,16 @@ include('../admin/admin.php');
                 <form method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="editCourseId" name="editCourseId">
                     <label for="editCourseName">Tên Khóa Học:</label>
-                    <input type="text" id="editCourseName" name="editCourseName" required>
+                    <input type="text" id="editCourseName" name="editCourseName" value="<?php echo htmlspecialchars($course['title']);?>" required>
                     
                     <label for="editCoursePrice">Giá:</label>
-                    <input type="text" id="editCoursePrice" name="editCoursePrice" required>
-                    
+                    <input type="text" id="editCoursePrice" name="editCoursePrice" value="<?php echo htmlspecialchars($course['original_price']);?>" required>
+
                     <label for="editCourseDescription">Mô Tả:</label>
-                    <textarea id="editCourseDescription" name="editCourseDescription" required></textarea>
+                    <textarea id="editCourseDescription" name="editCourseDescription" value="<?php echo htmlspecialchars($course['descriptions']);?>" required></textarea>
                     
-                    <label for="editCourseDuration">Thời Gian:</label>
-                    <input type="text" id="editCourseDuration" name="editCourseDuration" required>
+                    <label for="editCourseDuration">Bài học:</label>
+                    <input type="text" id="editCourseDuration" name="editCourseDuration" value="<?php echo htmlspecialchars($course['duration']);?>" required>
                     
                     <label for="editCourseImage">Hình Ảnh:</label>
                     <input type="file" id="editCourseImage" name="editCourseImage" accept="image/*">

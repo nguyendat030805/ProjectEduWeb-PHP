@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
 require_once(__DIR__ . '/../Model/coursemodel.php'); // Đường dẫn tương đối // Import model
 class CourseController {
     private $courseModel;
@@ -144,7 +144,9 @@ if (isset($_GET['delete_id'])) {
 if (isset($_GET['course_id'])) {
     $course_id = $_GET['course_id']; // Lấy ID khóa học từ URL
     $course = $courseController->getCourseById($course_id); // Gọi phương thức để lấy thông tin khóa học
+    echo json_encode($course);
 }
+
 // Đóng kết nối
 mysqli_close($conn);
 ?>

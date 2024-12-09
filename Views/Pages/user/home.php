@@ -269,7 +269,7 @@ body {
 
 </style>
 <body>
-    <?php include 'C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Layouts\header.html' ?>
+    <?php include 'C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Layouts\header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
@@ -315,7 +315,7 @@ body {
                         <p class="fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
                             <?= $course['types'] === 'Free' 
                                 ? 'Free' 
-                                : "$" . number_format($course['original_price'], 2) 
+                                : "<del>$" . number_format($course['original_price'], 2)
                             ?>
                         </p>
 
@@ -389,7 +389,7 @@ body {
                             <p class="price fw-bold <?= $course['types'] === 'Free' ? 'text-success' : 'text-danger' ?>">
                                 <?= $course['types'] === 'Free' 
                                     ? 'Free' 
-                                    : "$" . number_format($course['original_price'], 2) 
+                                    : "<del>$" . number_format($course['original_price'], 2)
                                 ?>
                             </p>
                         </div>
@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 
-<?php include '../../../Views/Layouts/footer.html'; ?> 
+<?php include 'C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Layouts\footer.html'; ?> 
 </body>
 </html>
 

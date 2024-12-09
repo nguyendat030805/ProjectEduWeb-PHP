@@ -32,7 +32,7 @@ $users = $userController->showAllUser(); // Giả định bạn có phương th�
         }
 
         .header {
-            background-color: #727070;
+            background-color: #4CAF50;
             padding: 20px;
             text-align: center;
             color: white;
@@ -156,9 +156,7 @@ $users = $userController->showAllUser(); // Giả định bạn có phương th�
                             <td>********</td> <!-- Ẩn mật khẩu -->
                             <td><?php echo htmlspecialchars($user['phone']); ?></td>
                             <td>
-                                <button class="view-button" onclick="window.location.href='view_user.php?user_id=<?php echo $user['user_id']; ?>'">
-                                    <i class="fas fa-eye"></i>Xem Chi Tiết
-                                </button>
+                                <a href="user_manage.php?user_id=<?php echo htmlspecialchars($user['user_id']); ?>" class="button"><i class="fas fa-eye"></i> Xem Chi Tiết</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

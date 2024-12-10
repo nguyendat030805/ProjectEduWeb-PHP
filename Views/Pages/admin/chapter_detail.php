@@ -6,7 +6,7 @@ require_once('../../../Controller/chaptercontroller.php');
 // Thiết lập kết nối cơ sở dữ liệu
 $conn = mysqli_connect($host, $user, $password, $database);
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Kết nối thất bại: " . mysqli_connect_error());
 }
 
 // Tạo các đối tượng LessonController và ChapterController
@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
     
     $lessons = $lessonController->getLessonsByChapter($chapter_id);
 } else {
-    echo "Chapter ID is not provided.";
+    echo "ID chương không được cung cấp.";
     exit;
 }
 
@@ -36,37 +36,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         // Lấy dữ liệu từ form
         $data = [
             'title' => $_POST['title'],
-            'content_url' => $_FILES['content_url']['name'],
-            'type' => $_POST['type'],
-            'duration' => intval($_POST['duration']),
+            'content_url' => $_POST['content_url'], // Đọc URL YouTube
+            'description' => intval($_POST['description']),
             'chapter_id' => $chapter_id
         ];
-
-        // Di chuyển tệp tải lên vào thư mục
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["content_url"]["name"]);
-        move_uploaded_file($_FILES["content_url"]["tmp_name"], $target_file);
 
         $lessonController->createLesson($data);
         header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $chapter_id);
         exit;
     } elseif ($_POST['action'] === 'edit') {
+        // Logic chỉnh sửa vẫn giữ nguyên, nhưng đảm bảo xử lý URL đúng cách
         if (isset($_POST['lesson_id'])) {
             $lesson_id = intval($_POST['lesson_id']);
             $data = [
                 'title' => $_POST['title'],
-                'content_url' => $_FILES['content_url']['name'] ?? null,
-                'type' => $_POST['type'],
-                'duration' => intval($_POST['duration']),
+                'content_url' => $_POST['content_url'] ?? null, // Đọc URL YouTube
+                'description' => intval($_POST['description']),
                 'chapter_id' => $chapter_id
             ];
-
-            // Di chuyển tệp tải lên nếu có
-            if (isset($_FILES["content_url"]) && $_FILES["content_url"]["error"] === UPLOAD_ERR_OK) {
-                $target_dir = "uploads/";
-                $target_file = $target_dir . basename($_FILES["content_url"]["name"]);
-                move_uploaded_file($_FILES["content_url"]["tmp_name"], $target_file);
-            }
 
             $lessonController->updateLesson($lesson_id, $data);
             header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $chapter_id);
@@ -96,40 +83,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            display: flex; /* Sử dụng flex để bố trí hai cột */
+            display: flex;
         }
-
         .lesson-detail {
             max-width: 800px;
-            margin-right: 20px; /* Khoảng cách giữa hai cột */
+            margin-right: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-
         .video-container {
-            flex: 1; /* Chiếm không gian còn lại */
+            flex: 1;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            display: none; /* Ẩn mặc định */
+            display: none;
         }
-
-        h1 {
-            color: #4CAF50; /* Màu xanh lá */
+        h1, h2 {
+            color: #4CAF50; 
         }
-
-        h2 {
-            color: #333;
-        }
-
         form {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-
         input[type="text"],
         input[type="number"] {
             width: 100%;
@@ -138,11 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
-        input[type="file"] {
-            margin: 10px 0;
-        }
-
         select {
             width: 100%;
             padding: 10px;
@@ -150,9 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
         button {
-            background-color: #4CAF50; /* Màu xanh lá */
+            background-color: #4CAF50;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -160,20 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         button:hover {
-            background-color: #45a049; /* Xanh lá đậm hơn khi hover */
+            background-color: #45a049;
         }
-
         .course-content {
             margin-top: 20px;
         }
-
         ul {
             list-style: none;
             padding: 0;
         }
-
         li {
             padding: 10px;
             border: 1px solid #ddd;
@@ -181,11 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             margin-bottom: 10px;
             background: #f9f9f9;
         }
-
         .actions {
             margin-top: 10px;
         }
-
         .toggle-form {
             margin-top: 20px;
             background: #4CAF50;
@@ -197,7 +163,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             display: inline-block;
             transition: background 0.3s;
         }
-
         .toggle-form:hover {
             background: #45a049;
         }
@@ -209,16 +174,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         
         <button class="toggle-form" onclick="toggleForm()">Thêm Bài Học</button>
         
-        <form id="addLessonForm" action="" method="POST" enctype="multipart/form-data" style="display: none;">
+        <form id="addLessonForm" action="" method="POST" style="display: none;">
             <input type="hidden" name="action" value="add">
             <input type="text" name="title" placeholder="Tiêu đề bài học" required>
-            <input type="file" name="content_url" required>
-            <select name="type" required>
-                <option value="">Chọn loại bài học</option>
-                <option value="video">Video</option>
-
-            </select>
-            <input type="number" name="duration" placeholder="Thời gian (phút)" required>
+            <input type="text" name="content_url" placeholder="Link YouTube" required>
+            <input type="text" name="description" placeholder="mô tả" required>
             <button type="submit">Thêm Bài Học</button>
         </form>
 
@@ -228,10 +188,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     <?php foreach ($lessons as $lesson): ?>
                         <li>
                             <span class="lesson-title"><?php echo htmlspecialchars($lesson['title']); ?></span>
-                            <span class="lesson-type"><?php echo htmlspecialchars($lesson['content_type']); ?></span>
-                            <span class="lesson-duration"><?php echo htmlspecialchars($lesson['duration']); ?> phút</span>
                             <div class="actions">
-                                <button onclick="showContent('<?php echo htmlspecialchars($lesson['content_url']); ?>', '<?php echo htmlspecialchars($lesson['content_type']); ?>')">Xem Bài Học</button>
+                                <button onclick="showContent('<?php echo htmlspecialchars($lesson['content_url']); ?>')">Xem Bài Học</button>
                                 <form action="" method="POST" style="display:inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="lesson_id" value="<?php echo $lesson['lesson_id']; ?>">
@@ -248,22 +206,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
 
     <div class="video-container" id="contentDisplay">
-        <!-- Nội dung video hoặc tài liệu sẽ hiển thị ở đây -->
+        <!-- Nội dung video sẽ hiển thị ở đây -->
     </div>
 
     <script>
-    function showContent(url, type) {
-        const contentDisplay = document.getElementById('contentDisplay');
-        if (type === 'video') {
-            contentDisplay.innerHTML = `<video width="100%" controls>
-                <source src="uploads/${url}" type="video/mp4">
-                Trình duyệt của bạn không hỗ trợ video.
-            </video>`;
-        } else if (type === 'document') {
-            contentDisplay.innerHTML = `<iframe src="uploads/${url}" width="100%" height="400px"></iframe>`;
+        function showContent(url) {
+            const contentDisplay = document.getElementById('contentDisplay');
+            // Chuyển đổi URL thành định dạng nhúng
+            const videoId = extractVideoId(url);
+            if (videoId) {
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                contentDisplay.innerHTML = `<iframe width="100%" height="400" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                contentDisplay.style.display = 'block'; // Hiển thị khung
+            } else {
+                alert('URL không hợp lệ.');
+            }
         }
-        contentDisplay.style.display = 'block'; // Hiển thị khung
-    }
+
+        // Hàm trích xuất video ID từ URL YouTube
+        function extractVideoId(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
 
     function toggleForm() {
         const form = document.getElementById('addLessonForm');

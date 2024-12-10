@@ -360,7 +360,6 @@ body {
                                     <?php foreach ($lessons as $lesson): ?>
                                         <li>
                                             <span class="lesson-title"><?php echo htmlspecialchars($lesson['title']); ?></span>
-                                            <span class="lesson-duration"><?php echo htmlspecialchars($lesson['duration']); ?> phút</span>
                                         </li>
                                     <?php endforeach; ?>
                                 <?php else: ?>

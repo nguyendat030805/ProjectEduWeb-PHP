@@ -1,6 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
-require_once(__DIR__ . '/../Model/coursemodel.php'); // Đường dẫn tương đối // Import model
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\coursemodel.php');
 class CourseController {
     private $courseModel;
     public function __construct($conn) {
@@ -27,19 +26,20 @@ class CourseController {
         $title = $data['courseName'];
         $images = $data['courseImage']; // Giả sử bạn có trường hình ảnh
         $descriptions = $data['courseDescription'];
-        $duration = $data['courseDuration'];
+        $video = $data['courseURL'];
         $prices = $data['coursePrice'];
-        return $this->courseModel->createCourse($title, $images, $descriptions, $duration, $prices);
+        $type = $data['courseType'];
+        return $this->courseModel->createCourse($title, $images, $descriptions, $video, $prices,$type);
     }
     // 4. Cập nhật thông tin khóa học
     public function update($course_id, $data) {
         $title = $data['courseName'];
         $images = $data['courseImage']; // Giả sử bạn có trường hình ảnh
         $descriptions = $data['courseDescription'];
-
-        $duration = $data['courseDuration'];
+        $video = $data['courseURL'];
         $prices = $data['coursePrice'];
-        return $this->courseModel->updateCourse($course_id, $title, $images, $descriptions, $duration, $prices);
+        $type = $data['courseType'];
+        return $this->courseModel->updateCourse($course_id, $title, $images, $descriptions, $video, $prices, $type);
     }
 
     // 5. Xóa một khóa học
@@ -65,39 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_course'])) {
     $data = [
         'courseName' => $_POST['courseName'],
         'courseDescription' => $_POST['courseDescription'],
-        'courseDuration' => $_POST['courseDuration'],
+        'courseURL' => $_POST['courseURL'],
+        'courseImage' => $_POST['courseImage'],
         'coursePrice' => $_POST['coursePrice'],
+        'courseType' => $_POST['courseType'],
     ];
 
     // Xử lý hình ảnh
-if (isset($_FILES['courseImage']) && $_FILES['courseImage']['error'] == 0) {
-    $targetDir = "uploads/"; // Thư mục lưu trữ hình ảnh (đường dẫn tương đối)
-    
-    // Kiểm tra xem thư mục uploads có tồn tại không
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0755, true); // Tạo thư mục nếu không tồn tại
-    }
 
-    $targetFile = $targetDir . basename($_FILES['courseImage']['name']);
-    
-    // Kiểm tra loại file hình ảnh
-    $check = getimagesize($_FILES['courseImage']['tmp_name']);
-    if ($check !== false) {
-        // Di chuyển file tải lên
-        if (move_uploaded_file($_FILES['courseImage']['tmp_name'], $targetFile)) {
-            $data['courseImage'] = $targetFile; // Lưu đường dẫn hình ảnh vào dữ liệu
-        } else {
-            echo "Lỗi khi tải lên hình ảnh.";
-            exit;
-        }
-    } else {
-        echo "File không phải là hình ảnh.";
-        exit;
-    }
-} else {
-    echo "Không có hình ảnh nào được tải lên.";
-    exit;
-}
 
     // Gọi phương thức store từ CourseController
     $courseController->store($data);
@@ -115,18 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_course'])) {
     $data = [
         'courseName' => $_POST['editCourseName'],
         'courseDescription' => $_POST['editCourseDescription'],
-        'courseDuration' => $_POST['editCourseDuration'],
         'coursePrice' => $_POST['editCoursePrice'],
+        'courseImage' => $_POST['editCourseImage'],
+        'courseURL' => $_POST['editCourseURL'],
+        'courseType' => $_POST['courseType'],
     ];
-
-    // Xử lý tải lên tệp nếu có hình ảnh mới
-    if (!empty($_FILES['editCourseImage']['name'])) {
-        $target_dir = "uploads/"; // Đặt thư mục tải lên của bạn
-        $target_file = $target_dir . basename($_FILES["editCourseImage"]["name"]);
-        move_uploaded_file($_FILES["editCourseImage"]["tmp_name"], $target_file);
-        $data['courseImage'] = $target_file; // Lưu đường dẫn vào cơ sở dữ liệu
-    }
-
     // Cập nhật khóa học bằng cách sử dụng hàm trong controller của bạn
     $courseController->update($course_id, $data);
     echo "Khóa học đã được cập nhật thành công!";
@@ -144,9 +112,9 @@ if (isset($_GET['delete_id'])) {
 if (isset($_GET['course_id'])) {
     $course_id = $_GET['course_id']; // Lấy ID khóa học từ URL
     $course = $courseController->getCourseById($course_id); // Gọi phương thức để lấy thông tin khóa học
-    echo json_encode($course);
+    
 }
 
 // Đóng kết nối
-mysqli_close($conn);
+// mysqli_close($conn);
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 
 class ReviewsModel {
     private $conn;
@@ -33,10 +33,10 @@ class ReviewsModel {
     }
 
     // Lấy đánh giá theo ID bài học
-    public function getReviewByLessonId($lesson_id) {
-        $sql = "SELECT * FROM Reviews WHERE lesson_id = ?";
+    public function getReviewByLessonId($course_id) {
+        $sql = "SELECT * FROM Reviews WHERE course_id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $lesson_id);
+        $stmt->bind_param("i", $course_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();

@@ -1,6 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php'); // Include LessonModel
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Model\lessonsmodel.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\lessonsmodel.php');
 class LessonController {
     private $lessonModel;
 
@@ -20,8 +19,7 @@ class LessonController {
         $lesson = $this->lessonModel->getLessonById($lesson_id);
         if ($lesson) {
             echo json_encode($lesson);
-        } else {
-            echo json_encode(['message' => 'Lesson not found']);
+            return $lesson;
         }
     }
 
@@ -37,14 +35,13 @@ class LessonController {
         // Kiểm tra các khóa trong mảng $data
         $title = isset($data['title']) ? $data['title'] : null;
         $contentUrl = isset($data['content_url']) ? $data['content_url'] : null;
-        $type = isset($data['type']) ? $data['type'] : null;
         $chapterId = isset($data['chapter_id']) ? $data['chapter_id'] : null;
-        $duration = isset($data['duration']) ? $data['duration'] : null;
+        $description = isset($data['descripion']) ? $data['descripion'] : null;
         $course_id = isset($data['course_id']) ? $data['course_id'] : null;
         // Kiểm tra xem các tham số cần thiết có được cung cấp không
         if ($title && $chapterId) {
             // Thực hiện chèn vào cơ sở dữ liệu
-            $stmt = $this->lessonModel->createLesson($title, $contentUrl, $type,$duration, $chapterId);
+            $stmt = $this->lessonModel->createLesson($title, $contentUrl,$description, $chapterId,$course_id);
         } else {
             // Xử lý lỗi
             echo "Thiếu thông tin cần thiết để tạo bài học.";
@@ -55,11 +52,11 @@ class LessonController {
     public function updateLesson($lesson_id, $data) {
         $title = $data['title'];
         $content_url = $data['content_url'];
-        $type = $data['type'];
-        $duration = $data['duration'];
+        $description = $data['description'];
         $chapter_id = $data['chapter_id'];
+        $course_id = $data['course_id'];
 
-        if ($this->lessonModel->updateLesson($lesson_id, $title, $content_url, $type, $duration, $chapter_id)) {
+        if ($this->lessonModel->updateLesson($lesson_id, $title, $content_url,$description, $chapter_id,$course_id)) {
             echo json_encode(['message' => 'Lesson updated successfully']);
         } else {
             echo json_encode(['message' => 'Failed to update lesson']);
@@ -91,9 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = [
             'title' => $_POST['title'],
             'content_url' => $_FILES['content_url'],
-            'type' => $_POST['type'],
-            'duration' => $_POST['duration'],
-            'chapter_id' => $_POST['chapter_id']
+            'descripton' => $_POST['descripton'],
+            'chapter_id' => $_POST['chapter_id'],
+            'course_id' => $_POST['course_id'],
         ];
         $lessonController->createLesson($data);
     }

@@ -79,23 +79,29 @@
         }
 
         .search-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-            transition: all 0.3s ease-in-out;
-        }
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
 
-        .search-input {
-            width: 0;
-            opacity: 0;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            outline: none;
-            font-size: 16px;
-            transition: width 0.4s ease, opacity 0.4s ease;
-            margin-right: 10px;
-        }
+.search-input {
+    width: 0; /* Bắt đầu với chiều rộng 0 */
+    opacity: 0; /* Bắt đầu với độ trong suốt 0 */
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    transition: width 0.4s ease, opacity 0.4s ease; /* Hiệu ứng chuyển đổi */
+    margin-right: 10px;
+}
+
+.search-container:hover .search-input,
+.search-input:focus {
+    width: 150px; /* Mở rộng chiều rộng khi di chuột hoặc nhấp */
+    opacity: 1; /* Hiển thị input */
+}
 
 
 
@@ -184,7 +190,6 @@
         <div class="right-section">
             <div class="search-container">
                 <form action="../user/search.php" method="GET">
-
                     <input type="text" name="search" class="search-input" placeholder="Search...">
                     <button class="search-button" type="submit">Search</button>
                 </form>

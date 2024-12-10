@@ -1,9 +1,9 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\reviewcontroller.php');
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\coursescontroll.php');
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\lessoncontroll.php');
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\reviewcontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
 
 // Kết nối cơ sở dữ liệu
 $conn = new mysqli($host, $user, $password, $database);
@@ -14,48 +14,49 @@ if ($conn->connect_error) {
 // Tạo đối tượng controller
 $reviewController = new ReviewController($conn);
 $lessonController = new LessonController($conn);
+$chapterController = new ChapterController($conn);
 
 // Lấy các thông tin bài học
-if (isset($_GET['lesson_id'])) {
-    $lesson_id = intval($_GET['lesson_id']);
-    $lesson = $lessonController->getLessonById($lesson_id); // Giả sử có phương thức này
-    $reviews = $reviewController->getReviewByLessonId($lesson_id);
-
+// if (isset($_GET['lesson_id'])) {
+//     $lesson_id = intval($_GET['lesson_id']);
+//     $lesson = $lessonController->getLessonById($lesson_id); // Giả sử có phương thức này
+//     $reviews = $reviewController->getReviewByLessonId($lesson_id);
+// }
 // Kiểm tra course_id
 if (isset($_GET['course_id'])) {
     $course_id = $_GET['course_id'];
     $course = $courseController->getCourseById($course_id); 
-    $chapters = $chapterController->getChaptersByCourseId($course_id);
-
+    $chapters =$chapterController->getChaptersByCourseId($course_id);
+    // $reviews = $reviewController->getReviewByLessonId($course_id);
 } else {
     echo "Lesson ID is not provided.";
     exit;
 }
 
 // Xử lý yêu cầu từ phía người dùng
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    if ($_POST['action'] === 'createReview' && isset($_POST['comments'], $_POST['user_id'])) {
-        $comments = $_POST['comments'];
-        $user_id = intval($_POST['user_id']);
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+//     if ($_POST['action'] === 'createReview' && isset($_POST['comments'], $_POST['user_id'])) {
+//         $comments = $_POST['comments'];
+//         $user_id = intval($_POST['user_id']);
 
-        $result = $reviewController->createReview($comments, $user_id, $lesson_id);
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Bình luận đã được tạo.']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra khi tạo bình luận.']);
-        }
-        exit; // Dừng lại sau khi xử lý POST
-    } elseif ($_POST['action'] === 'deleteReview' && isset($_POST['review_id'])) {
-        $review_id = intval($_POST['review_id']);
-        $result = $reviewController->deleteReview($review_id);
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Bình luận đã được xóa.']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra khi xóa bình luận.']);
-        }
-        exit; // Dừng lại sau khi xử lý POST
-    }
-}
+//         $result = $reviewController->createReview($comments, $user_id, $lesson_id);
+//         if ($result) {
+//             echo json_encode(['success' => true, 'message' => 'Bình luận đã được tạo.']);
+//         } else {
+//             echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra khi tạo bình luận.']);
+//         }
+//         exit; // Dừng lại sau khi xử lý POST
+//     } elseif ($_POST['action'] === 'deleteReview' && isset($_POST['review_id'])) {
+//         $review_id = intval($_POST['review_id']);
+//         $result = $reviewController->deleteReview($review_id);
+//         if ($result) {
+//             echo json_encode(['success' => true, 'message' => 'Bình luận đã được xóa.']);
+//         } else {
+//             echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra khi xóa bình luận.']);
+//         }
+//         exit; // Dừng lại sau khi xử lý POST
+//     }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết Bài học</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         /* Style chỉnh sửa */
         body {
@@ -74,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         .review-title {
             font-weight: bold;
-
+        }
         .video-wrapper {
             border: 2px solid black;
             background-image: url('../../Public/Assets/Image/download_logo.png');
@@ -190,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 </head>
 <body>
     <div class="container mt-4">
-        <h1><?php echo htmlspecialchars($lesson['title']); ?></h1>
+        <!-- <h1><?php echo htmlspecialchars($lesson['title']); ?></h1>
         <p><?php echo htmlspecialchars($lesson['description']); ?></p>
 
         <h5>Bình luận:</h5>
@@ -208,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>Chưa có bình luận nào.</p>
-            <?php endif; ?>
+            <?php endif; ?> -->
         <h1><?php echo htmlspecialchars($course['title']); ?></h1>
         <div class="row">
             <div class="col-md-8">
@@ -274,7 +277,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                                 <?php foreach ($lessons as $lesson): ?>
                                                     <li class="lesson_duratitle" data-video="<?php echo htmlspecialchars($lesson['content_url']); ?>">
                                                         <button class="lesson-title"><?php echo htmlspecialchars($lesson['description']); ?></button>
-                                                        <span class="lesson-duration"><?php echo htmlspecialchars($lesson['duration']); ?> phút</span>
                                                     </li>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
@@ -340,6 +342,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             });
         });
     });
+    function toggleSection(element) {
+        const content = element.nextElementSibling;
+        const icon = element.querySelector('.expand-icon');
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            icon.textContent = "+";
+        } else {
+            content.style.display = "block";
+            icon.textContent = "-";
+        }
+    }
+    document.querySelectorAll('.lesson_duratitle').forEach(item => {
+            item.addEventListener('click', () => {
+                const videoURL = item.getAttribute('data-video');
+                const iframe = document.querySelector('.video-wrapper iframe');
+                iframe.src = videoURL;
+            });
+        });
     // Hàm xử lý tăng số lượng
     function incrementCount(buttonId, countElementId, countVariable) {
         const button = document.getElementById(buttonId);

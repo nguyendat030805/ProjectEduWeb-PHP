@@ -4,7 +4,7 @@ require_once('../../../Model/usermodel.php');       // Kết nối tới model n
 require_once('../../../Controller/usercontroll.php');
 include('../admin/admin.php'); // Kết nối tới controller người dùng
 
-$conn = mysqli_connect("localhost", "root", "Hiep@1609", "l5");
+$conn = mysqli_connect("localhost", "root", "", "l5");
 if (!$conn) {
     die("Kết nối thất bại: " . mysqli_connect_error());
 }
@@ -140,6 +140,7 @@ $users = $userController->showAllUser(); // Giả định bạn có phương th�
                 <tr>
                     <th>ID</th>
                     <th>Tên Người Dùng</th>
+                    <th>Role</th>
                     <th>Email</th>
                     <th>Mật Khẩu</th>
                     <th>Số Điện Thoại</th>
@@ -152,6 +153,7 @@ $users = $userController->showAllUser(); // Giả định bạn có phương th�
                         <tr>
                             <td><?php echo htmlspecialchars($user['user_id']); ?></td>
                             <td><?php echo htmlspecialchars($user['username']); ?></td>
+                            <td><?php echo htmlspecialchars($user['role']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td>********</td> <!-- Ẩn mật khẩu -->
                             <td><?php echo htmlspecialchars($user['phone']); ?></td>

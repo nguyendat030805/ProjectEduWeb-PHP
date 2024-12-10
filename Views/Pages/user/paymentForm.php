@@ -1,13 +1,15 @@
 
 <?php
+session_start();
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\coursescontroll.php'); // Bao gồm CourseController
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\lessoncontroll.php'); // Bao gồm LessonController
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\chaptercontroller.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\enrollmentcontroll.php');
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\usercontroll.php'); // Bao gồm ChapterController
 
 
-session_start();
+
 if (isset($_GET['cousre_id'])) {
     $course_id = $_GET['course_id'];
     $course = $courseController->getCourseById($course_id); 
@@ -240,7 +242,7 @@ if (isset($_GET['cousre_id'])) {
   <div class="outer-container">
         <div class="form-container <?php echo $success ? 'blur' : ''; ?>">
             <div class="logo-title">
-                <img src="/Public/image/logo.png" alt="Logo">
+                <img src="../../Public/Assets/Image/download_logo.png" alt="Logo">
             </div>
             <div class="bg-highlight">
                 <h2 class="h6 mb-0">Chi tiết thanh toán</h2>

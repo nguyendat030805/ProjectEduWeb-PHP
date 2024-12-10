@@ -1,10 +1,10 @@
 <?php
-require_once('../../Public/config.php'); // Database connection
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php'); // Database connection
 require_once('../../../Controller/usercontroll.php'); // User controller
 require_once('../../../Controller/coursescontroll.php'); // Course controller
-require_once('../../../Controller/enrollmentcontroll.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Controller\enrollmentcontroll.php');
 // Create database connection
-$conn = mysqli_connect("localhost", "root", "Hiep@1609", "l5");
+$conn = mysqli_connect("localhost", "root", "", "l5");
 if (!$conn) {
     die("Kết nối thất bại: " . mysqli_connect_error());
 }
@@ -18,7 +18,7 @@ $user_id = $_GET['user_id']; // Assume the user ID is passed as a query paramete
 $user = $userController->getUser($user_id);
 
 // Get courses registered by the user
-$user_courses = $enrollment->getUserEnrollments($user_id); // This method should be defined in CourseModel
+$user_courses = $enrollment->getCoursesByUser($user_id); // This method should be defined in CourseModel
 
 ?>
 
@@ -96,7 +96,7 @@ $user_courses = $enrollment->getUserEnrollments($user_id); // This method should
                 <?php foreach ($user_courses as $course): ?>
                     <li>
                         <img src="<?= htmlspecialchars($course['images']) ?>" alt="Hình ảnh khóa học" width="100">
-                        <strong><?= htmlspecialchars($course['title']) ?></strong> (<?= htmlspecialchars($course['duration']) ?> giờ)
+                        <strong><?= htmlspecialchars($course['title']) ?></strong>
                     </li>
                 <?php endforeach; ?>
             </ul>

@@ -133,10 +133,6 @@ while ($course_free = $result_free->fetch_assoc()) {
                                 ?>
                             </p>
                         </div>
-                        <div class="info-row d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-people"></i> <?= $course['num_students'] ?> học viên</span>
-                            <span><i class="bi bi-clock"></i> <?= $course['duration'] ?></span>
-                        </div>
                         <!-- Liên kết tới trang chi tiết khóa học -->
                     </div>
                 </div>
@@ -162,10 +158,6 @@ while ($course_free = $result_free->fetch_assoc()) {
                                 : "$" . number_format($course['original_price'] , 2)
                             ?>
                         </p>
-                        <div class="info-row d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-people"></i> <?= $course['num_students'] ?> học viên</span>
-                            <span><i class="bi bi-clock"></i> <?= $course['duration'] ?></span>
-                        </div> 
                         <!-- Liên kết tới trang chi tiết khóa học -->
                     </div>
                 </div>

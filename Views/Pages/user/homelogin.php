@@ -413,140 +413,138 @@ body {
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Cấu hình cho Intersection Observer
-    const observerOptions = {
-        root: null, // Sử dụng viewport mặc định
-        threshold: 0.1 // 10% phần tử xuất hiện
-    };
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cấu hình cho Intersection Observer
+            const observerOptions = {
+                root: null, // Sử dụng viewport mặc định
+                threshold: 0.1 // 10% phần tử xuất hiện
+            };
 
-    // Observer cho các thẻ card
-     const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
-    if (cards.length > 0) {
-        const cardObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible'); // Thêm lớp visible khi vào viewport
-                    observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+            // Observer cho các thẻ card
+            const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
+            if (cards.length > 0) {
+                const cardObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible'); // Thêm lớp visible khi vào viewport
+                            observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        // Áp dụng observer vào mỗi thẻ card
-        cards.forEach(card => cardObserver.observe(card));
-    }
-    // Observer cho phần tử "top-courses"
-    const topCourses = document.getElementById('top-courses');
-    if (topCourses) {
-        const topCoursesObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    topCourses.classList.add('animate__animated', 'animate__fadeInDown');
-                    topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
-                    observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+                // Áp dụng observer vào mỗi thẻ card
+                cards.forEach(card => cardObserver.observe(card));
+            }
+            // Observer cho phần tử "top-courses"
+            const topCourses = document.getElementById('top-courses');
+            if (topCourses) {
+                const topCoursesObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            topCourses.classList.add('animate__animated', 'animate__fadeInDown');
+                            topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
+                            observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        // Bắt đầu theo dõi phần tử top-courses
-        topCoursesObserver.observe(topCourses);
-    }
+                // Bắt đầu theo dõi phần tử top-courses
+                topCoursesObserver.observe(topCourses);
+            }
 
-    // Hiệu ứng cho nút Explore
-    const exploreButton = document.querySelector('.btn-success');
-    if (exploreButton) {
-        exploreButton.classList.add('animate__animated', 'animate__pulse');
-    }
+            // Hiệu ứng cho nút Explore
+            const exploreButton = document.querySelector('.btn-success');
+            if (exploreButton) {
+                exploreButton.classList.add('animate__animated', 'animate__pulse');
+            }
 
-    // Observer cho phần "Jane Herbert"
-    const janeSection = document.querySelector('.jane-wrapper'); // Sử dụng đúng selector
-    if (janeSection) {
-        const janeObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    console.log('Jane section is in view'); // Debug log
-                    janeSection.classList.add('animate__animated', 'animate__zoomIn');
-                    observer.unobserve(janeSection); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+            // Observer cho phần "Jane Herbert"
+            const janeSection = document.querySelector('.jane-wrapper'); // Sử dụng đúng selector
+            if (janeSection) {
+                const janeObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log('Jane section is in view'); // Debug log
+                            janeSection.classList.add('animate__animated', 'animate__zoomIn');
+                            observer.unobserve(janeSection); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        janeObserver.observe(janeSection);
-    }
-});
-    // Cấu hình cho Intersection Observer
-    const observerOptions = {
-        root: null, // Sử dụng viewport mặc định
-        threshold: 0.1 // 10% phần tử xuất hiện
-    };
+                janeObserver.observe(janeSection);
+            }
+        });
+            // Cấu hình cho Intersection Observer
+            const observerOptions = {
+                root: null, // Sử dụng viewport mặc định
+                threshold: 0.1 // 10% phần tử xuất hiện
+            };
 
-    // Observer cho các thẻ card
-    const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
-    if (cards.length > 0) {
-        const cardObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible', 'animate__animated', 'animate__fadeInUp');
-                    observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+            // Observer cho các thẻ card
+            const cards = document.querySelectorAll('.card'); // Lấy tất cả các thẻ card
+            if (cards.length > 0) {
+                const cardObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible', 'animate__animated', 'animate__fadeInUp');
+                            observer.unobserve(entry.target); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        // Áp dụng observer vào mỗi thẻ card
-        cards.forEach(card => cardObserver.observe(card));
-    }
+                // Áp dụng observer vào mỗi thẻ card
+                cards.forEach(card => cardObserver.observe(card));
+            }
 
-    // Observer cho phần tử "top-courses"
-    const topCourses = document.getElementById('top-courses');
-    if (topCourses) {
-        const topCoursesObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    topCourses.classList.add('animate__animated', 'animate__fadeInDown');
-                    topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
-                    observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+            // Observer cho phần tử "top-courses"
+            const topCourses = document.getElementById('top-courses');
+            if (topCourses) {
+                const topCoursesObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            topCourses.classList.add('animate__animated', 'animate__fadeInDown');
+                            topCourses.style.visibility = 'visible'; // Hiện phần tử nếu cần
+                            observer.unobserve(topCourses); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        // Bắt đầu theo dõi phần tử top-courses
-        topCoursesObserver.observe(topCourses);
-    }
+                // Bắt đầu theo dõi phần tử top-courses
+                topCoursesObserver.observe(topCourses);
+            }
 
-    // Hiệu ứng cho nút Explore
-    const exploreButton = document.querySelector('.btn-success');
-    if (exploreButton) {
-        exploreButton.classList.add('animate__animated', 'animate__zoomIn');
-    }
+            // Hiệu ứng cho nút Explore
+            const exploreButton = document.querySelector('.btn-success');
+            if (exploreButton) {
+                exploreButton.classList.add('animate__animated', 'animate__zoomIn');
+            }
 
-    document.addEventListener('DOMContentLoaded', () => {
-  // Cấu hình cho Intersection Observer
-  const observerOptions = {
-        root: null, // Sử dụng viewport mặc định
-        threshold: 0.1 // 10% phần tử xuất hiện
-    };
+            document.addEventListener('DOMContentLoaded', () => {
+        // Cấu hình cho Intersection Observer
+        const observerOptions = {
+                root: null, // Sử dụng viewport mặc định
+                threshold: 0.1 // 10% phần tử xuất hiện
+            };
 
-    // Observer cho đoạn văn "Find Courses and Specializations"
-    const subtitle = document.querySelector('.text-secondary.custom-black'); // Lấy đoạn văn
-    if (subtitle) {
-        const subtitleObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    subtitle.classList.add('visible'); // Thêm lớp visible khi vào viewport
-                    observer.unobserve(subtitle); // Ngừng theo dõi sau khi animation đã chạy
-                }
-            });
-        }, observerOptions);
+            // Observer cho đoạn văn "Find Courses and Specializations"
+            const subtitle = document.querySelector('.text-secondary.custom-black'); // Lấy đoạn văn
+            if (subtitle) {
+                const subtitleObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            subtitle.classList.add('visible'); // Thêm lớp visible khi vào viewport
+                            observer.unobserve(subtitle); // Ngừng theo dõi sau khi animation đã chạy
+                        }
+                    });
+                }, observerOptions);
 
-        subtitleObserver.observe(subtitle); // Bắt đầu theo dõi đoạn văn
-    }
-});
+                subtitleObserver.observe(subtitle); // Bắt đầu theo dõi đoạn văn
+            }
+        });
 
 </script>
 
 <?php include '../../../Views/Layouts/footer.html'; ?> 
 </body>
 </html>
-
-<?php
 

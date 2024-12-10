@@ -49,7 +49,7 @@ class EnrollmentModel {
         }
 
         // Nếu chưa có bản ghi, thực hiện đăng ký
-        $sql = "INSERT INTO Enrollments (user_id, course_id, status) VALUES (?, ?, 'studying')";
+        $sql = "INSERT INTO Enrollments (user_id, course_id) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
 
         if ($stmt === false) {
@@ -89,5 +89,33 @@ class EnrollmentModel {
         $stmt->bind_param("i", $enrollment_id);
         return $stmt->execute();
     }
+public function getCourseByUserId($user_id) {
+    $sql = "SELECT c.title, c.images
+            FROM courses c
+            INNER JOIN enrollments e ON c.course_id = e.course_id
+            WHERE e.user_id = ?";
+    $stmt = $this->conn->prepare($sql);
+
+    if ($stmt === false) {
+        die("Error preparing query: " . $this->conn->error);
+    }
+
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result === false) {
+        die("Error executing query: " . $this->conn->error);
+    }
+
+    // Lưu tất cả khóa học vào mảng
+    $courses = [];
+    while ($row = $result->fetch_assoc()) {
+        $courses[] = $row; // Thêm khóa học vào mảng
+    }
+
+    return $courses; // Trả về danh sách các khóa học
 }
+}
+
 ?>

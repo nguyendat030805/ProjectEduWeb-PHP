@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');
 
 
 class CourseModel {
@@ -34,14 +34,14 @@ class CourseModel {
     }
 
     // 3. Thêm một khóa học mới
-public function createCourse($title, $images, $descriptions, $duration, $prices) {
+public function createCourse($title, $images, $descriptions, $video, $prices,$type) {
     // Nếu $images là một mảng, chuyển đổi nó thành chuỗi
     if (is_array($images)) {
         $images = implode(',', $images); // Nối các phần tử lại với nhau
     }
 
     // Chuẩn bị câu lệnh SQL
-    $stmt = $this->conn->prepare("INSERT INTO courses (title, images, descriptions, duration, original_price) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $this->conn->prepare("INSERT INTO courses (title, images, descriptions, video_url, original_price,types) VALUES (?, ?, ?, ?, ?,?)");
     
     // Kiểm tra xem $stmt có phải là một đối tượng hợp lệ không
     if ($stmt === false) {
@@ -50,7 +50,7 @@ public function createCourse($title, $images, $descriptions, $duration, $prices)
     }
 
     // Binding parameters
-    $stmt->bind_param("ssssi", $title, $images, $descriptions, $duration, $prices);
+    $stmt->bind_param("ssssss", $title, $images, $descriptions, $video, $prices,$type);
     
     // Thực hiện câu lệnh
     if ($stmt->execute()) {
@@ -62,14 +62,27 @@ public function createCourse($title, $images, $descriptions, $duration, $prices)
 }
 
     // 4. Cập nhật thông tin khóa học
-    public function updateCourse($course_id, $title, $images, $descriptions, $duration, $prices) {
+    public function updateCourse($course_id, $title, $images, $descriptions, $video, $prices, $type) {
         $sql = "UPDATE Courses 
-                SET title = ?, images = ?, descriptions = ?, duration = ?, original_price = ? 
+                SET title = ?, images = ?, descriptions = ?, video_url = ?, original_price = ?, types = ?
                 WHERE course_id = ?";
+        
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssidi", $title, $images, $descriptions, $duration, $prices, $course_id);
-        return $stmt->execute();
+    
+        if (!$stmt) {
+            throw new Exception("Lỗi chuẩn bị câu truy vấn: " . $this->conn->error);
+        }
+    
+        // Sắp xếp thứ tự tham số trong bind_param
+        $stmt->bind_param("ssssdis", $title, $images, $descriptions, $video, $prices, $type, $course_id);
+    
+        if (!$stmt->execute()) {
+            throw new Exception("Cập nhật thất bại: " . $stmt->error);
+        }
+    
+        return true;
     }
+    
 
     // 5. Xóa một khóa học
     public function deleteCourse($course_id) {

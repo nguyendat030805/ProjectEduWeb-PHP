@@ -1,5 +1,5 @@
 <?php
-require_once('C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
+require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php');  // Kết nối cơ sở dữ liệu
 class LessonModel {
     private $conn;
 
@@ -68,21 +68,21 @@ class LessonModel {
     }
 
     // 4. Thêm bài học mới
-    public function createLesson($title, $content_url, $type, $duration, $chapter_id,) {
-        $sql = "INSERT INTO Lessons (title, content_url, content_type, duration, chapter_id)
+    public function createLesson($title, $content_url, $description, $chapter_id,$course_id) {
+        $sql = "INSERT INTO Lessons (title, content_url, description, chapter_id,course_id)
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssii", $title, $content_url, $type, $duration, $chapter_id);
+        $stmt->bind_param("sssii", $title, $content_url, $description, $chapter_id,$course_id);
         return $stmt->execute();
     }
 
     // 5. Cập nhật thông tin bài học
-    public function updateLesson($lesson_id, $title, $content_url, $type, $duration, $chapter_id) {
+    public function updateLesson($lesson_id, $title, $content_url, $description, $chapter_id,$course_id) {
         $sql = "UPDATE Lessons 
-                SET title = ?, content_url = ?, content_type = ?, duration = ?, chapter_id = ?
+                SET title = ?, content_url = ?, content_type = ?, description = ?, chapter_id = ?, course_id = ?
                 WHERE lesson_id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssiii", $title, $content_url, $type, $duration, $chapter_id, $lesson_id);
+        $stmt->bind_param("sssii", $title, $content_url, $description, $chapter_id, $lesson_id,$course_id);
         return $stmt->execute();
     }
 

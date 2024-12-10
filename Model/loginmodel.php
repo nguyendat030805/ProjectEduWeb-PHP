@@ -29,7 +29,8 @@ class Login {
                         'user_id' => $user['user_id'],
                         'username' => $user['username'],
                         'email' => $user['email'],
-                        'phone' => $user['phone']
+                        'phone' => $user['phone'],
+                        'role' => $user['role'] // Trả về vai trò (role)
                     ];
                 } else {
                     // Sai mật khẩu
@@ -49,7 +50,7 @@ class Login {
     public function getUserCourses($user_id) {
         try {
             $query = "
-                SELECT c.title, c.images, c.duration
+                SELECT c.title, c.images
                 FROM courses c
                 INNER JOIN enrollments e ON c.course_id = e.course_id
                 WHERE e.user_id = ?

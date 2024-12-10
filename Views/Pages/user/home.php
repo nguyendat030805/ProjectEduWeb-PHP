@@ -269,7 +269,7 @@ body {
 
 </style>
 <body>
-    <?php include 'C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Layouts\header.html' ?>
+    <?php include '../../Layouts/header.html' ?>
   <div class="container">
 <!-- Body 1 -->
     <div class="container mt-5">
@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 
-<?php include 'C:\xampp\htdocs\php-project\ProjectEduWeb-PHP\Views\Layouts\footer.html'; ?> 
+<?php include 'C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Layouts\footer.html'; ?> 
 </body>
 </html>
 

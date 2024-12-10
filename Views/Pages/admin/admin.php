@@ -73,10 +73,8 @@
     <div class="navbar">
         <h2>Quản Trị</h2>
         <div>
-            <a href="../admin/dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="../admin/users.php" class="<?php echo ($current_page == 'users.php') ? 'active' : ''; ?>"><i class="fas fa-users"></i> Quản Lý Người Dùng</a>
             <a href="../admin/courses.php" class="<?php echo ($current_page == 'courses.php') ? 'active' : ''; ?>"><i class="fas fa-book"></i> Quản Lý Khóa Học</a>
-            <a href="../admin/reports.php" class="<?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>"><i class="fas fa-chart-line"></i> Báo Cáo</a>
             <a href="../../Pages/user/home.php"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </div>
@@ -84,7 +82,7 @@
     <div class="main">
         <div class="header">
             <div class="logo">
-                <img src="/ProjectEduWeb-PHP/Public/image/logo.png" alt="Logo">
+                <img src="../../Public/Image/logo.png" alt="Logo">
             </div>
             <div class="page-title">
                 <?php

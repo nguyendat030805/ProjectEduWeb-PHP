@@ -1,5 +1,8 @@
 <?php
-session_start(); // Đảm bảo session được khởi tạo
+// Kiểm tra và khởi tạo session nếu chưa có
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Model\enrollmentmodel.php'); // Kết nối với model
 require_once('C:\xampp\htdocs\ProjectWeb-TD\ProjectEduWeb-PHP\Views\Public\config.php'); // Kết nối cơ sở dữ liệu
@@ -16,10 +19,21 @@ class EnrollController {
         $this->enrollmentModel = new EnrollmentModel($conn);
     }
 
-    // 1. Lấy tất cả đăng ký của một người dùng
-    public function getUserEnrollments($user_id) {
-        $enrollments = $this->enrollmentModel->getEnrollmentsByUser($user_id);
-        return $enrollments;
+        // 1. Lấy tất cả đăng ký của một người dùng
+    public function getCoursesByUser($userId) {
+        // Lấy danh sách khóa học cho người dùng
+        $courses = $this->enrollmentModel->getCourseByUserId($userId);
+        
+        // Kiểm tra nếu không có khóa học nào
+        $courses = $this->enrollmentModel->getCourseByUserId($userId);
+        
+        // Kiểm tra nếu không có khóa học nào
+        if (empty($courses)) {
+            return "Người dùng này chưa đăng ký khóa học nào.";
+        }
+
+        // Trả về danh sách khóa họ<!-- -->
+        return $courses;
     }
 
 
@@ -46,7 +60,7 @@ class EnrollController {
             } else {
         
                     // Sau khi đăng ký thành công, chuyển hướng tới trang subject.php
-                    header('Location: ../../Views/Pages/user/subject.php?course_id=' . $course_id);
+                    header('Location: ../Views/Pages/user/subject.php?course_id=' . $course_id);
                     exit();
             }
         } else {
@@ -127,6 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Đóng kết nối
-$conn->close();
+// $conn->close();
 ?>
 
